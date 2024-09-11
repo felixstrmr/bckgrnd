@@ -1,0 +1,24 @@
+import { createEnv } from '@t3-oss/env-nextjs'
+import { z } from 'zod'
+
+export const env = createEnv({
+  server: {
+    OPENPANEL_CLIENT_SECRET: z.string().min(1),
+    OPENPANEL_CLIENT_ID: z.string().min(1),
+    LOOPS_API_KEY: z.string().min(1),
+  },
+  client: {
+    NEXT_PUBLIC_ROOT_DOMAIN: z.string().min(1),
+    NEXT_PUBLIC_SUPABASE_URL: z.string().min(1).url(),
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
+  },
+  runtimeEnv: {
+    OPENPANEL_CLIENT_SECRET: process.env.OPENPANEL_CLIENT_SECRET,
+    OPENPANEL_CLIENT_ID: process.env.OPENPANEL_CLIENT_ID,
+    LOOPS_API_KEY: process.env.LOOPS_API_KEY,
+
+    NEXT_PUBLIC_ROOT_DOMAIN: process.env.NEXT_PUBLIC_ROOT_DOMAIN,
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  },
+})
