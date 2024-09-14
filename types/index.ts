@@ -29,7 +29,17 @@ export type ProjectWithRelations = Project & {
 
 export type TaskWithRelations = Task & {
   workspace: {
+    id: string
     domain: string
+  }
+  project: {
+    id: string
+    client: string
+  }
+  status: {
+    name: string
+    icon: string
+    color: string
   }
   priority: {
     name: string

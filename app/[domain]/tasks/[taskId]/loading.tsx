@@ -1,9 +1,5 @@
-import { Loader2 } from 'lucide-react'
+import LoadingWrapper from '@/components/loading-wrapper'
 
 export default function Loading() {
-  return (
-    <div className='flex size-full items-center justify-center bg-background'>
-      <Loader2 className='size-9 animate-spin' />
-    </div>
-  )
+  return <LoadingWrapper />
 }

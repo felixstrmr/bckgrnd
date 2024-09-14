@@ -9,7 +9,7 @@ import { parseAsInteger, useQueryState } from 'nuqs'
 
 type Props = {
   taskImages: TaskImage[]
-  defaultVersion: number | undefined
+  defaultVersion: number
 }
 
 export default function TaskImageVersions({
@@ -18,9 +18,7 @@ export default function TaskImageVersions({
 }: Props) {
   const [currentVersion, setCurrentVersion] = useQueryState(
     'version',
-    parseAsInteger
-      .withDefault(defaultVersion || 0)
-      .withOptions({ shallow: true }),
+    parseAsInteger.withDefault(defaultVersion).withOptions({ shallow: true }),
   )
 
   const { setOpen } = useUploadTaskImageStore()

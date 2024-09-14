@@ -16,7 +16,7 @@ export default async function Page({ params }: Props) {
   const { data: tasks, error } = await supabase
     .from('tasks')
     .select(
-      '*, workspace:workspaces(domain), priority:task_priorities(name, icon, color)',
+      '*, workspace:workspaces(domain, id), project:projects(client, id), status:task_statuses(name, color, icon), priority:task_priorities(name, icon, color)',
     )
     .eq('workspace.domain', domain)
     .eq('project', params.projectId)

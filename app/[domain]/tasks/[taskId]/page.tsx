@@ -25,7 +25,7 @@ export default async function Page({ params }: Props) {
     supabase
       .from('tasks')
       .select(
-        '*, workspace:workspaces(domain), status:task_statuses(name, color, icon)',
+        '*, workspace:workspaces(domain, id), project:projects(client, id), status:task_statuses(name, color, icon), priority:task_priorities(name, icon, color)',
       )
       .eq('workspace.domain', domain)
       .eq('id', params.taskId)
@@ -60,16 +60,19 @@ export default async function Page({ params }: Props) {
   const bgColor = reduceOpacity(task.status.color, 10)
   const bordercolor = reduceOpacity(task.status.color, 10)
 
-  const defaultVersion = taskImages.reduce(function (prev, current) {
-    return prev && prev.version > current.version ? prev : current
-  })
+  const defaultVersion =
+    taskImages.length > 0
+      ? taskImages.reduce((prev, current) =>
+          prev.version > current.version ? prev : current,
+        ).version
+      : 0
 
   return (
     <div className='flex size-full flex-col space-y-6 p-6'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center space-x-4'>
           <Link
-            href={`/projects/${task.project}/tasks`}
+            href={`/projects/${task.project.id}/tasks`}
             className={buttonVariants({ variant: 'outline', size: 'icon' })}
           >
             <ChevronLeft className='size-4' />
@@ -92,14 +95,14 @@ export default async function Page({ params }: Props) {
       <div className='flex size-full space-x-4'>
         <TaskImageVersions
           taskImages={taskImages}
-          defaultVersion={defaultVersion?.version}
+          defaultVersion={defaultVersion}
         />
         <TaskImageCanvas
           taskImages={taskImages}
-          defaultVersion={defaultVersion?.version}
+          defaultVersion={defaultVersion}
         />
       </div>
-      <UploadTaskImageDialog />
+      <UploadTaskImageDialog task={task} nextVersion={defaultVersion} />
     </div>
   )
 }
