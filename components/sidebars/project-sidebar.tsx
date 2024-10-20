@@ -59,6 +59,7 @@ export default function ProjectSidebar({ projectId }: Props) {
           <ArrowLeft className='size-4' />
           Projects
         </Link>
+
         <div className='flex'>
           <Button size={'icon'} variant={'ghost'}>
             <Search />
