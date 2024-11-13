@@ -4,6 +4,7 @@ import { GeistSans } from 'geist/font/sans'
 import { Metadata } from 'next/types'
 
 import '@/styles/globals.css'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'Bckgrnd | Streamline your design workflow.',
@@ -21,6 +22,13 @@ export default function RootLayout({ children }: Props) {
       suppressHydrationWarning
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
+      {process.env.NODE_ENV === 'production' && (
+        <Script
+          defer
+          src='https://analytics.strmrlab.de/script.js'
+          data-website-id='7476744a-1a22-40d5-81d1-4bd685f3f0ae'
+        />
+      )}
       <body className='antialiased'>
         <main className='w-sreen h-screen'>{children}</main>
         <Toaster />
