@@ -20,7 +20,7 @@ export function getWorkspace(
 export function getClients(supabase: SupabaseClient<Database>, domain: string) {
   return supabase
     .from('clients')
-    .select('*, workspace:workspaces(domain)')
+    .select('*, workspace:workspaces(domain), status:client_statuses(*)')
     .eq('workspace.domain', domain)
     .throwOnError()
 }

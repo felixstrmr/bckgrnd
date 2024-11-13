@@ -19,3 +19,8 @@ export const createClientSchema = z.object({
   status: z.string().min(1).uuid(),
   workspace: z.string().min(1).uuid(),
 })
+
+export const deleteClientSchema = z.object({
+  domain: z.string().min(1),
+  id: z.string().min(1).uuid(),
+})
