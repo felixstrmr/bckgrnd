@@ -3,7 +3,7 @@
 import Bckgrnd from '@/components/icons/bckgrnd'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { Home, LucideIcon, Users } from 'lucide-react'
+import { FolderKanban, Home, LucideIcon, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 
@@ -22,6 +22,12 @@ export default function WorkspaceSidebar() {
       href: '/clients',
       isActive: segment === 'clients',
       icon: Users,
+    },
+    {
+      name: 'Projects',
+      href: '/projects',
+      isActive: segment === 'projects',
+      icon: FolderKanban,
     },
   ] as SidebarItemProps[]
 

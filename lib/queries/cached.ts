@@ -1,6 +1,34 @@
-import { getClients } from '@/lib/queries'
+import {
+  getClients,
+  getClientStatuses,
+  getProjects,
+  getWorkspace,
+} from '@/lib/queries'
 import { SupabaseClient } from '@supabase/supabase-js'
 import { unstable_cache } from 'next/cache'
+
+// Workspace
+
+export async function getWorkspaceWithCache(
+  supabase: SupabaseClient,
+  domain: string,
+) {
+  const { data, error } = await unstable_cache(
+    async () => getWorkspace(supabase, domain),
+    [`workspace-${domain}`],
+    {
+      revalidate: 3600,
+      tags: [`workspace-${domain}`],
+    },
+  )()
+
+  if (error) {
+    console.error(error)
+    throw error
+  }
+
+  return data
+}
 
 // Client
 
@@ -17,7 +45,56 @@ export async function getClientsWithCache(
     },
   )()
 
-  if (error) throw error
+  if (error) {
+    console.error(error)
+    throw error
+  }
+
+  return data
+}
+
+// Client Status
+
+export async function getClientStatusesWithCache(
+  supabase: SupabaseClient,
+  domain: string,
+) {
+  const { data, error } = await unstable_cache(
+    async () => getClientStatuses(supabase, domain),
+    [`client-statuses-${domain}`],
+    {
+      revalidate: 3600,
+      tags: [`client-statuses-${domain}`],
+    },
+  )()
+
+  if (error) {
+    console.error(error)
+    throw error
+  }
+
+  return data
+}
+
+// Project
+
+export async function getProjectsWithCache(
+  supabase: SupabaseClient,
+  domain: string,
+) {
+  const { data, error } = await unstable_cache(
+    async () => getProjects(supabase, domain),
+    [`projects-${domain}`],
+    {
+      revalidate: 3600,
+      tags: [`projects-${domain}`],
+    },
+  )()
+
+  if (error) {
+    console.error(error)
+    throw error
+  }
 
   return data
 }
