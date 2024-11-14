@@ -45,7 +45,7 @@ export function getProjects(
   domain: string,
 ) {
   return supabase
-    .from('clients')
+    .from('projects')
     .select('*, workspace:workspaces(domain)')
     .eq('workspace.domain', domain)
     .throwOnError()
