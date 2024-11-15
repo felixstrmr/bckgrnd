@@ -15,6 +15,7 @@ export const revalidateSchema = z.object({
 
 export const createClientSchema = z.object({
   name: z.string().min(1, 'Name is required'),
+
   domain: z.string().min(1),
   status: z.string().min(1).uuid(),
   workspace: z.string().min(1).uuid(),
@@ -23,4 +24,15 @@ export const createClientSchema = z.object({
 export const deleteClientSchema = z.object({
   domain: z.string().min(1),
   id: z.string().min(1).uuid(),
+})
+
+// Project
+
+export const createProjectSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  description: z.string().optional(),
+  domain: z.string().min(1),
+  client: z.string().min(1).uuid(),
+  workspace: z.string().min(1).uuid(),
+  status: z.string().min(1).uuid(),
 })

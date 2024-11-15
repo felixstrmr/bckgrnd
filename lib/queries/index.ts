@@ -50,3 +50,16 @@ export function getProjects(
     .eq('workspace.domain', domain)
     .throwOnError()
 }
+
+// Project Status
+
+export function getProjectStatuses(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+) {
+  return supabase
+    .from('project_statuses')
+    .select('*, workspace:workspaces(domain)')
+    .eq('workspace.domain', domain)
+    .throwOnError()
+}

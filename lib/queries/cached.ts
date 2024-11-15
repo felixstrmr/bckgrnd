@@ -2,6 +2,7 @@ import {
   getClients,
   getClientStatuses,
   getProjects,
+  getProjectStatuses,
   getWorkspace,
 } from '@/lib/queries'
 import { SupabaseClient } from '@supabase/supabase-js'
@@ -88,6 +89,29 @@ export async function getProjectsWithCache(
     {
       revalidate: 3600,
       tags: [`projects-${domain}`],
+    },
+  )()
+
+  if (error) {
+    console.error(error)
+    throw error
+  }
+
+  return data
+}
+
+// Project Status
+
+export async function getProjectStatusesWithCache(
+  supabase: SupabaseClient,
+  domain: string,
+) {
+  const { data, error } = await unstable_cache(
+    async () => getProjectStatuses(supabase, domain),
+    [`project-statuses-${domain}`],
+    {
+      revalidate: 3600,
+      tags: [`project-statuses-${domain}`],
     },
   )()
 

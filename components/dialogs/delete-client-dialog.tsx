@@ -33,6 +33,7 @@ export default function DeleteClientDialog({ client }: Props) {
   const loading = status === 'executing'
 
   function handleSubmit() {
+    if (name !== client.name) return
     execute({ domain: client.workspace.domain, id: client.id })
   }
 

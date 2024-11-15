@@ -1,6 +1,10 @@
+import RevalidateTagButton from '@/components/buttons/revalidate-button'
+import { buttonVariants } from '@/components/ui/button'
 import { getProjectsWithCache } from '@/lib/queries/cached'
 import { createClient } from '@/lib/supabase/server'
 import { getDomain } from '@/lib/utils'
+import { Plus } from 'lucide-react'
+import Link from 'next/link'
 
 type Props = {
   params: Promise<{ domain: string }>
@@ -14,8 +18,23 @@ export default async function Page({ params }: Props) {
   const projects = await getProjectsWithCache(supabase, domain)
 
   return (
-    <div>
-      <pre>{JSON.stringify(projects, null, 2)}</pre>
+    <div className='flex size-full flex-col space-y-6 p-6'>
+      <div className='flex items-center justify-between'>
+        <div className='flex items-center space-x-2'>
+          <h3>Projects</h3>
+          <p className='text-muted-foreground'>{projects.length}</p>
+        </div>
+        <div className='flex items-center space-x-2'>
+          <RevalidateTagButton tag={`projects-${domain}`} />
+          <Link
+            href={`/projects/create`}
+            className={buttonVariants({ variant: 'default' })}
+          >
+            <Plus />
+            Create
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }

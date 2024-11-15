@@ -129,26 +129,90 @@ export type Database = {
           },
         ]
       }
-      projects: {
+      project_statuses: {
         Row: {
+          color: string
           created_at: string
+          icon: string
           id: string
+          is_default: boolean
           name: string
+          position: number
           workspace: string
         }
         Insert: {
+          color: string
           created_at?: string
+          icon: string
           id?: string
+          is_default?: boolean
           name: string
+          position: number
           workspace: string
         }
         Update: {
+          color?: string
           created_at?: string
+          icon?: string
           id?: string
+          is_default?: boolean
           name?: string
+          position?: number
           workspace?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "project_statuses_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          client: string
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          status: string
+          workspace: string
+        }
+        Insert: {
+          client: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          status: string
+          workspace: string
+        }
+        Update: {
+          client?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          status?: string
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_client_fkey"
+            columns: ["client"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_status_fkey"
+            columns: ["status"]
+            isOneToOne: false
+            referencedRelation: "project_statuses"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "projects_workspace_fkey"
             columns: ["workspace"]

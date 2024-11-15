@@ -23,6 +23,10 @@ export default async function Page({ params }: Props) {
   return (
     <div className='flex size-full pt-12'>
       <div className='mx-auto w-full max-w-xl'>
+        <h3 className='font-semibold'>Create Client</h3>
+        <p className='mb-6 text-sm text-muted-foreground'>
+          Create a new client to track your work.
+        </p>
         <CreateClientForm
           domain={domain}
           clientStatuses={clientStatuses}
