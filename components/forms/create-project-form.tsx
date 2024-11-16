@@ -1,6 +1,7 @@
 'use client'
 
 import { createProjectAction } from '@/actions/create-project-action'
+import DynamicIcon from '@/components/dynamic-icon'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -22,6 +23,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { createProjectSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { Client, ProjectStatus } from '@/types'
@@ -122,7 +130,7 @@ export default function CreateProjectForm({
           />
         </div>
         <div className='flex items-start justify-between pt-12'>
-          <div>
+          <div className='flex items-start gap-2'>
             <FormField
               control={form.control}
               name='client'
@@ -136,7 +144,7 @@ export default function CreateProjectForm({
                           role='combobox'
                           size='sm'
                           className={cn(
-                            'w-48 items-center justify-between p-2',
+                            'w-48 items-center justify-between p-2 font-normal',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
@@ -191,6 +199,42 @@ export default function CreateProjectForm({
                       </Command>
                     </PopoverContent>
                   </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='status'
+              render={({ field }) => (
+                <FormItem>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className='h-8 text-xs hover:bg-muted'>
+                        <SelectValue placeholder='Select a status' />
+                        <div className='w-6'></div>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {projectStatuses.map((status) => (
+                        <SelectItem
+                          value={status.id}
+                          key={status.id}
+                          className='text-xs'
+                        >
+                          <DynamicIcon
+                            icon={status.icon}
+                            style={{ color: status.color }}
+                            className='mr-2 inline-block size-3'
+                          />
+                          {status.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
