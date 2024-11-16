@@ -63,3 +63,26 @@ export function getProjectStatuses(
     .eq('workspace.domain', domain)
     .throwOnError()
 }
+
+// Task
+
+export function getTasks(supabase: SupabaseClient<Database>, domain: string) {
+  return supabase
+    .from('tasks')
+    .select('*, workspace:workspaces(domain), priority:task_priorities(*)')
+    .eq('workspace.domain', domain)
+    .throwOnError()
+}
+
+// Task Status
+
+export function getTaskStatuses(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+) {
+  return supabase
+    .from('task_statuses')
+    .select('*, workspace:workspaces(domain)')
+    .eq('workspace.domain', domain)
+    .throwOnError()
+}

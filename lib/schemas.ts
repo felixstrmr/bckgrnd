@@ -36,3 +36,11 @@ export const createProjectSchema = z.object({
   workspace: z.string().min(1).uuid(),
   status: z.string().min(1).uuid(),
 })
+
+// Task
+
+export const updateTaskSchema = z.object({
+  id: z.string().min(1).uuid(),
+  domain: z.string().min(1),
+  status: z.string().min(1).uuid(),
+})

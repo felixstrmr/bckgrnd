@@ -95,7 +95,7 @@ export default function CreateProjectForm({
                     disabled={loading}
                     autoFocus
                     placeholder='Enter a project name'
-                    className='text-xl font-medium outline-none'
+                    className='w-full text-xl font-medium outline-none'
                     {...field}
                   />
                 </FormControl>
@@ -111,8 +111,8 @@ export default function CreateProjectForm({
                 <FormControl>
                   <input
                     disabled={loading}
-                    placeholder='Add a description'
-                    className='text-sm outline-none'
+                    placeholder='Add a description (optional)'
+                    className='w-full text-sm outline-none'
                     {...field}
                   />
                 </FormControl>
@@ -121,7 +121,7 @@ export default function CreateProjectForm({
             )}
           />
         </div>
-        <div className='flex items-center justify-between pt-12'>
+        <div className='flex items-start justify-between pt-12'>
           <div>
             <FormField
               control={form.control}

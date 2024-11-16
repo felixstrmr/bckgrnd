@@ -6,10 +6,10 @@ type Props = {
 
 export default function WorkspaceLayout({ children }: Props) {
   return (
-    <div className='flex size-full bg-muted'>
+    <div className='flex size-full overflow-hidden bg-muted'>
       <WorkspaceSidebar />
-      <div className='flex size-full py-2 pr-2'>
-        <div className='size-full rounded-lg border bg-background shadow-sm'>
+      <div className='flex size-full overflow-hidden py-2 pr-2'>
+        <div className='size-full overflow-hidden rounded-lg border bg-background shadow-sm'>
           {children}
         </div>
       </div>

@@ -222,6 +222,147 @@ export type Database = {
           },
         ]
       }
+      task_priorities: {
+        Row: {
+          color: string
+          created_at: string
+          icon: string
+          id: string
+          is_default: boolean
+          name: string
+          position: number
+          workspace: string
+        }
+        Insert: {
+          color: string
+          created_at?: string
+          icon: string
+          id?: string
+          is_default?: boolean
+          name: string
+          position: number
+          workspace: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          icon?: string
+          id?: string
+          is_default?: boolean
+          name?: string
+          position?: number
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_priorities_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      task_statuses: {
+        Row: {
+          color: string
+          created_at: string
+          icon: string
+          id: string
+          name: string
+          position: number
+          workspace: string
+        }
+        Insert: {
+          color: string
+          created_at?: string
+          icon: string
+          id?: string
+          name: string
+          position: number
+          workspace: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          icon?: string
+          id?: string
+          name?: string
+          position?: number
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_statuses_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tasks: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          priority: string
+          project: string
+          status: string
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          priority: string
+          project: string
+          status: string
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          priority?: string
+          project?: string
+          status?: string
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_priority_fkey"
+            columns: ["priority"]
+            isOneToOne: false
+            referencedRelation: "task_priorities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_project_fkey"
+            columns: ["project"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_status_fkey"
+            columns: ["status"]
+            isOneToOne: false
+            referencedRelation: "task_statuses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           created_at: string

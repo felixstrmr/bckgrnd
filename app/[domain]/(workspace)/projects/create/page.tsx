@@ -35,7 +35,7 @@ export default async function Page({ params }: Props) {
           <ArrowLeft />
         </Link>
       </div>
-      <div className='mx-auto w-full max-w-xl'>
+      <div className='mx-auto w-full max-w-xl animate-in slide-in-from-bottom-3'>
         <CreateProjectForm
           domain={domain}
           workspaceId={workspace.id}

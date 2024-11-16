@@ -7,3 +7,6 @@ export type Client = Tables<'clients'>
 export type ClientStatus = Tables<'client_statuses'>
 export type Project = Tables<'projects'>
 export type ProjectStatus = Tables<'project_statuses'>
+export type Task = Tables<'tasks'>
+export type TaskStatus = Tables<'task_statuses'>
+export type TaskPriority = Tables<'task_priorities'>

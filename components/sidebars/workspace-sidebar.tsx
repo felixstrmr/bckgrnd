@@ -60,7 +60,7 @@ function SidebarItem({ href, isActive, icon: Icon }: SidebarItemProps) {
     <Link
       href={href}
       className={cn(
-        'flex size-9 items-center justify-center rounded-md border',
+        'flex size-9 items-center justify-center rounded-md border transition-all',
         isActive
           ? 'border-border bg-background text-foreground'
           : 'border-transparent bg-transparent text-muted-foreground hover:bg-background',
