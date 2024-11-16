@@ -52,7 +52,7 @@ export default function TaskKanbanItem({ task }: Props) {
     >
       <div
         onClick={handleClick}
-        className='group block cursor-pointer overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-lg'
+        className='group block cursor-pointer overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md'
       >
         <div className='flex items-center gap-1 p-4'>
           <DynamicIcon

@@ -1,7 +1,7 @@
 import { User } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 
-export default function DomainMiddleware(
+export default async function DomainMiddleware(
   request: NextRequest,
   response: NextResponse,
   user: User | null,

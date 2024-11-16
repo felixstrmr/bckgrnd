@@ -2,46 +2,46 @@
 
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { ArrowLeft, ListTodo, LucideIcon, View } from 'lucide-react'
+import { Briefcase, LucideIcon, User } from 'lucide-react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 
-type Props = {
-  projectId: string
-}
-
-export default function ProjectSidebar({ projectId }: Props) {
+export default function SettingsSidebar() {
   const segment = useSelectedLayoutSegment()
 
-  const pagesTop = [
+  const pagesPersonal = [
     {
-      name: 'Overview',
-      href: `/projects/${projectId}`,
+      name: 'My Account',
+      href: '/settings',
       isActive: !segment,
-      icon: View,
+      icon: User,
     },
+  ] as SidebarItemProps[]
+
+  const pagesWorkspace = [
     {
-      name: 'Tasks',
-      href: `/projects/${projectId}/tasks`,
-      isActive: segment === 'tasks',
-      icon: ListTodo,
+      name: 'General',
+      href: '/settings/general',
+      isActive: segment === 'general',
+      icon: Briefcase,
     },
   ] as SidebarItemProps[]
 
   return (
     <div className='h-full w-64 min-w-64 border-r p-6'>
-      <div className='flex items-center justify-between'>
-        <Link
-          href={'/projects'}
-          className='flex items-center gap-2 text-sm text-muted-foreground transition-all hover:text-foreground'
-        >
-          <ArrowLeft className='size-4' />
-          Projects
-        </Link>
-      </div>
+      <h3>Settings</h3>
       <Separator className='my-4' />
       <div className='flex flex-col space-y-1'>
-        {pagesTop.map((page) => (
+        <p className='mb-1 font-mono text-xs text-muted-foreground'>PERSONAL</p>
+        {pagesPersonal.map((page) => (
+          <SidebarItem key={page.name} {...page} />
+        ))}
+      </div>
+      <div className='mt-6 flex flex-col space-y-1'>
+        <p className='mb-1 font-mono text-xs text-muted-foreground'>
+          WORKSPACE
+        </p>
+        {pagesWorkspace.map((page) => (
           <SidebarItem key={page.name} {...page} />
         ))}
       </div>

@@ -443,6 +443,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_workspace: {
+        Args: {
+          _domain: string
+          _user: string
+        }
+        Returns: {
+          workspace_exists: boolean
+          access_allowed: boolean
+        }[]
+      }
       is_workspace_user: {
         Args: {
           _workspace: string

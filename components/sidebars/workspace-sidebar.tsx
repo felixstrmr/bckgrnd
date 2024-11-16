@@ -3,7 +3,7 @@
 import Bckgrnd from '@/components/icons/bckgrnd'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { FolderKanban, Home, LucideIcon, Users } from 'lucide-react'
+import { Cog, FolderKanban, Home, LucideIcon, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 
@@ -31,15 +31,29 @@ export default function WorkspaceSidebar() {
     },
   ] as SidebarItemProps[]
 
+  const pagesBottom = [
+    {
+      name: 'Settings',
+      href: '/settings',
+      isActive: segment === 'settings',
+      icon: Cog,
+    },
+  ]
+
   return (
     <aside className='flex h-full flex-col p-4'>
       <Link href={'/'}>
         <Bckgrnd className='size-9' />
       </Link>
       <Separator className='my-4' />
-      <div>
+      <div className='flex h-full flex-col justify-between'>
         <div className='flex flex-col space-y-1'>
           {pagesTop.map((page) => (
+            <SidebarItem key={page.name} {...page} />
+          ))}
+        </div>
+        <div className='flex flex-col space-y-1'>
+          {pagesBottom.map((page) => (
             <SidebarItem key={page.name} {...page} />
           ))}
         </div>

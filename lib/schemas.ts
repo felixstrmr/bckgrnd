@@ -44,3 +44,18 @@ export const updateTaskSchema = z.object({
   domain: z.string().min(1),
   status: z.string().min(1).uuid(),
 })
+
+// Workspace
+
+export const updateWorkspaceNameSchema = z.object({
+  name: z
+    .string()
+    .min(1, 'Name is required')
+    .max(50, 'Name cannot exceed 50 characters')
+    .regex(
+      /^[a-zA-Z0-9\s\-_]+$/,
+      'Name can only contain letters, numbers, spaces, hyphens, and underscores',
+    ),
+  id: z.string().min(1).uuid(),
+  domain: z.string().min(1),
+})

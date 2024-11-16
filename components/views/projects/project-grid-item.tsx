@@ -14,7 +14,7 @@ export default function ProjectGridItem({ project }: Props) {
       <div className='p-4'>
         <h6 className='truncate'>{project.name}</h6>
       </div>
-      <div className='border-t bg-muted py-4'></div>
+      <div className='border-t bg-muted px-4 py-3'></div>
     </Link>
   )
 }
