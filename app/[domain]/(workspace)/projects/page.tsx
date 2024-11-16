@@ -1,5 +1,6 @@
 import RevalidateTagButton from '@/components/buttons/revalidate-button'
 import { buttonVariants } from '@/components/ui/button'
+import ProjectGridView from '@/components/views/projects/project-grid-view'
 import { getProjectsWithCache } from '@/lib/queries/cached'
 import { createClient } from '@/lib/supabase/server'
 import { getDomain } from '@/lib/utils'
@@ -35,6 +36,7 @@ export default async function Page({ params }: Props) {
           </Link>
         </div>
       </div>
+      <ProjectGridView projects={projects} />
     </div>
   )
 }

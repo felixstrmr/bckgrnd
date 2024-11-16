@@ -13,13 +13,19 @@ export const createProjectAction = actionClient
     }) => {
       const supabase = await createClient()
 
-      const { error } = await supabase.from('projects').insert({
-        name,
-        description,
-        client,
-        status,
-        workspace,
-      })
+      console.log(name, description, domain, client, status, workspace)
+
+      const { data, error } = await supabase
+        .from('projects')
+        .insert({
+          name,
+          description,
+          client,
+          status,
+          workspace,
+        })
+        .select('*')
+        .single()
 
       if (error) {
         console.error(error)
@@ -27,5 +33,7 @@ export const createProjectAction = actionClient
       }
 
       revalidateTag(`projects-${domain}`)
+
+      return data
     },
   )

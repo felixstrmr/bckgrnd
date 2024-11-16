@@ -36,10 +36,6 @@ export default async function Page({ params }: Props) {
         </Link>
       </div>
       <div className='mx-auto w-full max-w-xl'>
-        <h3 className='font-semibold'>Create Project</h3>
-        <p className='mb-6 text-sm text-muted-foreground'>
-          Create a new project.
-        </p>
         <CreateProjectForm
           domain={domain}
           workspaceId={workspace.id}
