@@ -77,7 +77,7 @@ export default function CreateProjectForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(execute)} className='space-y-6'>
-        <div className='flex items-center space-x-2 text-sm text-muted-foreground'>
+        <div className='flex items-center space-x-2 text-xs text-muted-foreground'>
           <p>New Project</p>
           <ArrowRight className='size-4' />
           <p className='rounded-lg border bg-background p-1 px-2 shadow-sm'>
