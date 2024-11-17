@@ -8,7 +8,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { TaskImage } from '@/types'
-import { format, isToday } from 'date-fns'
 import { parseAsString, useQueryState } from 'nuqs'
 type Props = {
   taskImages: TaskImage[]
@@ -21,21 +20,18 @@ export default function TaskImageVersionSelect({
 }: Props) {
   const [selectedVersion, setSelectedVersion] = useQueryState(
     'version',
-    parseAsString.withDefault(latestVersion.toString()),
+    parseAsString
+      .withDefault(latestVersion.toString())
+      .withOptions({ clearOnDefault: false }),
   )
-
-  function formatDate(date: string) {
-    if (isToday(date)) return format(date, 'p')
-    return format(date, 'do MMM')
-  }
 
   return (
     <Select value={selectedVersion} onValueChange={setSelectedVersion}>
       <SelectTrigger className='h-8'>
         <SelectValue placeholder={`V${latestVersion}`} />
-        <div className='w-3' />
+        <div className='w-1' />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className='min-w-fit'>
         {taskImages.map((taskImage) => (
           <SelectItem
             key={taskImage.id}
@@ -43,9 +39,6 @@ export default function TaskImageVersionSelect({
             className='text-xs'
           >
             V{taskImage.version}
-            <span className='ml-1 text-xs text-muted-foreground'>
-              ∙ {formatDate(taskImage.created_at)}
-            </span>
           </SelectItem>
         ))}
       </SelectContent>

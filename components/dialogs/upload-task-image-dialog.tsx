@@ -79,7 +79,7 @@ export default function UploadTaskImageDialog({
       formData.append('latestVersion', latestVersion.toString())
       execute(formData)
     },
-    [execute, taskId, domain],
+    [execute, taskId, domain, workspaceId, clientId, projectId, latestVersion],
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

@@ -1,6 +1,7 @@
 import {
   getClients,
   getClientStatuses,
+  getProject,
   getProjects,
   getProjectStatuses,
   getTask,
@@ -92,6 +93,28 @@ export async function getProjectsWithCache(
     {
       revalidate: 3600,
       tags: [`projects-${domain}`],
+    },
+  )()
+
+  if (error) {
+    console.error(error)
+    throw error
+  }
+
+  return data
+}
+
+export async function getProjectWithCache(
+  supabase: SupabaseClient,
+  domain: string,
+  projectId: string,
+) {
+  const { data, error } = await unstable_cache(
+    async () => getProject(supabase, domain, projectId),
+    [`project-${domain}-${projectId}`],
+    {
+      revalidate: 3600,
+      tags: [`projects-${domain}-${projectId}`],
     },
   )()
 

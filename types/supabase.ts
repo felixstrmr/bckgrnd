@@ -285,19 +285,52 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          image: string | null
+          message: string
+          task: string
+          user: string
           workspace: string
         }
         Insert: {
           created_at?: string
           id?: string
+          image?: string | null
+          message: string
+          task: string
+          user: string
           workspace: string
         }
         Update: {
           created_at?: string
           id?: string
+          image?: string | null
+          message?: string
+          task?: string
+          user?: string
           workspace?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "task_comments_image_fkey"
+            columns: ["image"]
+            isOneToOne: false
+            referencedRelation: "task_images"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_comments_task_fkey"
+            columns: ["task"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_comments_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "task_comments_workspace_fkey"
             columns: ["workspace"]
@@ -311,6 +344,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          image_name: string
           image_size: number
           image_type: string
           image_url: string
@@ -321,6 +355,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          image_name: string
           image_size: number
           image_type: string
           image_url: string
@@ -331,6 +366,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          image_name?: string
           image_size?: number
           image_type?: string
           image_url?: string

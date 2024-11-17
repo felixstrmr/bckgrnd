@@ -15,15 +15,17 @@ export default function HomeNavbar() {
         <Separator className='mx-4 h-9' orientation='vertical' />
         <div className='flex items-center gap-4 text-sm'>
           <Link
-            href={'https://x.com/bckgrndapp'}
+            href={'https://link.bckgrnd.one/x'}
             passHref
+            target='_blank'
             className='text-muted-foreground transition-all hover:text-foreground'
           >
             Twitter
           </Link>
           <Link
-            href={'https://github.com/felixstrmr/bckgrnd'}
+            href={'https://link.bckgrnd.one/github'}
             passHref
+            target='_blank'
             className='text-muted-foreground transition-all hover:text-foreground'
           >
             Github

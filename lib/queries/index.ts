@@ -59,6 +59,20 @@ export function getProjects(
     .throwOnError()
 }
 
+export function getProject(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+  projectId: string,
+) {
+  return supabase
+    .from('projects')
+    .select('*, workspace:workspaces(domain)')
+    .eq('workspace.domain', domain)
+    .eq('id', projectId)
+    .single()
+    .throwOnError()
+}
+
 // Project Status
 
 export function getProjectStatuses(

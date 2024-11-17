@@ -21,7 +21,9 @@ export default function TaskImageCanvas({ taskImages }: Props) {
 
   const [selectedVersion] = useQueryState(
     'version',
-    parseAsString.withDefault(latestImage?.version.toString() || '0'),
+    parseAsString
+      .withDefault(latestImage?.version.toString() || '0')
+      .withOptions({ clearOnDefault: false }),
   )
 
   const currentImage = React.useMemo(() => {
