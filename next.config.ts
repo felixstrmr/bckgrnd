@@ -9,6 +9,19 @@ const nextConfig: NextConfig = {
   devIndicators: {
     appIsrStatus: false,
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'bipjaqofywtmfirkmtdw.supabase.co',
+        protocol: 'https',
+      },
+    ],
+  },
 }
 
 export default nextConfig

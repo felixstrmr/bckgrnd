@@ -170,10 +170,60 @@ export type Database = {
           },
         ]
       }
+      project_users: {
+        Row: {
+          created_at: string
+          id: string
+          project: string
+          user: string
+          user_role: Database["public"]["Enums"]["project_user_roles"]
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          project: string
+          user: string
+          user_role: Database["public"]["Enums"]["project_user_roles"]
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          project?: string
+          user?: string
+          user_role?: Database["public"]["Enums"]["project_user_roles"]
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_users_project_fkey"
+            columns: ["project"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_users_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_users_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           client: string
           created_at: string
+          created_by: string
           description: string | null
           id: string
           name: string
@@ -183,6 +233,7 @@ export type Database = {
         Insert: {
           client: string
           created_at?: string
+          created_by?: string
           description?: string | null
           id?: string
           name: string
@@ -192,6 +243,7 @@ export type Database = {
         Update: {
           client?: string
           created_at?: string
+          created_by?: string
           description?: string | null
           id?: string
           name?: string
@@ -207,6 +259,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "projects_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "projects_status_fkey"
             columns: ["status"]
             isOneToOne: false
@@ -215,6 +274,80 @@ export type Database = {
           },
           {
             foreignKeyName: "projects_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      task_comments: {
+        Row: {
+          created_at: string
+          id: string
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_comments_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      task_images: {
+        Row: {
+          created_at: string
+          id: string
+          image_size: number
+          image_type: string
+          image_url: string
+          task: string
+          version: number
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_size: number
+          image_type: string
+          image_url: string
+          task: string
+          version: number
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_size?: number
+          image_type?: string
+          image_url?: string
+          task?: string
+          version?: number
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_images_task_fkey"
+            columns: ["task"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_images_workspace_fkey"
             columns: ["workspace"]
             isOneToOne: false
             referencedRelation: "workspaces"
@@ -310,6 +443,7 @@ export type Database = {
           priority: string
           project: string
           status: string
+          type: Database["public"]["Enums"]["task_types"]
           workspace: string
         }
         Insert: {
@@ -320,6 +454,7 @@ export type Database = {
           priority: string
           project: string
           status: string
+          type: Database["public"]["Enums"]["task_types"]
           workspace: string
         }
         Update: {
@@ -330,6 +465,7 @@ export type Database = {
           priority?: string
           project?: string
           status?: string
+          type?: Database["public"]["Enums"]["task_types"]
           workspace?: string
         }
         Relationships: [
@@ -461,7 +597,8 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      project_user_roles: "owner"
+      task_types: "image" | "pdf"
     }
     CompositeTypes: {
       [_ in never]: never

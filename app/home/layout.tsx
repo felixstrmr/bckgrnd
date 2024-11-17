@@ -1,3 +1,4 @@
+import JoinWaitlistDialog from '@/components/dialogs/join-waitlist-dialog'
 import HomeNavbar from '@/components/navbars/home-navbar'
 
 type Props = {
@@ -8,6 +9,7 @@ export default function HomeLayout({ children }: Props) {
   return (
     <div className='flex size-full flex-col bg-muted p-2 pt-0'>
       <HomeNavbar />
+      <JoinWaitlistDialog />
       {children}
     </div>
   )

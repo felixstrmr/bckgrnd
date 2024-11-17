@@ -108,3 +108,18 @@ export function getTaskStatuses(
     .eq('workspace.domain', domain)
     .throwOnError()
 }
+
+// Task Image
+
+export function getTaskImages(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+  taskId: string,
+) {
+  return supabase
+    .from('task_images')
+    .select('*, workspace:workspaces(domain)')
+    .eq('workspace.domain', domain)
+    .eq('task', taskId)
+    .throwOnError()
+}

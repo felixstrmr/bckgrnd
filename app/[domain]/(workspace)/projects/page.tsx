@@ -23,7 +23,9 @@ export default async function Page({ params }: Props) {
       <div className='flex items-center justify-between'>
         <div className='flex items-center space-x-2'>
           <h3>Projects</h3>
-          <p className='text-muted-foreground'>{projects.length}</p>
+          <div className='rounded-sm bg-muted px-1.5 text-sm text-muted-foreground'>
+            {projects.length}
+          </div>
         </div>
         <div className='flex items-center space-x-2'>
           <RevalidateTagButton tag={`projects-${domain}`} />

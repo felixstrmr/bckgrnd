@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { zfd } from 'zod-form-data'
 
 // Auth
 
@@ -9,6 +10,10 @@ export const loginSchema = z.object({
 
 export const revalidateSchema = z.object({
   tag: z.string().min(1),
+})
+
+export const joinWaitlistSchema = z.object({
+  email: z.string().min(1, 'Email is required').email('Invalid email address'),
 })
 
 // Client
@@ -53,6 +58,14 @@ export const updateTaskSchema = z.object({
   id: z.string().min(1).uuid(),
   domain: z.string().min(1),
   status: z.string().min(1).uuid(),
+})
+
+// Task Image
+
+export const uploadTaskImageSchema = zfd.formData({
+  image: zfd.file(),
+  task: zfd.text(),
+  domain: zfd.text(),
 })
 
 // Workspace

@@ -10,3 +10,4 @@ export type ProjectStatus = Tables<'project_statuses'>
 export type Task = Tables<'tasks'>
 export type TaskStatus = Tables<'task_statuses'>
 export type TaskPriority = Tables<'task_priorities'>
+export type TaskImage = Tables<'task_images'>

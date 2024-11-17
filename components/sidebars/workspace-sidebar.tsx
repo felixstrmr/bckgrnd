@@ -26,7 +26,7 @@ export default function WorkspaceSidebar() {
     {
       name: 'Projects',
       href: '/projects',
-      isActive: segment === 'projects',
+      isActive: segment === 'projects' || segment === 'tasks',
       icon: FolderKanban,
     },
   ] as SidebarItemProps[]

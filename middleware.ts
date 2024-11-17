@@ -1,4 +1,5 @@
 import { env } from '@/lib/env'
+import AppMiddleware from '@/lib/middlewares/app-middleware'
 import DomainMiddleware from '@/lib/middlewares/domain-middleware'
 import HomeMiddleware from '@/lib/middlewares/home-middleware'
 import { Database } from '@/types/supabase'
@@ -8,10 +9,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 export async function middleware(request: NextRequest) {
   let hostname = request.headers.get('host')!
 
-  if (
-    hostname === `www.${env.NEXT_PUBLIC_ROOT_DOMAIN}` ||
-    hostname === env.NEXT_PUBLIC_ROOT_DOMAIN
-  ) {
+  if (hostname === `www.${env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
     return HomeMiddleware(request)
   }
 
@@ -45,6 +43,10 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
+  if (hostname === `app.${env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
+    return AppMiddleware(request)
+  }
 
   return DomainMiddleware(request, response, user, hostname)
 }

@@ -1,11 +1,12 @@
+import { ThemeProvider } from '@/components/providers/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
-import { Metadata } from 'next/types'
-
-import { ThemeProvider } from '@/components/providers/theme-provider'
-import '@/styles/globals.css'
 import Script from 'next/script'
+import { Metadata } from 'next/types'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
+
+import '@/styles/globals.css'
 
 export const metadata: Metadata = {
   title: 'Bckgrnd | Streamline your design workflow.',
@@ -32,9 +33,10 @@ export default function RootLayout({ children }: Props) {
       )}
       <body className='antialiased'>
         <ThemeProvider attribute={'class'} forcedTheme='light'>
-          <main className='w-sreen h-screen'>{children}</main>
+          <NuqsAdapter>
+            <main className='w-sreen h-screen'>{children}</main>
+          </NuqsAdapter>
         </ThemeProvider>
-
         <Toaster />
       </body>
     </html>

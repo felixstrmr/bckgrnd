@@ -1,3 +1,4 @@
+import JoinWaitlistButton from '@/components/buttons/join-waitlist-button'
 import Bckgrnd from '@/components/icons/bckgrnd'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -6,7 +7,7 @@ import Link from 'next/link'
 
 export default function HomeNavbar() {
   return (
-    <div className='mx-auto flex w-full max-w-5xl items-center justify-between py-4'>
+    <div className='mx-auto flex w-full max-w-6xl items-center justify-between border-l border-r px-6 py-4'>
       <div className='flex items-center'>
         <Link href={'/'}>
           <Bckgrnd className='size-9' />
@@ -31,11 +32,12 @@ export default function HomeNavbar() {
       </div>
       <div className='flex space-x-2'>
         <Link
-          href={`${env.NEXT_PUBLIC_PROTOCOL}://app.${env.NEXT_PUBLIC_ROOT_DOMAIN}/login`}
+          href={`${env.NEXT_PUBLIC_PROTOCOL}://app.${env.NEXT_PUBLIC_ROOT_DOMAIN}`}
           className={buttonVariants({ variant: 'outline' })}
         >
           Login
         </Link>
+        <JoinWaitlistButton />
       </div>
     </div>
   )

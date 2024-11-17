@@ -26,7 +26,13 @@ export default async function Page({ params }: Props) {
   return (
     <div className='flex size-full flex-col space-y-6 overflow-y-auto p-6'>
       <div className='flex items-center justify-between'>
-        <h3>Tasks</h3>
+        <div className='flex items-center space-x-2'>
+          <h3>Tasks</h3>
+          <div className='rounded-sm bg-muted px-1.5 text-sm text-muted-foreground'>
+            {tasks.length}
+          </div>
+        </div>
+
         <RevalidateTagButton tag={`tasks-${domain}`} />
       </div>
       <TaskKanbanView
