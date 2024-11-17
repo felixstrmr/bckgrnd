@@ -32,7 +32,6 @@ export default async function Page({ params }: Props) {
             {tasks.length}
           </div>
         </div>
-
         <RevalidateTagButton tag={`tasks-${domain}-${projectId}`} />
       </div>
       <TaskKanbanView

@@ -1,14 +1,14 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { useWaitlistModalStore } from '@/store/use-waitlist-modal-store'
+import { useJoinWaitlistModalStore } from '@/store/join-waitlist-modal-store'
 
 type Props = {
   size?: 'default' | 'sm' | 'lg'
 }
 
 export default function JoinWaitlistButton({ size }: Props) {
-  const { setOpen } = useWaitlistModalStore()
+  const { setOpen } = useJoinWaitlistModalStore()
 
   return (
     <Button onClick={() => setOpen(true)} size={size}>

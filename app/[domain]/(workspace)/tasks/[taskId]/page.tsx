@@ -1,4 +1,6 @@
 import RevalidateTagButton from '@/components/buttons/revalidate-button'
+import UploadTaskImageDialog from '@/components/dialogs/upload-task-image-dialog'
+import TaskImageVersionSelect from '@/components/selects/task-image-version-select'
 import TaskSidebar from '@/components/sidebars/task-sidebar'
 import { buttonVariants } from '@/components/ui/button'
 import TaskImageCanvas from '@/components/views/task/task-image-canvas'
@@ -12,12 +14,10 @@ import { notFound } from 'next/navigation'
 
 type Props = {
   params: Promise<{ domain: string; taskId: string }>
-  searchParams: Promise<{ version: number }>
 }
 
-export default async function Page({ params, searchParams }: Props) {
+export default async function Page({ params }: Props) {
   const { domain: domainParam, taskId } = await params
-  const { version } = await searchParams
   const domain = getDomain(domainParam)
 
   const supabase = await createClient()
@@ -51,12 +51,22 @@ export default async function Page({ params, searchParams }: Props) {
           >
             <ArrowLeft className='size-4' />
           </Link>
-          <h3>{task.name}</h3>
-          <div className='rounded-sm bg-muted px-1.5 text-sm text-muted-foreground'>
-            V{version || latestVersion}
-          </div>
+          <h3 className='whitespace-nowrap'>{task.name}</h3>
+          {taskImages.data.length > 0 ? (
+            <TaskImageVersionSelect
+              taskImages={taskImages.data}
+              latestVersion={latestVersion}
+            />
+          ) : (
+            <div className='rounded-sm bg-muted px-1.5 text-sm text-muted-foreground'>
+              No Versions
+            </div>
+          )}
         </div>
-        <RevalidateTagButton tag={`task-${domain}-${taskId}`} />
+        <div className='flex items-center gap-2'>
+          <RevalidateTagButton tag={`task-${domain}-${taskId}`} />
+          <UploadTaskImageDialog taskId={taskId} domain={domain} />
+        </div>
       </div>
       <div className='flex size-full gap-4'>
         <TaskImageCanvas
@@ -64,6 +74,7 @@ export default async function Page({ params, searchParams }: Props) {
           taskId={taskId}
           domain={domain}
         />
+
         <TaskSidebar />
       </div>
     </div>

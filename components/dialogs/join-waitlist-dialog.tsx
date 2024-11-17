@@ -7,11 +7,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useWaitlistModalStore } from '@/store/use-waitlist-modal-store'
+import { useJoinWaitlistModalStore } from '@/store/join-waitlist-modal-store'
+
 import { Sparkles } from 'lucide-react'
 
 export default function JoinWaitlistDialog() {
-  const { open, setOpen } = useWaitlistModalStore()
+  const { open, setOpen } = useJoinWaitlistModalStore()
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

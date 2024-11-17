@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { joinWaitlistSchema } from '@/lib/schemas'
-import { useWaitlistModalStore } from '@/store/use-waitlist-modal-store'
+import { useJoinWaitlistModalStore } from '@/store/join-waitlist-modal-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAction } from 'next-safe-action/hooks'
 import { useForm } from 'react-hook-form'
@@ -20,7 +20,7 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 export default function JoinWaitlistForm() {
-  const { setOpen } = useWaitlistModalStore()
+  const { setOpen } = useJoinWaitlistModalStore()
 
   const form = useForm<z.infer<typeof joinWaitlistSchema>>({
     resolver: zodResolver(joinWaitlistSchema),

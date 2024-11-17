@@ -5,7 +5,7 @@ interface State {
   setOpen: (open: boolean) => void
 }
 
-export const useWaitlistModalStore = create<State>((set) => ({
+export const useUploadTaskImageModalStore = create<State>((set) => ({
   open: false,
   setOpen: (open) => set({ open }),
 }))
