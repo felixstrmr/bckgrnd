@@ -21,10 +21,21 @@ import { toast } from 'sonner'
 
 type Props = {
   taskId: string
+  workspaceId: string
+  clientId: string
+  projectId: string
   domain: string
+  latestVersion: number
 }
 
-export default function UploadTaskImageDialog({ taskId, domain }: Props) {
+export default function UploadTaskImageDialog({
+  taskId,
+  workspaceId,
+  clientId,
+  projectId,
+  domain,
+  latestVersion,
+}: Props) {
   const router = useRouter()
   const { open, setOpen } = useUploadTaskImageModalStore()
 
@@ -62,7 +73,10 @@ export default function UploadTaskImageDialog({ taskId, domain }: Props) {
       formData.append('image', file)
       formData.append('task', taskId)
       formData.append('domain', domain)
-
+      formData.append('workspace', workspaceId)
+      formData.append('client', clientId)
+      formData.append('project', projectId)
+      formData.append('latestVersion', latestVersion.toString())
       execute(formData)
     },
     [execute, taskId, domain],

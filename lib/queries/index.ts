@@ -94,7 +94,7 @@ export function getTask(
 ) {
   return supabase
     .from('tasks')
-    .select('*, workspace:workspaces(domain)')
+    .select('*, workspace:workspaces(domain), project:projects(*)')
     .eq('workspace.domain', domain)
     .eq('id', taskId)
     .single()
@@ -126,5 +126,6 @@ export function getTaskImages(
     .select('*, workspace:workspaces(domain)')
     .eq('workspace.domain', domain)
     .eq('task', taskId)
+    .order('version', { ascending: false })
     .throwOnError()
 }

@@ -8,47 +8,61 @@ import { revalidateTag } from 'next/cache'
 
 export const uploadTaskImageAction = actionClient
   .schema(uploadTaskImageSchema)
-  .action(async ({ parsedInput: { image, domain, task } }) => {
-    const supabase = await createClient()
+  .action(
+    async ({
+      parsedInput: {
+        image,
+        domain,
+        task,
+        client,
+        project,
+        workspace,
+        latestVersion,
+      },
+    }) => {
+      const supabase = await createClient()
 
-    const uuid = randomUUID()
-    const fileName = `${uuid}.${image.name.split('.').pop()}`
-    const path = `tasks/${fileName}`
+      const uuid = randomUUID()
+      const fileName = `${uuid}-v${latestVersion + 1}.${image.name.split('.').pop()}`
+      const path = `/${workspace}/${client}/${project}/${task}/${fileName}`
 
-    const { error } = await supabase.storage.from('files').upload(path, image, {
-      cacheControl: '3600',
-      upsert: false,
-    })
+      const { error } = await supabase.storage
+        .from('files')
+        .upload(path, image, {
+          cacheControl: '3600',
+          upsert: false,
+        })
 
-    if (error) {
-      console.error(error)
-      throw error
-    }
+      if (error) {
+        console.error(error)
+        throw error
+      }
 
-    const { data: signedUrl, error: signUrlError } = await supabase.storage
-      .from('files')
-      .createSignedUrl(path, 31536000)
+      const { data: signedUrl, error: signUrlError } = await supabase.storage
+        .from('files')
+        .createSignedUrl(path, 31536000)
 
-    if (signUrlError) {
-      console.error(signUrlError)
-      throw signUrlError
-    }
+      if (signUrlError) {
+        console.error(signUrlError)
+        throw signUrlError
+      }
 
-    const { error: insertError } = await supabase.from('task_images').insert({
-      workspace: 'a51bce4b-8674-49a1-a831-9cc063800e76',
-      id: uuid,
-      task,
-      version: 1,
-      image_url: signedUrl.signedUrl,
-      image_name: fileName,
-      image_size: image.size,
-      image_type: image.type,
-    })
+      const { error: insertError } = await supabase.from('task_images').insert({
+        workspace,
+        id: uuid,
+        task,
+        version: 1,
+        image_url: signedUrl.signedUrl,
+        image_name: fileName,
+        image_size: image.size,
+        image_type: image.type,
+      })
 
-    if (insertError) {
-      console.error(insertError)
-      throw insertError
-    }
+      if (insertError) {
+        console.error(insertError)
+        throw insertError
+      }
 
-    revalidateTag(`task-${domain}-${task}`)
-  })
+      revalidateTag(`task-${domain}-${task}`)
+    },
+  )

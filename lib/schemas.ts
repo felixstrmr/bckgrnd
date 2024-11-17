@@ -66,7 +66,11 @@ export const updateTaskSchema = z.object({
 export const uploadTaskImageSchema = zfd.formData({
   image: zfd.file(),
   task: zfd.text(),
+  client: zfd.text(),
+  project: zfd.text(),
   domain: zfd.text(),
+  workspace: zfd.text(),
+  latestVersion: zfd.numeric(),
 })
 
 // Workspace

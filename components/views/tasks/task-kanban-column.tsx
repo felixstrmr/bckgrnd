@@ -39,14 +39,14 @@ export default function TaskKanbanColumn({ tasks, taskStatus }: Props) {
         <div className='flex items-center gap-1'>
           <Button
             variant='ghost'
-            className='size-7 rounded-sm hover:bg-black/10'
+            className='size-7 min-w-7 rounded-sm hover:bg-black/10'
             size='icon'
           >
             <Plus className='size-4 text-muted-foreground' />
           </Button>
           <Button
             variant='ghost'
-            className='size-7 rounded-sm hover:bg-black/10'
+            className='size-7 min-w-7 rounded-sm hover:bg-black/10'
             size='icon'
           >
             <MoreVertical className='size-4 text-muted-foreground' />
