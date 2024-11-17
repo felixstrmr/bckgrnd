@@ -2,7 +2,15 @@
 
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { Briefcase, LucideIcon, User } from 'lucide-react'
+import {
+  Bell,
+  Briefcase,
+  CreditCard,
+  Lock,
+  LucideIcon,
+  User,
+  Users,
+} from 'lucide-react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 
@@ -11,10 +19,22 @@ export default function SettingsSidebar() {
 
   const pagesPersonal = [
     {
-      name: 'My Account',
+      name: 'Profile',
       href: '/settings',
       isActive: !segment,
       icon: User,
+    },
+    {
+      name: 'Security',
+      href: '/settings/security',
+      isActive: segment === 'security',
+      icon: Lock,
+    },
+    {
+      name: 'Notifications',
+      href: '/settings/notifications',
+      isActive: segment === 'notifications',
+      icon: Bell,
     },
   ] as SidebarItemProps[]
 
@@ -24,6 +44,18 @@ export default function SettingsSidebar() {
       href: '/settings/general',
       isActive: segment === 'general',
       icon: Briefcase,
+    },
+    {
+      name: 'Users',
+      href: '/settings/users',
+      isActive: segment === 'users',
+      icon: Users,
+    },
+    {
+      name: 'Billing',
+      href: '/settings/billing',
+      isActive: segment === 'billing',
+      icon: CreditCard,
     },
   ] as SidebarItemProps[]
 

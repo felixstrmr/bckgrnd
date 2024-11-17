@@ -45,7 +45,7 @@ export default function UpdateWorkspaceNameForm({ workspace }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(execute)} className='space-y-8'>
-        <div className='mx-auto w-full max-w-4xl rounded-lg bg-muted px-2 pt-2'>
+        <div className='w-full max-w-4xl rounded-lg bg-muted px-2 pt-2'>
           <div className='flex flex-col rounded-md bg-background p-4 shadow-sm'>
             <h6>Workspace Name</h6>
             <p className='text-sm text-muted-foreground'>

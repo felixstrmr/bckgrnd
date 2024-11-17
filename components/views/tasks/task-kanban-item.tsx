@@ -66,12 +66,12 @@ export default function TaskKanbanItem({ task }: Props) {
         </div>
         <div className='mt-4 flex items-center justify-between border-t bg-muted/50 p-4 py-3'>
           <div className='flex items-center gap-3'>
-            <div className='flex items-center gap-1'>
-              <LinkIcon className='size-3 text-muted-foreground' />
+            <div className='flex items-center gap-1 text-muted-foreground'>
+              <LinkIcon className='size-3' />
               <p className='text-xs'>0</p>
             </div>
-            <div className='flex items-center gap-1'>
-              <MessageCircle className='size-3 text-muted-foreground' />
+            <div className='flex items-center gap-1 text-muted-foreground'>
+              <MessageCircle className='size-3' />
               <p className='text-xs'>0</p>
             </div>
           </div>

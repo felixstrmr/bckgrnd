@@ -1,4 +1,11 @@
-import { Client, ClientStatus, Project, Task, TaskPriority } from '@/types'
+import {
+  Client,
+  ClientStatus,
+  Project,
+  ProjectStatus,
+  Task,
+  TaskPriority,
+} from '@/types'
 
 export type ClientWithRelations = Client & {
   workspace: {
@@ -11,6 +18,11 @@ export type ProjectWithRelations = Project & {
   workspace: {
     domain: string
   }
+  status: ProjectStatus
+  client: Client
+  tasks: {
+    count: number
+  }[]
 }
 
 export type TaskWithRelations = Task & {

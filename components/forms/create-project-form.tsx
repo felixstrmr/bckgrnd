@@ -88,7 +88,7 @@ export default function CreateProjectForm({
         <div className='flex items-center space-x-2 text-xs text-muted-foreground'>
           <p>New Project</p>
           <ArrowRight className='size-4' />
-          <p className='rounded-lg border bg-background p-1 px-2 shadow-sm'>
+          <p className='rounded-lg border border-dashed bg-background p-1 px-2 shadow-sm'>
             {form.watch('name') || 'Untitled'}
           </p>
         </div>
@@ -103,7 +103,7 @@ export default function CreateProjectForm({
                     disabled={loading}
                     autoFocus
                     placeholder='Enter a project name'
-                    className='w-full text-xl font-medium outline-none'
+                    className='w-full text-xl font-medium outline-none disabled:bg-transparent disabled:opacity-50'
                     {...field}
                   />
                 </FormControl>
@@ -120,7 +120,7 @@ export default function CreateProjectForm({
                   <input
                     disabled={loading}
                     placeholder='Add a description (optional)'
-                    className='w-full text-sm outline-none'
+                    className='w-full text-sm outline-none disabled:bg-transparent disabled:opacity-50'
                     {...field}
                   />
                 </FormControl>
@@ -144,7 +144,7 @@ export default function CreateProjectForm({
                           role='combobox'
                           size='sm'
                           className={cn(
-                            'w-48 items-center justify-between p-2 font-normal',
+                            'w-48 items-center justify-between p-2 font-normal active:scale-100',
                             !field.value && 'text-muted-foreground',
                           )}
                         >

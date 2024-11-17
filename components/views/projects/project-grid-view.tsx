@@ -1,8 +1,8 @@
 import ProjectGridItem from '@/components/views/projects/project-grid-item'
-import { Project } from '@/types'
+import { ProjectWithRelations } from '@/types/custom'
 
 type Props = {
-  projects: Project[]
+  projects: ProjectWithRelations[]
 }
 
 export default function ProjectGridView({ projects }: Props) {

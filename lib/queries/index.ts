@@ -46,7 +46,15 @@ export function getProjects(
 ) {
   return supabase
     .from('projects')
-    .select('*, workspace:workspaces(domain)')
+    .select(
+      `
+      *,
+      workspace:workspaces(domain),
+      status:project_statuses(*),
+      client:clients(*),
+      tasks:tasks(count)
+    `,
+    )
     .eq('workspace.domain', domain)
     .throwOnError()
 }
@@ -71,6 +79,20 @@ export function getTasks(supabase: SupabaseClient<Database>, domain: string) {
     .from('tasks')
     .select('*, workspace:workspaces(domain), priority:task_priorities(*)')
     .eq('workspace.domain', domain)
+    .throwOnError()
+}
+
+export function getTask(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+  taskId: string,
+) {
+  return supabase
+    .from('tasks')
+    .select('*, workspace:workspaces(domain)')
+    .eq('workspace.domain', domain)
+    .eq('id', taskId)
+    .single()
     .throwOnError()
 }
 

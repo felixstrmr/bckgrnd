@@ -2,7 +2,7 @@
 
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { ArrowLeft, ListTodo, LucideIcon, View } from 'lucide-react'
+import { ArrowLeft, Cog, Files, ListTodo, LucideIcon, View } from 'lucide-react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 
@@ -25,6 +25,18 @@ export default function ProjectSidebar({ projectId }: Props) {
       href: `/projects/${projectId}/tasks`,
       isActive: segment === 'tasks',
       icon: ListTodo,
+    },
+    {
+      name: 'Files',
+      href: `/projects/${projectId}/files`,
+      isActive: segment === 'files',
+      icon: Files,
+    },
+    {
+      name: 'Settings',
+      href: `/projects/${projectId}/settings`,
+      isActive: segment === 'settings',
+      icon: Cog,
     },
   ] as SidebarItemProps[]
 

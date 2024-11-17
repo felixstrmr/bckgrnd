@@ -29,10 +29,20 @@ export const deleteClientSchema = z.object({
 // Project
 
 export const createProjectSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  description: z.string().optional(),
+  name: z
+    .string()
+    .min(1, 'Name is required')
+    .max(50, 'Name cannot exceed 50 characters')
+    .regex(
+      /^[a-zA-Z0-9\s\-_]+$/,
+      'Name can only contain letters, numbers, spaces, hyphens, and underscores',
+    ),
+  description: z
+    .string()
+    .max(500, 'Description cannot exceed 500 characters')
+    .optional(),
   domain: z.string().min(1),
-  client: z.string().min(1).uuid(),
+  client: z.string().min(1, 'Client is required').uuid(),
   workspace: z.string().min(1).uuid(),
   status: z.string().min(1).uuid(),
 })
