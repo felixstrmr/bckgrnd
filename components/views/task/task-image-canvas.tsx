@@ -1,7 +1,7 @@
 'use client'
 
 import { uploadTaskImageAction } from '@/actions/upload-task-image-action'
-import { TASK_IMAGE_MAX_SIZE } from '@/lib/constants'
+import { TASK_IMAGE_MAX_SIZE, TASK_IMAGE_TYPES } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { TaskImage } from '@/types'
 import { ImageIcon } from 'lucide-react'
@@ -9,6 +9,7 @@ import { useAction } from 'next-safe-action/hooks'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { parseAsInteger, useQueryState } from 'nuqs'
+import React from 'react'
 import { useDropzone } from 'react-dropzone'
 import { toast } from 'sonner'
 
@@ -21,52 +22,63 @@ type Props = {
 export default function TaskImageCanvas({ taskImages, taskId, domain }: Props) {
   const router = useRouter()
 
-  const latestImage =
-    taskImages.length > 0
-      ? taskImages.reduce((prev, current) =>
-          prev.version > current.version ? prev : current,
-        )
-      : null
+  const latestImage = React.useMemo(() => {
+    if (taskImages.length === 0) return null
+    return taskImages.reduce((prev, current) =>
+      prev.version > current.version ? prev : current,
+    )
+  }, [taskImages])
 
   const [] = useQueryState(
     'version',
     parseAsInteger.withDefault(latestImage?.version || 1),
   )
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    maxFiles: 1,
-    multiple: false,
-    accept: {
-      'image/*': ['.jpeg', '.png', '.gif', '.webp', '.svg'],
+  const { execute, status } = useAction(uploadTaskImageAction, {
+    onError: ({ error }) => {
+      toast.error(error.serverError || 'Failed to upload image')
     },
-    onDrop: (acceptedFiles) => {
-      if (acceptedFiles[0].size > TASK_IMAGE_MAX_SIZE) {
-        toast.error(`Image size exceeds ${TASK_IMAGE_MAX_SIZE / 1024 / 1024}MB`)
+    onSuccess: () => {
+      toast.success('Image uploaded successfully')
+      router.refresh()
+    },
+  })
+  const loading = status === 'executing'
+
+  const handleImageUpload = React.useCallback(
+    async (files: File[]) => {
+      const file = files[0]
+
+      if (file.size > TASK_IMAGE_MAX_SIZE) {
+        toast.error(
+          `Image size must be less than ${TASK_IMAGE_MAX_SIZE / 1024 / 1024}MB`,
+        )
         return
       }
 
-      if (!acceptedFiles[0].type.startsWith('image/')) {
-        toast.error('Invalid image format')
+      if (!Object.keys(TASK_IMAGE_TYPES).some((type) => file.type === type)) {
+        toast.error(
+          'Invalid image format. Please use JPEG, PNG, GIF, WEBP, or SVG',
+        )
         return
       }
 
       const formData = new FormData()
-      formData.append('image', acceptedFiles[0])
+      formData.append('image', file)
       formData.append('task', taskId)
       formData.append('domain', domain)
 
       execute(formData)
     },
-  })
+    [execute, taskId, domain],
+  )
 
-  const { execute } = useAction(uploadTaskImageAction, {
-    onError: ({ error }) => {
-      toast.error(error.serverError)
-    },
-    onSuccess: () => {
-      toast.success('Image uploaded')
-      router.refresh()
-    },
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    maxFiles: 1,
+    multiple: false,
+    accept: TASK_IMAGE_TYPES,
+    onDrop: handleImageUpload,
+    disabled: loading,
   })
 
   return (

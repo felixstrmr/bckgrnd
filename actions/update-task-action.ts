@@ -7,7 +7,7 @@ import { revalidateTag } from 'next/cache'
 
 export const updateTaskAction = actionClient
   .schema(updateTaskSchema)
-  .action(async ({ parsedInput: { status, id, domain } }) => {
+  .action(async ({ parsedInput: { status, id, domain, project } }) => {
     const supabase = await createClient()
 
     const { data, error } = await supabase
@@ -21,7 +21,7 @@ export const updateTaskAction = actionClient
       throw error
     }
 
-    revalidateTag(`tasks-${domain}`)
+    revalidateTag(`tasks-${domain}-${project}`)
 
     return data
   })

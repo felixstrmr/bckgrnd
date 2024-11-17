@@ -57,6 +57,7 @@ export const createProjectSchema = z.object({
 export const updateTaskSchema = z.object({
   id: z.string().min(1).uuid(),
   domain: z.string().min(1),
+  project: z.string().min(1).uuid(),
   status: z.string().min(1).uuid(),
 })
 

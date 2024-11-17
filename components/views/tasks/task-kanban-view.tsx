@@ -63,7 +63,12 @@ export default function TaskKanbanView({ taskStatuses, tasks, domain }: Props) {
     const overStatus = over.id as string
 
     if (activeTask && activeTask.status !== overStatus) {
-      execute({ id: activeTask.id, status: overStatus, domain })
+      execute({
+        id: activeTask.id,
+        status: overStatus,
+        domain,
+        project: activeTask.project,
+      })
     }
   }
 

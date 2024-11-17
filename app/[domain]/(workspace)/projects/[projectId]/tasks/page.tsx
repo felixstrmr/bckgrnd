@@ -18,7 +18,7 @@ export default async function Page({ params }: Props) {
 
   const supabase = await createClient()
   const [tasks, taskStatuses, workspace] = await Promise.all([
-    getTasksWithCache(supabase, domain),
+    getTasksWithCache(supabase, domain, projectId),
     getTaskStatusesWithCache(supabase, domain),
     getWorkspaceWithCache(supabase, domain),
   ])
@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
           </div>
         </div>
 
-        <RevalidateTagButton tag={`tasks-${domain}`} />
+        <RevalidateTagButton tag={`tasks-${domain}-${projectId}`} />
       </div>
       <TaskKanbanView
         tasks={tasks}

@@ -131,13 +131,14 @@ export async function getProjectStatusesWithCache(
 export async function getTasksWithCache(
   supabase: SupabaseClient,
   domain: string,
+  projectId: string,
 ) {
   const { data, error } = await unstable_cache(
-    async () => getTasks(supabase, domain),
-    [`tasks-${domain}`],
+    async () => getTasks(supabase, domain, projectId),
+    [`tasks-${domain}-${projectId}`],
     {
       revalidate: 3600,
-      tags: [`tasks-${domain}`],
+      tags: [`tasks-${domain}-${projectId}`],
     },
   )()
 

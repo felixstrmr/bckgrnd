@@ -74,11 +74,16 @@ export function getProjectStatuses(
 
 // Task
 
-export function getTasks(supabase: SupabaseClient<Database>, domain: string) {
+export function getTasks(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+  projectId: string,
+) {
   return supabase
     .from('tasks')
     .select('*, workspace:workspaces(domain), priority:task_priorities(*)')
     .eq('workspace.domain', domain)
+    .eq('project', projectId)
     .throwOnError()
 }
 
