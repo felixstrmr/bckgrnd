@@ -3,7 +3,7 @@
 import { TaskImage } from '@/types'
 import Image from 'next/image'
 import { parseAsString, useQueryState } from 'nuqs'
-import React from 'react'
+import React, { useRef, useState } from 'react'
 
 type Props = {
   taskImages: TaskImage[]
@@ -12,6 +12,11 @@ type Props = {
 }
 
 export default function TaskImageCanvas({ taskImages }: Props) {
+  const [isDragging, setIsDragging] = useState(false)
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
+  const containerRef = useRef<HTMLDivElement>(null)
+
   const latestImage = React.useMemo(() => {
     if (taskImages.length === 0) return null
     return taskImages.reduce((prev, current) =>
@@ -33,17 +38,56 @@ export default function TaskImageCanvas({ taskImages }: Props) {
     )
   }, [taskImages, latestImage, selectedVersion])
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true)
+    setDragStart({
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
+    })
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return
+
+    const newX = e.clientX - dragStart.x
+    const newY = e.clientY - dragStart.y
+    setPosition({ x: newX, y: newY })
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false)
+  }
+
+  const handleMouseLeave = () => {
+    setIsDragging(false)
+  }
+
   return (
-    <div className='relative size-full rounded-lg border p-4'>
+    <div
+      ref={containerRef}
+      className='relative size-full cursor-grab overflow-hidden rounded-lg border p-4 active:cursor-grabbing'
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
+    >
       {currentImage && (
-        <Image
-          src={currentImage.image_url}
-          width={1920}
-          height={1080}
-          className='size-full object-contain'
-          unoptimized
-          alt='Task Image'
-        />
+        <div
+          style={{
+            transform: `translate(${position.x}px, ${position.y}px)`,
+            transition: isDragging ? 'none' : 'transform 0.1s',
+          }}
+        >
+          <Image
+            src={currentImage.image_url}
+            width={1920}
+            height={1080}
+            className='size-full select-none rounded-sm border object-contain'
+            unoptimized
+            alt='Task Image'
+            draggable={false}
+          />
+        </div>
       )}
     </div>
   )

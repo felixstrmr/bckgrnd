@@ -480,6 +480,7 @@ export type Database = {
           project: string
           status: string
           type: Database["public"]["Enums"]["task_types"]
+          updated_at: string | null
           workspace: string
         }
         Insert: {
@@ -491,6 +492,7 @@ export type Database = {
           project: string
           status: string
           type: Database["public"]["Enums"]["task_types"]
+          updated_at?: string | null
           workspace: string
         }
         Update: {
@@ -502,6 +504,7 @@ export type Database = {
           project?: string
           status?: string
           type?: Database["public"]["Enums"]["task_types"]
+          updated_at?: string | null
           workspace?: string
         }
         Relationships: [
@@ -557,18 +560,21 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          is_default: boolean
           user: string
           workspace: string
         }
         Insert: {
           created_at?: string
           id?: string
+          is_default?: boolean
           user: string
           workspace: string
         }
         Update: {
           created_at?: string
           id?: string
+          is_default?: boolean
           user?: string
           workspace?: string
         }
@@ -625,6 +631,21 @@ export type Database = {
           access_allowed: boolean
         }[]
       }
+      is_in_same_workspace:
+        | {
+            Args: {
+              _targetuser: string
+              _user: string
+            }
+            Returns: boolean
+          }
+        | {
+            Args: {
+              _targetuser: unknown
+              _user: string
+            }
+            Returns: boolean
+          }
       is_workspace_user: {
         Args: {
           _workspace: string

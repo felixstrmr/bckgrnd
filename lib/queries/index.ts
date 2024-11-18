@@ -15,6 +15,21 @@ export function getWorkspace(
     .throwOnError()
 }
 
+export async function getDefaultWorkspace(supabase: SupabaseClient<Database>) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return null
+
+  return supabase
+    .from('workspaces')
+    .select('*, workspace_users:workspace_users(user)')
+    .in('workspace_users.user', [user.id])
+    .single()
+    .throwOnError()
+}
+
 // Client
 
 export function getClients(supabase: SupabaseClient<Database>, domain: string) {

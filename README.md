@@ -13,7 +13,7 @@
 - 🤝🏼 Live collaboration
 - 📊 Reporting and analytics
 
-## Tech Stack
+## 🤖 Tech Stack
 
 - Next.js
 - Typescript

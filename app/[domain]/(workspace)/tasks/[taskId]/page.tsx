@@ -7,7 +7,7 @@ import TaskImageCanvas from '@/components/views/task/task-image-canvas'
 import { getTaskImages } from '@/lib/queries'
 import { getTaskWithCache, getWorkspaceWithCache } from '@/lib/queries/cached'
 import { createClient } from '@/lib/supabase/server'
-import { getDomain } from '@/lib/utils'
+import { formatRelativeTime, getDomain } from '@/lib/utils'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -62,6 +62,15 @@ export default async function Page({ params }: Props) {
             <div className='rounded-sm bg-muted px-1.5 text-sm text-muted-foreground'>
               No Versions
             </div>
+          )}
+          {task.updated_at ? (
+            <p className='whitespace-nowrap text-sm text-muted-foreground'>
+              Updated {formatRelativeTime(new Date(task.updated_at))}
+            </p>
+          ) : (
+            <p className='whitespace-nowrap text-sm text-muted-foreground'>
+              Created {formatRelativeTime(new Date(task.created_at))}
+            </p>
           )}
         </div>
         <div className='flex items-center gap-2'>

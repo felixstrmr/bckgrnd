@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   if (hostname === `app.${env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
-    return AppMiddleware(request)
+    return AppMiddleware(request, response, user)
   }
 
   return DomainMiddleware(request, response, user, hostname)

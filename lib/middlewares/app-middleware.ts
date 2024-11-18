@@ -1,7 +1,12 @@
 import { VALID_APP_ROUTES } from '@/lib/constants'
+import { User } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 
-export default function AppMiddleware(request: NextRequest) {
+export default function AppMiddleware(
+  request: NextRequest,
+  response: NextResponse,
+  user: User | null,
+) {
   const url = request.nextUrl
   const searchParams = request.nextUrl.searchParams.toString()
   const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ''}`
@@ -10,7 +15,16 @@ export default function AppMiddleware(request: NextRequest) {
     return NextResponse.rewrite(new URL(`/bckgrnd/not-found`, request.url))
   }
 
-  return NextResponse.rewrite(
-    new URL(`/app${path === '/' ? '' : path}`, request.url),
-  )
+  if (!user && path !== '/login') {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  if (user && path === '/login') {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+
+  const rewrittenUrl = new URL(`/app${path === '/' ? '' : path}`, request.url)
+  response = NextResponse.rewrite(rewrittenUrl)
+
+  return response
 }

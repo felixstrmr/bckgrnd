@@ -40,7 +40,7 @@ export default function Page() {
         <div className='flex size-full border-l border-r px-6 pt-6'>
           <Image
             src={
-              'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-image.webp?t=2024-11-17T19%3A56%3A44.032ZF'
+              'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-image.webp'
             }
             alt='Hero image'
             className='rounded-lg shadow-lg'
