@@ -8,7 +8,7 @@ import Link from 'next/link'
 export default function Page() {
   return (
     <div className='flex size-full flex-col rounded-lg border bg-background shadow-md'>
-      <div className='mx-auto flex size-full max-w-6xl flex-col items-center border-l border-r px-6 pb-24 pt-24'>
+      <div className='mx-auto flex size-full max-w-6xl flex-col items-center border-l border-r px-6 py-16'>
         <Link
           href={'https://link.bckgrnd.one/x'}
           passHref
