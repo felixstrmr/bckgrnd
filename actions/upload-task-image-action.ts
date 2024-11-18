@@ -23,7 +23,7 @@ export const uploadTaskImageAction = actionClient
       const supabase = await createClient()
 
       const uuid = randomUUID()
-      const fileName = `${uuid}-v${latestVersion + 1}.${image.name.split('.').pop()}`
+      const fileName = `v${latestVersion + 1}-${uuid}.${image.name.split('.').pop()}`
       const path = `/${workspace}/${client}/${project}/${task}/${fileName}`
 
       const { error } = await supabase.storage
