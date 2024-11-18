@@ -70,7 +70,7 @@
     @apply text-6xl font-medium tracking-tight;
   }
   h2 {
-    @apply text-3xl font-medium tracking-tight;
+    @apply text-4xl font-medium tracking-tight;
   }
   h3 {
     @apply text-2xl font-medium tracking-tight;
@@ -84,4 +84,14 @@
   h6 {
     @apply text-base font-medium tracking-tight;
   }
+}
+
+::-moz-selection {
+  color: #ffffff;
+  background: #09090b;
+}
+
+::selection {
+  color: #ffffff;
+  background: #09090b;
 }
