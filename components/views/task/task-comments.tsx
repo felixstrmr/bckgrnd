@@ -49,29 +49,8 @@ export default function TaskComments({ domain, taskId }: Props) {
             table: 'task_comments',
             filter: `task=eq.${taskId}`,
           },
-          (payload) => {
-            switch (payload.eventType) {
-              case 'INSERT':
-                setComments((prev) => [
-                  ...prev,
-                  payload.new as TaskCommentWithRelations,
-                ])
-                break
-              case 'DELETE':
-                setComments((prev) =>
-                  prev.filter((comment) => comment.id !== payload.old.id),
-                )
-                break
-              case 'UPDATE':
-                setComments((prev) =>
-                  prev.map((comment) =>
-                    comment.id === payload.new.id
-                      ? (payload.new as TaskCommentWithRelations)
-                      : comment,
-                  ),
-                )
-                break
-            }
+          async () => {
+            await fetchComments() // Always refetch to ensure relations are up to date
           },
         )
         .subscribe()
@@ -84,7 +63,7 @@ export default function TaskComments({ domain, taskId }: Props) {
         supabase.removeChannel(channel)
       }
     }
-  }, [supabase, fetchComments, taskId])
+  }, [supabase, fetchComments, taskId, domain])
 
   return (
     <div className='pr-4 pt-4'>
@@ -96,12 +75,14 @@ export default function TaskComments({ domain, taskId }: Props) {
             <div key={comment.id} className='flex gap-2'>
               <Avatar className='size-9'>
                 <AvatarFallback>
-                  {comment.user.email.charAt(0).toUpperCase()}
+                  {comment.user?.email?.charAt(0).toUpperCase() || '?'}
                 </AvatarFallback>
               </Avatar>
               <div>
                 <div className='flex items-center space-x-2'>
-                  <h6 className='text-sm font-medium'>{comment.user.email}</h6>
+                  <h6 className='text-sm font-medium'>
+                    {comment.user?.email || 'Unknown User'}
+                  </h6>
                   <p className='text-xs text-muted-foreground'>
                     {formatRelativeTime(new Date(comment.created_at))}
                   </p>
