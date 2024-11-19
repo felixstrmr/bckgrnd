@@ -91,7 +91,7 @@ export default async function Page({ params }: Props) {
           taskId={taskId}
           domain={domain}
         />
-        <TaskSidebar />
+        <TaskSidebar domain={domain} taskId={taskId} />
       </div>
     </div>
   )

@@ -44,7 +44,7 @@ export default function Page() {
         >
           Follow us on X for updates!
         </Link>
-        <h1 className='mt-6 max-w-2xl text-center text-3xl sm:text-4xl md:text-5xl'>
+        <h1 className='mt-6 max-w-2xl text-center text-3xl sm:text-4xl md:text-6xl'>
           Streamline your{' '}
           <Palette
             className='inline-block size-8 sm:size-10 md:size-12'
@@ -113,7 +113,7 @@ export default function Page() {
             <h2 className='text-2xl sm:text-3xl'>
               Ready to elevate your workflow?
             </h2>
-            <p className='mt-2 text-muted-foreground'>
+            <p className='mt-2 whitespace-nowrap text-muted-foreground'>
               Join our waitlist today and be the first to experience the future
               of design collaboration.
             </p>

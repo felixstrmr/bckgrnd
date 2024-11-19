@@ -4,7 +4,10 @@ import {
   Project,
   ProjectStatus,
   Task,
+  TaskComment,
+  TaskImage,
   TaskPriority,
+  User,
 } from '@/types'
 
 export type ClientWithRelations = Client & {
@@ -31,4 +34,9 @@ export type TaskWithRelations = Task & {
   }
   project: string
   priority: TaskPriority
+}
+
+export type TaskCommentWithRelations = TaskComment & {
+  image: TaskImage | null
+  user: User
 }

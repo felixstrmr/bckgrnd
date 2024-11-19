@@ -158,3 +158,21 @@ export function getTaskImages(
     .order('version', { ascending: false })
     .throwOnError()
 }
+
+// Task Comment
+
+export function getTaskComments(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+  taskId: string,
+) {
+  return supabase
+    .from('task_comments')
+    .select(
+      '*, workspace:workspaces(domain), user:users(*), image:task_images(*)',
+    )
+    .eq('workspace.domain', domain)
+    .eq('task', taskId)
+    .order('created_at', { ascending: true })
+    .throwOnError()
+}

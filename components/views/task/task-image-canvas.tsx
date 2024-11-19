@@ -73,6 +73,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
     >
       {currentImage && (
         <div
+          className='size-full max-h-[calc(100vh-12rem)]'
           style={{
             transform: `translate(${position.x}px, ${position.y}px)`,
             transition: isDragging ? 'none' : 'transform 0.1s',
@@ -82,7 +83,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
             src={currentImage.image_url}
             width={1920}
             height={1080}
-            className='size-full select-none rounded-sm border object-contain'
+            className='size-full h-fit select-none rounded-sm border object-contain'
             unoptimized
             alt='Task Image'
             draggable={false}

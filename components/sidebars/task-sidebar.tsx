@@ -1,29 +1,19 @@
-'use client'
+import TaskSidebarTabs from '@/components/tabs/task-sidebar-tabs'
+import TaskComments from '@/components/views/task/task-comments'
+import { Suspense } from 'react'
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { History, MessageCircle } from 'lucide-react'
-import { parseAsString, useQueryState } from 'nuqs'
+type Props = {
+  domain: string
+  taskId: string
+}
 
-export default function TaskSidebar() {
-  const [tab, setTab] = useQueryState(
-    'tab',
-    parseAsString.withDefault('comments'),
-  )
-
+export default function TaskSidebar({ domain, taskId }: Props) {
   return (
-    <div className='w-80 min-w-80 rounded-lg border p-4'>
-      <Tabs className='w-full' value={tab} onValueChange={setTab}>
-        <TabsList className='w-full'>
-          <TabsTrigger value='comments' className='w-full'>
-            <MessageCircle className='mr-2 size-4' />
-            Comments
-          </TabsTrigger>
-          <TabsTrigger value='history' className='w-full'>
-            <History className='mr-2 size-4' />
-            History
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+    <div className='flex w-96 min-w-96 flex-col justify-between rounded-lg border p-4'>
+      <TaskSidebarTabs />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TaskComments domain={domain} taskId={taskId} />
+      </Suspense>
     </div>
   )
 }
