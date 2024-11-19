@@ -1,6 +1,8 @@
+'use client'
+
 import TaskSidebarTabs from '@/components/tabs/task-sidebar-tabs'
 import TaskComments from '@/components/views/task/task-comments'
-import { Suspense } from 'react'
+import { parseAsString, useQueryState } from 'nuqs'
 
 type Props = {
   domain: string
@@ -8,12 +10,12 @@ type Props = {
 }
 
 export default function TaskSidebar({ domain, taskId }: Props) {
+  const [tab] = useQueryState('tab', parseAsString.withDefault('comments'))
+
   return (
     <div className='flex w-96 min-w-96 flex-col justify-between rounded-lg border p-4'>
       <TaskSidebarTabs />
-      <Suspense fallback={<div>Loading...</div>}>
-        <TaskComments domain={domain} taskId={taskId} />
-      </Suspense>
+      {tab === 'comments' && <TaskComments domain={domain} taskId={taskId} />}
     </div>
   )
 }

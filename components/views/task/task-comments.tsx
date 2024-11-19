@@ -1,7 +1,7 @@
 'use client'
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Skeleton } from '@/components/ui/skeleton'
+import TaskCommentSkeleton from '@/components/skeletons/task-comment-skeleton'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getTaskComments } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/client'
 import { formatRelativeTime } from '@/lib/utils'
@@ -50,7 +50,7 @@ export default function TaskComments({ domain, taskId }: Props) {
             filter: `task=eq.${taskId}`,
           },
           async () => {
-            await fetchComments() // Always refetch to ensure relations are up to date
+            await fetchComments()
           },
         )
         .subscribe()
@@ -69,19 +69,23 @@ export default function TaskComments({ domain, taskId }: Props) {
     <div className='pr-4 pt-4'>
       <div className='flex flex-col space-y-6'>
         {loading ? (
-          <Skeleton className='h-10 w-full' />
+          <TaskCommentSkeleton />
         ) : (
           comments.map((comment) => (
             <div key={comment.id} className='flex gap-2'>
               <Avatar className='size-9'>
+                <AvatarImage src={comment.user?.avatar_url || ''} />
                 <AvatarFallback>
-                  {comment.user?.email?.charAt(0).toUpperCase() || '?'}
+                  {comment.user.display_name
+                    .split(' ')
+                    .map((name) => name[0])
+                    .join('')}
                 </AvatarFallback>
               </Avatar>
               <div>
                 <div className='flex items-center space-x-2'>
                   <h6 className='text-sm font-medium'>
-                    {comment.user?.email || 'Unknown User'}
+                    {comment.user.display_name}
                   </h6>
                   <p className='text-xs text-muted-foreground'>
                     {formatRelativeTime(new Date(comment.created_at))}

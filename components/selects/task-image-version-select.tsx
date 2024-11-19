@@ -9,33 +9,34 @@ import {
 } from '@/components/ui/select'
 import { TaskImage } from '@/types'
 import { parseAsString, useQueryState } from 'nuqs'
+
 type Props = {
   taskImages: TaskImage[]
-  latestVersion: number
+  latestImage: TaskImage
 }
 
 export default function TaskImageVersionSelect({
   taskImages,
-  latestVersion,
+  latestImage,
 }: Props) {
   const [selectedVersion, setSelectedVersion] = useQueryState(
     'version',
     parseAsString
-      .withDefault(latestVersion.toString())
+      .withDefault(latestImage.id)
       .withOptions({ clearOnDefault: false }),
   )
 
   return (
     <Select value={selectedVersion} onValueChange={setSelectedVersion}>
       <SelectTrigger className='h-8'>
-        <SelectValue placeholder={`V${latestVersion}`} />
+        <SelectValue placeholder={`V${latestImage.version}`} />
         <div className='w-1' />
       </SelectTrigger>
       <SelectContent className='min-w-fit'>
         {taskImages.map((taskImage) => (
           <SelectItem
             key={taskImage.id}
-            value={taskImage.version.toString()}
+            value={taskImage.id}
             className='text-xs'
           >
             V{taskImage.version}

@@ -27,15 +27,13 @@ export default function TaskImageCanvas({ taskImages }: Props) {
   const [selectedVersion] = useQueryState(
     'version',
     parseAsString
-      .withDefault(latestImage?.version.toString() || '0')
+      .withDefault(latestImage?.id || '')
       .withOptions({ clearOnDefault: false }),
   )
 
   const currentImage = React.useMemo(() => {
     if (!latestImage) return null
-    return taskImages.find(
-      (image) => image.version === parseInt(selectedVersion),
-    )
+    return taskImages.find((image) => image.id === selectedVersion)
   }, [taskImages, latestImage, selectedVersion])
 
   const handleMouseDown = (e: React.MouseEvent) => {

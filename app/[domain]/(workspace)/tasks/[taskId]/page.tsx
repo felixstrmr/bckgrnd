@@ -34,13 +34,9 @@ export default async function Page({ params }: Props) {
 
   if (!task) return notFound()
 
-  const latestVersion =
-    taskImages.data.length > 0
-      ? taskImages.data.reduce(
-          (prev, current) => Math.max(prev, current.version),
-          0,
-        )
-      : 0
+  const latestImage = taskImages.data.reduce((prev, current) =>
+    prev.version > current.version ? prev : current,
+  )
 
   return (
     <div className='flex size-full flex-col space-y-6 p-6'>
@@ -56,7 +52,7 @@ export default async function Page({ params }: Props) {
           {taskImages.data.length > 0 ? (
             <TaskImageVersionSelect
               taskImages={taskImages.data}
-              latestVersion={latestVersion}
+              latestImage={latestImage}
             />
           ) : (
             <div className='rounded-sm bg-muted px-1.5 text-sm text-muted-foreground'>
@@ -81,7 +77,7 @@ export default async function Page({ params }: Props) {
             taskId={task.id}
             clientId={task.project.client}
             projectId={task.project.id}
-            latestVersion={latestVersion}
+            latestImage={latestImage}
           />
         </div>
       </div>

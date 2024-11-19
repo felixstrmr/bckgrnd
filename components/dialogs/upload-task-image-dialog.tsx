@@ -12,6 +12,7 @@ import {
 import { TASK_IMAGE_MAX_SIZE, TASK_IMAGE_TYPES } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { useUploadTaskImageModalStore } from '@/store/upload-task-image-modal-store'
+import { TaskImage } from '@/types'
 import { Loader2, Upload } from 'lucide-react'
 import { useAction } from 'next-safe-action/hooks'
 import { useRouter } from 'next/navigation'
@@ -25,7 +26,7 @@ type Props = {
   clientId: string
   projectId: string
   domain: string
-  latestVersion: number
+  latestImage: TaskImage
 }
 
 export default function UploadTaskImageDialog({
@@ -34,7 +35,7 @@ export default function UploadTaskImageDialog({
   clientId,
   projectId,
   domain,
-  latestVersion,
+  latestImage,
 }: Props) {
   const router = useRouter()
   const { open, setOpen } = useUploadTaskImageModalStore()
@@ -76,10 +77,10 @@ export default function UploadTaskImageDialog({
       formData.append('workspace', workspaceId)
       formData.append('client', clientId)
       formData.append('project', projectId)
-      formData.append('latestVersion', latestVersion.toString())
+      formData.append('latestVersion', latestImage.version.toString())
       execute(formData)
     },
-    [execute, taskId, domain, workspaceId, clientId, projectId, latestVersion],
+    [execute, taskId, domain, workspaceId, clientId, projectId, latestImage],
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
