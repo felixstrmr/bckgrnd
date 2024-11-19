@@ -23,4 +23,5 @@
 - Vercel
 - Shadcn UI
 - Loops
+- Dub.co
 - Polar

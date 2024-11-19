@@ -1,8 +1,9 @@
 import { ThemeProvider } from '@/components/providers/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
-import Script from 'next/script'
 import { Metadata } from 'next/types'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
@@ -24,13 +25,6 @@ export default function RootLayout({ children }: Props) {
       suppressHydrationWarning
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
-      {process.env.NODE_ENV === 'production' && (
-        <Script
-          defer
-          src='https://analytics.strmrlab.de/script.js'
-          data-website-id='7476744a-1a22-40d5-81d1-4bd685f3f0ae'
-        />
-      )}
       <body className='antialiased'>
         <ThemeProvider attribute={'class'} forcedTheme='light'>
           <NuqsAdapter>
@@ -38,6 +32,8 @@ export default function RootLayout({ children }: Props) {
           </NuqsAdapter>
         </ThemeProvider>
         <Toaster />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
