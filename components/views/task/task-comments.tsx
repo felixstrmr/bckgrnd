@@ -1,10 +1,11 @@
 'use client'
 
+import CreateTaskCommentForm from '@/components/forms/create-task-comment-form'
 import TaskCommentSkeleton from '@/components/skeletons/task-comment-skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getTaskComments } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/client'
-import { formatRelativeTime } from '@/lib/utils'
+import { cn, formatRelativeTime } from '@/lib/utils'
 import { TaskCommentWithRelations } from '@/types/custom'
 import { RealtimeChannel } from '@supabase/supabase-js'
 import React, { useMemo } from 'react'
@@ -12,27 +13,35 @@ import React, { useMemo } from 'react'
 type Props = {
   domain: string
   taskId: string
+  workspaceId: string
 }
 
-export default function TaskComments({ domain, taskId }: Props) {
+export default function TaskComments({ domain, taskId, workspaceId }: Props) {
   const [comments, setComments] = React.useState<TaskCommentWithRelations[]>([])
   const [loading, setLoading] = React.useState(true)
+  const [error, setError] = React.useState<string | null>(null)
   const supabase = useMemo(() => createClient(), [])
 
   const fetchComments = React.useCallback(async () => {
-    const { data: taskComments, error } = await getTaskComments(
-      supabase,
-      domain,
-      taskId,
-    )
+    try {
+      const { data: taskComments, error } = await getTaskComments(
+        supabase,
+        domain,
+        taskId,
+      )
 
-    if (!error && taskComments) {
-      setComments(taskComments)
+      if (error) throw error
+
+      setComments(taskComments ?? [])
+      setError(null)
+    } catch (error) {
+      setError((error as Error).message)
+      setComments([])
     }
   }, [supabase, domain, taskId])
 
   React.useEffect(() => {
-    let channel: RealtimeChannel
+    let channel: RealtimeChannel | undefined
 
     const setupRealtimeSubscription = async () => {
       setLoading(true)
@@ -63,23 +72,37 @@ export default function TaskComments({ domain, taskId }: Props) {
         supabase.removeChannel(channel)
       }
     }
-  }, [supabase, fetchComments, taskId, domain])
+  }, [supabase, fetchComments, taskId])
 
   return (
-    <div className='pr-4 pt-4'>
-      <div className='flex flex-col space-y-6'>
-        {loading ? (
-          <TaskCommentSkeleton />
-        ) : (
-          comments.map((comment) => (
-            <div key={comment.id} className='flex gap-2'>
+    <div className='flex flex-col space-y-6 pt-4'>
+      {loading ? (
+        <TaskCommentSkeleton />
+      ) : error ? (
+        <div className='flex h-full items-center justify-center'>
+          <p className='text-sm text-destructive'>{error}</p>
+        </div>
+      ) : comments.length === 0 ? (
+        <div className='flex h-full items-center justify-center'>
+          <p className='text-sm text-muted-foreground'>No comments yet.</p>
+        </div>
+      ) : (
+        <div className='flex flex-col space-y-6'>
+          {comments.map((comment) => (
+            <div
+              key={comment.id}
+              className='flex gap-2 animate-in slide-in-from-bottom-3'
+            >
               <Avatar className='size-9'>
-                <AvatarImage src={comment.user?.avatar_url || ''} />
+                <AvatarImage
+                  src={comment.user?.avatar_url || ''}
+                  alt={comment.user.display_name}
+                />
                 <AvatarFallback>
-                  {comment.user.display_name
-                    .split(' ')
+                  {comment.user?.display_name
+                    ?.split(' ')
                     .map((name) => name[0])
-                    .join('')}
+                    .join('') ?? '??'}
                 </AvatarFallback>
               </Avatar>
               <div>
@@ -91,7 +114,7 @@ export default function TaskComments({ domain, taskId }: Props) {
                     {formatRelativeTime(new Date(comment.created_at))}
                   </p>
                 </div>
-                <div className='mt-1'>
+                <div className={cn('mt-0', comment.image && 'mt-1')}>
                   <div className='whitespace-pre-wrap text-sm'>
                     {comment.image && (
                       <span className='mr-1.5 inline-block -translate-y-0.5 rounded-sm bg-primary px-2 py-0.5 text-xs font-medium text-primary-foreground shadow-sm'>
@@ -103,8 +126,11 @@ export default function TaskComments({ domain, taskId }: Props) {
                 </div>
               </div>
             </div>
-          ))
-        )}
+          ))}
+        </div>
+      )}
+      <div className='mt-auto'>
+        <CreateTaskCommentForm taskId={taskId} workspaceId={workspaceId} />
       </div>
     </div>
   )

@@ -73,6 +73,17 @@ export const uploadTaskImageSchema = zfd.formData({
   latestVersion: zfd.numeric(),
 })
 
+// Task Comment
+
+export const createTaskCommentSchema = z.object({
+  message: z
+    .string()
+    .min(1, 'Message is required')
+    .max(1000, 'Message cannot exceed 1000 characters'),
+  task: z.string().min(1).uuid(),
+  workspace: z.string().min(1).uuid(),
+})
+
 // Workspace
 
 export const updateWorkspaceNameSchema = z.object({

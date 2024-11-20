@@ -63,7 +63,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
   return (
     <div
       ref={containerRef}
-      className='relative size-full cursor-grab overflow-hidden rounded-lg border p-4 active:cursor-grabbing'
+      className='relative size-full cursor-grab overflow-hidden rounded-lg border bg-muted p-4 active:cursor-grabbing'
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -71,7 +71,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
     >
       {currentImage && (
         <div
-          className='size-full max-h-[calc(100vh-12rem)]'
+          className='flex size-full items-center justify-center'
           style={{
             transform: `translate(${position.x}px, ${position.y}px)`,
             transition: isDragging ? 'none' : 'transform 0.1s',
@@ -81,7 +81,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
             src={currentImage.image_url}
             width={1920}
             height={1080}
-            className='size-full h-fit select-none rounded-sm border object-contain'
+            className='h-auto max-h-full w-auto max-w-full select-none rounded-sm border object-contain'
             unoptimized
             alt='Task Image'
             draggable={false}

@@ -297,7 +297,7 @@ export type Database = {
           image?: string | null
           message: string
           task: string
-          user: string
+          user?: string
           workspace: string
         }
         Update: {
