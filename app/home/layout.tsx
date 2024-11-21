@@ -7,7 +7,7 @@ type Props = {
 
 export default function HomeLayout({ children }: Props) {
   return (
-    <div className='flex w-full flex-col bg-muted p-2 pt-0'>
+    <div className='flex size-full flex-col items-start'>
       <HomeNavbar />
       <JoinWaitlistDialog />
       {children}

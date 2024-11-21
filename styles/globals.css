@@ -67,7 +67,7 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply text-6xl font-medium tracking-tight;
+    @apply text-5xl font-medium tracking-tight;
   }
   h2 {
     @apply text-4xl font-medium tracking-tight;

@@ -21,7 +21,7 @@ export default function TaskKanbanColumn({ tasks, taskStatus }: Props) {
   return (
     <div
       ref={setNodeRef}
-      className={`flex h-fit flex-col space-y-2 rounded-xl border p-2 transition-colors ${
+      className={`flex h-fit flex-col space-y-2 rounded-xl p-2 transition-colors ${
         isOver ? 'bg-black/10' : 'bg-muted'
       }`}
     >
