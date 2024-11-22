@@ -3,17 +3,45 @@
 import DynamicIcon from '@/components/dynamic-icon'
 import { Button } from '@/components/ui/button'
 import TaskKanbanItem from '@/components/views/tasks/task-kanban-item'
-import { TaskStatus } from '@/types'
+import { TaskPriority, TaskStatus } from '@/types'
 import { TaskWithRelations } from '@/types/custom'
 import { useDroppable } from '@dnd-kit/core'
-import { MoreVertical, Plus } from 'lucide-react'
+import { Loader2, MoreVertical } from 'lucide-react'
+import dynamic from 'next/dynamic'
+
+const CreatTaskDialog = dynamic(
+  () => import('@/components/dialogs/create-task-dialog'),
+  {
+    loading: () => (
+      <Button
+        variant='ghost'
+        className='size-7 min-w-7 rounded-sm'
+        size='icon'
+        disabled
+      >
+        <Loader2 className='size-4 animate-spin' />
+      </Button>
+    ),
+  },
+)
 
 type Props = {
   tasks: TaskWithRelations[]
   taskStatus: TaskStatus
+  workspaceId: string
+  domain: string
+  projectId: string
+  priorities: TaskPriority[]
 }
 
-export default function TaskKanbanColumn({ tasks, taskStatus }: Props) {
+export default function TaskKanbanColumn({
+  domain,
+  projectId,
+  tasks,
+  taskStatus,
+  workspaceId,
+  priorities,
+}: Props) {
   const { setNodeRef, isOver } = useDroppable({
     id: taskStatus.id,
   })
@@ -37,13 +65,13 @@ export default function TaskKanbanColumn({ tasks, taskStatus }: Props) {
           <p className='ml-2 text-sm text-muted-foreground'>{tasks.length}</p>
         </div>
         <div className='flex items-center gap-1'>
-          <Button
-            variant='ghost'
-            className='size-7 min-w-7 rounded-sm hover:bg-black/10'
-            size='icon'
-          >
-            <Plus className='size-4 text-muted-foreground' />
-          </Button>
+          <CreatTaskDialog
+            domain={domain}
+            projectId={projectId}
+            statusId={taskStatus.id}
+            workspaceId={workspaceId}
+            priorities={priorities}
+          />
           <Button
             variant='ghost'
             className='size-7 min-w-7 rounded-sm hover:bg-black/10'

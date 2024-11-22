@@ -54,6 +54,26 @@ export const createProjectSchema = z.object({
 
 // Task
 
+export const createTaskSchema = z.object({
+  name: z
+    .string()
+    .min(1, 'Name is required')
+    .max(50, 'Name cannot exceed 50 characters')
+    .regex(
+      /^[a-zA-Z0-9\s\-_]+$/,
+      'Name can only contain letters, numbers, spaces, hyphens, and underscores',
+    ),
+  description: z
+    .string()
+    .max(500, 'Description cannot exceed 500 characters')
+    .optional(),
+  domain: z.string().min(1),
+  project: z.string().min(1).uuid(),
+  status: z.string().min(1).uuid(),
+  workspace: z.string().min(1).uuid(),
+  priority: z.string().min(1).uuid(),
+})
+
 export const updateTaskSchema = z.object({
   id: z.string().min(1).uuid(),
   domain: z.string().min(1),

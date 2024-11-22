@@ -49,7 +49,7 @@ export default function HomeNavbar() {
         >
           Login
         </Link>
-        <JoinWaitlistButton size='lg' />
+        <JoinWaitlistButton size='default' />
       </div>
     </div>
   )

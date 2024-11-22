@@ -22,7 +22,13 @@ type Props = {
   domain: string
 }
 
-export default function TaskKanbanView({ taskStatuses, tasks, domain }: Props) {
+export default function TaskKanbanView({
+  taskStatuses,
+  tasks,
+  domain,
+  workspaceId,
+  projectId,
+}: Props) {
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {
@@ -80,6 +86,10 @@ export default function TaskKanbanView({ taskStatuses, tasks, domain }: Props) {
             key={taskStatus.id}
             tasks={filterTasks(taskStatus)}
             taskStatus={taskStatus}
+            workspaceId={workspaceId}
+            domain={domain}
+            projectId={projectId}
+            priorities={[]}
           />
         ))}
       </div>
