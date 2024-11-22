@@ -33,15 +33,25 @@ export default function TaskImageVersionSelect({
         <div className='w-1' />
       </SelectTrigger>
       <SelectContent className='min-w-fit'>
-        {taskImages.map((taskImage) => (
-          <SelectItem
-            key={taskImage.id}
-            value={taskImage.id}
-            className='text-xs'
-          >
-            V{taskImage.version}
-          </SelectItem>
-        ))}
+        {taskImages.map((taskImage) =>
+          taskImage.id === latestImage.id ? (
+            <SelectItem
+              key={taskImage.id}
+              value={taskImage.id}
+              className='text-xs'
+            >
+              Latest
+            </SelectItem>
+          ) : (
+            <SelectItem
+              key={taskImage.id}
+              value={taskImage.id}
+              className='text-xs'
+            >
+              V{taskImage.version}
+            </SelectItem>
+          ),
+        )}
       </SelectContent>
     </Select>
   )

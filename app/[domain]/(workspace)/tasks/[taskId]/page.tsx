@@ -8,6 +8,7 @@ import { getTaskImages } from '@/lib/queries'
 import { getTaskWithCache, getWorkspaceWithCache } from '@/lib/queries/cached'
 import { createClient } from '@/lib/supabase/server'
 import { formatRelativeTime, getDomain } from '@/lib/utils'
+import { TaskImage } from '@/types'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -34,9 +35,12 @@ export default async function Page({ params }: Props) {
 
   if (!task) return notFound()
 
-  const latestImage = taskImages.data.reduce((prev, current) =>
-    prev.version > current.version ? prev : current,
-  )
+  const latestImage =
+    taskImages.data.length > 0
+      ? taskImages.data.reduce((prev, current) =>
+          prev.version > current.version ? prev : current,
+        )
+      : null
 
   return (
     <div className='flex size-full flex-col space-y-6 p-6'>
@@ -52,7 +56,7 @@ export default async function Page({ params }: Props) {
           {taskImages.data.length > 0 ? (
             <TaskImageVersionSelect
               taskImages={taskImages.data}
-              latestImage={latestImage}
+              latestImage={latestImage || ({} as TaskImage)}
             />
           ) : (
             <div className='rounded-sm bg-muted px-1.5 text-sm text-muted-foreground'>
@@ -77,7 +81,7 @@ export default async function Page({ params }: Props) {
             taskId={task.id}
             clientId={task.project.client}
             projectId={task.project.id}
-            latestImage={latestImage}
+            latestImage={latestImage || ({} as TaskImage)}
           />
         </div>
       </div>

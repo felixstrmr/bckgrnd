@@ -77,7 +77,7 @@ export default function UploadTaskImageDialog({
       formData.append('workspace', workspaceId)
       formData.append('client', clientId)
       formData.append('project', projectId)
-      formData.append('latestVersion', latestImage.version.toString())
+      formData.append('latestVersion', latestImage?.version?.toString() ?? '0')
       execute(formData)
     },
     [execute, taskId, domain, workspaceId, clientId, projectId, latestImage],

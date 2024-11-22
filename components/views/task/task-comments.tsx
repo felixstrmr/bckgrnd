@@ -75,7 +75,12 @@ export default function TaskComments({ domain, taskId, workspaceId }: Props) {
   }, [supabase, fetchComments, taskId])
 
   return (
-    <div className='flex flex-col space-y-6 pt-4'>
+    <div
+      className={cn(
+        'flex flex-col space-y-6 pt-4',
+        comments.length === 0 && 'h-full',
+      )}
+    >
       {loading ? (
         <TaskCommentSkeleton />
       ) : error ? (

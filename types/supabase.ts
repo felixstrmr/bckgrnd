@@ -228,6 +228,7 @@ export type Database = {
           id: string
           name: string
           status: string
+          updated_at: string | null
           workspace: string
         }
         Insert: {
@@ -238,6 +239,7 @@ export type Database = {
           id?: string
           name: string
           status: string
+          updated_at?: string | null
           workspace: string
         }
         Update: {
@@ -248,6 +250,7 @@ export type Database = {
           id?: string
           name?: string
           status?: string
+          updated_at?: string | null
           workspace?: string
         }
         Relationships: [
@@ -470,9 +473,56 @@ export type Database = {
           },
         ]
       }
+      task_users: {
+        Row: {
+          created_at: string
+          id: string
+          task: string
+          user: string
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          task: string
+          user: string
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          task?: string
+          user?: string
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_users_task_fkey"
+            columns: ["task"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_users_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_users_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tasks: {
         Row: {
           created_at: string
+          created_by: string
           description: string | null
           id: string
           name: string
@@ -485,6 +535,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          created_by?: string
           description?: string | null
           id?: string
           name: string
@@ -497,6 +548,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          created_by?: string
           description?: string | null
           id?: string
           name?: string
@@ -508,6 +560,13 @@ export type Database = {
           workspace?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "tasks_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "tasks_priority_fkey"
             columns: ["priority"]
