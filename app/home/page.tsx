@@ -46,7 +46,7 @@ export default function Page() {
 
       <div className='relative mt-16 flex justify-center sm:mt-24'>
         <Image
-          src='https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-image2.webp'
+          src='https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-image.webp'
           alt='Hero image'
           priority
           width={1280}

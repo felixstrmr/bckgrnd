@@ -7,10 +7,40 @@ import {
   getTask,
   getTasks,
   getTaskStatuses,
+  getUser,
   getWorkspace,
 } from '@/lib/queries'
 import { SupabaseClient } from '@supabase/supabase-js'
 import { unstable_cache } from 'next/cache'
+
+// User
+
+export async function getUserWithCache(
+  supabase: SupabaseClient,
+  domain: string,
+) {
+  const result = await unstable_cache(
+    async () => getUser(supabase),
+    [`user-${domain}`],
+    {
+      revalidate: 3600,
+      tags: [`user-${domain}`],
+    },
+  )()
+
+  if (!result) {
+    throw new Error('User not found')
+  }
+
+  const { data, error } = result
+
+  if (error) {
+    console.error(error)
+    throw error
+  }
+
+  return data
+}
 
 // Workspace
 

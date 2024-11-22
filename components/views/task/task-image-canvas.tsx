@@ -63,15 +63,15 @@ export default function TaskImageCanvas({ taskImages }: Props) {
   return (
     <div
       ref={containerRef}
-      className='relative size-full cursor-grab overflow-hidden rounded-lg bg-muted p-4 active:cursor-grabbing'
+      className='relative size-full overflow-hidden rounded-lg bg-muted p-4'
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
     >
-      {currentImage && (
+      {currentImage ? (
         <div
-          className='flex size-full items-center justify-center'
+          className='flex size-full cursor-grab items-center justify-center active:cursor-grabbing'
           style={{
             transform: `translate(${position.x}px, ${position.y}px)`,
             transition: isDragging ? 'none' : 'transform 0.1s',
@@ -86,6 +86,10 @@ export default function TaskImageCanvas({ taskImages }: Props) {
             alt='Task Image'
             draggable={false}
           />
+        </div>
+      ) : (
+        <div className='flex size-full flex-col items-center justify-center gap-1 text-muted-foreground'>
+          <p className='text-sm'>No images uploaded yet.</p>
         </div>
       )}
     </div>

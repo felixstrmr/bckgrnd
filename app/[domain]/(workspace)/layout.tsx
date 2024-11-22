@@ -8,7 +8,7 @@ export default function WorkspaceLayout({ children }: Props) {
   return (
     <div className='flex size-full overflow-hidden bg-muted'>
       <WorkspaceSidebar />
-      <div className='flex size-full overflow-hidden py-2 pr-2'>
+      <div className='flex size-full flex-col overflow-hidden py-2 pr-2'>
         <div className='size-full overflow-hidden rounded-lg bg-background shadow-sm'>
           {children}
         </div>

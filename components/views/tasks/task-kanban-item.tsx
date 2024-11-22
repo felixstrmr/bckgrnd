@@ -1,9 +1,10 @@
 'use client'
 
 import DynamicIcon from '@/components/dynamic-icon'
+import { formatRelativeTime } from '@/lib/utils'
 import { TaskWithRelations } from '@/types/custom'
 import { useDraggable } from '@dnd-kit/core'
-import { LinkIcon, MessageCircle } from 'lucide-react'
+import { History, MessageCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { CSSProperties, MouseEvent } from 'react'
 
@@ -67,7 +68,7 @@ export default function TaskKanbanItem({ task }: Props) {
         <div className='mt-4 flex items-center justify-between border-t bg-muted/50 p-4 py-3'>
           <div className='flex items-center gap-3'>
             <div className='flex items-center gap-1 text-muted-foreground'>
-              <LinkIcon className='size-3' />
+              <History className='size-3' />
               <p className='text-xs'>0</p>
             </div>
             <div className='flex items-center gap-1 text-muted-foreground'>
@@ -76,7 +77,9 @@ export default function TaskKanbanItem({ task }: Props) {
             </div>
           </div>
           <p className='text-xs text-muted-foreground'>
-            {new Date(task.created_at).toLocaleDateString()}
+            {task.updated_at
+              ? formatRelativeTime(new Date(task.updated_at))
+              : formatRelativeTime(new Date(task.created_at))}
           </p>
         </div>
       </div>

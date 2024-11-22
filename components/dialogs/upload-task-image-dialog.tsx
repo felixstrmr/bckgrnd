@@ -101,7 +101,7 @@ export default function UploadTaskImageDialog({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Upload Task Image</DialogTitle>
+          <DialogTitle>Upload New Version</DialogTitle>
         </DialogHeader>
         {loading ? (
           <div className='flex items-center justify-center rounded-md border p-12'>

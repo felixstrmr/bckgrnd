@@ -52,6 +52,7 @@ export default function CreateTaskForm({
     },
     onSuccess: () => {
       setOpen(false)
+      toast.success('Task created successfully')
     },
   })
   const loading = status === 'executing'
