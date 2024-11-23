@@ -14,6 +14,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { useRouter } from 'next/navigation'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -24,6 +25,8 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const router = useRouter()
+
   const table = useReactTable({
     data,
     columns,
@@ -59,7 +62,24 @@ export function DataTable<TData, TValue>({
                 data-state={row.getIsSelected() && 'selected'}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell
+                    key={cell.id}
+                    className={
+                      cell.column.id !== 'select' &&
+                      cell.column.id !== 'actions'
+                        ? 'cursor-pointer'
+                        : undefined
+                    }
+                    onClick={() => {
+                      if (
+                        cell.column.id !== 'select' &&
+                        cell.column.id !== 'actions'
+                      ) {
+                        // @ts-expect-error TODO: fix this
+                        router.push(`/clients/${row.original.id}`)
+                      }
+                    }}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

@@ -54,10 +54,7 @@ export default async function Page({ params }: Props) {
           </Link>
           <h3 className='whitespace-nowrap'>{task.name}</h3>
           {taskImages.data.length > 0 ? (
-            <TaskImageVersionSelect
-              taskImages={taskImages.data}
-              latestImage={latestImage || ({} as TaskImage)}
-            />
+            <TaskImageVersionSelect taskImages={taskImages.data} />
           ) : (
             <div className='rounded-sm bg-muted px-1.5 text-sm text-muted-foreground'>
               No Versions
@@ -95,6 +92,7 @@ export default async function Page({ params }: Props) {
           domain={domain}
           taskId={taskId}
           workspaceId={workspace.id}
+          taskImages={taskImages.data}
         />
       </div>
     </div>

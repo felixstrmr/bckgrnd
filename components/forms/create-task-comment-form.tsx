@@ -20,15 +20,21 @@ import { z } from 'zod'
 type Props = {
   taskId: string
   workspaceId: string
+  selectedVersion: string | null
 }
 
-export default function CreatTaskCommentForm({ taskId, workspaceId }: Props) {
+export default function CreateTaskCommentForm({
+  taskId,
+  workspaceId,
+  selectedVersion,
+}: Props) {
   const form = useForm<z.infer<typeof createTaskCommentSchema>>({
     resolver: zodResolver(createTaskCommentSchema),
     defaultValues: {
       message: '',
       task: taskId,
       workspace: workspaceId,
+      version: selectedVersion ?? undefined,
     },
   })
 

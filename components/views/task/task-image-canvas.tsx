@@ -1,8 +1,8 @@
 'use client'
 
+import { useTaskVersion } from '@/hooks/use-task-version'
 import { TaskImage } from '@/types'
 import Image from 'next/image'
-import { parseAsString, useQueryState } from 'nuqs'
 import React, { useRef, useState } from 'react'
 
 type Props = {
@@ -17,24 +17,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const latestImage = React.useMemo(() => {
-    if (taskImages.length === 0) return null
-    return taskImages.reduce((prev, current) =>
-      prev.version > current.version ? prev : current,
-    )
-  }, [taskImages])
-
-  const [selectedVersion] = useQueryState(
-    'version',
-    parseAsString
-      .withDefault(latestImage?.id || '')
-      .withOptions({ clearOnDefault: false }),
-  )
-
-  const currentImage = React.useMemo(() => {
-    if (!latestImage) return null
-    return taskImages.find((image) => image.id === selectedVersion)
-  }, [taskImages, latestImage, selectedVersion])
+  const { selectedImage } = useTaskVersion(taskImages)
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true)
@@ -69,7 +52,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
     >
-      {currentImage ? (
+      {selectedImage ? (
         <div
           className='flex size-full cursor-grab items-center justify-center active:cursor-grabbing'
           style={{
@@ -78,7 +61,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
           }}
         >
           <Image
-            src={currentImage.image_url}
+            src={selectedImage.image_url}
             width={1920}
             height={1080}
             className='h-auto max-h-full w-auto max-w-full select-none rounded-sm border object-contain'

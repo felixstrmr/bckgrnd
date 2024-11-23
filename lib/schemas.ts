@@ -102,6 +102,7 @@ export const createTaskCommentSchema = z.object({
     .max(1000, 'Message cannot exceed 1000 characters'),
   task: z.string().min(1).uuid(),
   workspace: z.string().min(1).uuid(),
+  version: z.string().optional(),
 })
 
 // Workspace

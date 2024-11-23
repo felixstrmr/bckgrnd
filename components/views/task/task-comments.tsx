@@ -3,9 +3,11 @@
 import CreateTaskCommentForm from '@/components/forms/create-task-comment-form'
 import TaskCommentSkeleton from '@/components/skeletons/task-comment-skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useTaskVersion } from '@/hooks/use-task-version'
 import { getTaskComments } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/client'
 import { cn, formatRelativeTime } from '@/lib/utils'
+import { TaskImage } from '@/types'
 import { TaskCommentWithRelations } from '@/types/custom'
 import { RealtimeChannel } from '@supabase/supabase-js'
 import React, { useMemo } from 'react'
@@ -14,13 +16,20 @@ type Props = {
   domain: string
   taskId: string
   workspaceId: string
+  taskImages: TaskImage[]
 }
 
-export default function TaskComments({ domain, taskId, workspaceId }: Props) {
+export default function TaskComments({
+  domain,
+  taskId,
+  workspaceId,
+  taskImages,
+}: Props) {
   const [comments, setComments] = React.useState<TaskCommentWithRelations[]>([])
   const [loading, setLoading] = React.useState(true)
-  const [error, setError] = React.useState<string | null>(null)
   const supabase = useMemo(() => createClient(), [])
+
+  const { selectedImage } = useTaskVersion(taskImages)
 
   const fetchComments = React.useCallback(async () => {
     try {
@@ -33,9 +42,8 @@ export default function TaskComments({ domain, taskId, workspaceId }: Props) {
       if (error) throw error
 
       setComments(taskComments ?? [])
-      setError(null)
     } catch (error) {
-      setError((error as Error).message)
+      console.error(error)
       setComments([])
     }
   }, [supabase, domain, taskId])
@@ -75,25 +83,16 @@ export default function TaskComments({ domain, taskId, workspaceId }: Props) {
   }, [supabase, fetchComments, taskId])
 
   return (
-    <div
-      className={cn(
-        'flex flex-col space-y-6 pt-4',
-        comments.length === 0 && 'h-full',
-      )}
-    >
-      {loading ? (
-        <TaskCommentSkeleton />
-      ) : error ? (
-        <div className='flex h-full items-center justify-center'>
-          <p className='text-sm text-destructive'>{error}</p>
-        </div>
-      ) : comments.length === 0 ? (
-        <div className='flex h-full items-center justify-center'>
-          <p className='text-sm text-muted-foreground'>No comments yet.</p>
-        </div>
-      ) : (
-        <div className='flex flex-col space-y-6'>
-          {comments.map((comment) => (
+    <div className='flex h-full flex-col space-y-6 pt-4'>
+      <div className='flex h-full flex-col items-start justify-end space-y-6'>
+        {loading ? (
+          <TaskCommentSkeleton />
+        ) : comments.length === 0 ? (
+          <div className='flex h-full w-full flex-col items-center justify-center text-center'>
+            <p className='text-sm text-muted-foreground'>No comments yet.</p>
+          </div>
+        ) : (
+          comments.map((comment) => (
             <div
               key={comment.id}
               className='flex gap-2 animate-in slide-in-from-bottom-3'
@@ -131,12 +130,14 @@ export default function TaskComments({ domain, taskId, workspaceId }: Props) {
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      )}
-      <div className='mt-auto'>
-        <CreateTaskCommentForm taskId={taskId} workspaceId={workspaceId} />
+          ))
+        )}
       </div>
+      <CreateTaskCommentForm
+        taskId={taskId}
+        workspaceId={workspaceId}
+        selectedVersion={selectedImage?.id ?? null}
+      />
     </div>
   )
 }

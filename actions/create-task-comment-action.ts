@@ -6,13 +6,14 @@ import { createClient } from '@/lib/supabase/server'
 
 export const createTaskCommentAction = actionClient
   .schema(createTaskCommentSchema)
-  .action(async ({ parsedInput: { message, task, workspace } }) => {
+  .action(async ({ parsedInput: { message, task, workspace, version } }) => {
     const supabase = await createClient()
 
     const { error } = await supabase.from('task_comments').insert({
       message,
       task,
       workspace,
+      image: version || null,
     })
 
     if (error) {
