@@ -16,21 +16,16 @@ export default function HomeNavbar() {
         </Link>
         <Separator orientation='vertical' className='h-9' />
         <div className='flex items-center space-x-2'>
-          <div className='relative'>
-            <Link
-              href={'https://link.bckgrnd.one/x'}
-              passHref
-              target='_blank'
-              className={buttonVariants({ variant: 'secondary' })}
-            >
-              <Twitter className='size-4 dark:invert' />
-              Twitter
-            </Link>
-            <div className='absolute -right-0.5 -top-0.5 flex'>
-              <div className='absolute z-10 size-2 animate-ping rounded-full bg-green-600'></div>
-              <div className='relative size-2 rounded-full bg-green-600' />
-            </div>
-          </div>
+          <Link
+            href={'https://link.bckgrnd.one/x'}
+            passHref
+            target='_blank'
+            className={buttonVariants({ variant: 'secondary' })}
+          >
+            <Twitter className='size-4 dark:invert' />
+            Twitter
+          </Link>
+
           <Link
             href={'https://link.bckgrnd.one/github'}
             passHref
@@ -49,7 +44,13 @@ export default function HomeNavbar() {
         >
           Login
         </Link>
-        <JoinWaitlistButton size='default' />
+        <div className='relative'>
+          <JoinWaitlistButton size='default' />
+          <div className='absolute -right-0.5 -top-0.5 flex'>
+            <div className='absolute z-10 size-2 animate-ping rounded-full bg-green-600'></div>
+            <div className='relative size-2 rounded-full bg-green-600' />
+          </div>
+        </div>
       </div>
     </div>
   )
