@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import WordRotate from '@/components/ui/word-rotate'
 import { env } from '@/lib/env'
 import { cn } from '@/lib/utils'
-import { CheckCircle } from 'lucide-react'
+import { Archive, Briefcase, Handshake, History } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -81,74 +81,97 @@ export default function Page() {
           own agency, Bckgrnd is designed to improve the way you work.
         </p>
 
-        <div className='mt-9 rounded-2xl bg-muted p-4 sm:p-6'>
-          <h4 className='text-lg font-medium'>Streamlined Collaboration</h4>
-          <p className='mt-2 text-muted-foreground'>
-            Share designs, collect feedback, and manage client approvals all in
-            one place. No more scattered emails and messages.
-          </p>
-          <div className='mt-4 flex flex-col space-y-2 sm:flex-row sm:items-center sm:gap-4 sm:space-y-0'>
-            <div className='flex items-center gap-2'>
-              <CheckCircle className='h-4 w-4 text-primary' />
-              <span className='text-sm'>Real-time feedback</span>
+        <div className='mt-9 flex flex-col gap-4'>
+          <div className='flex w-full flex-col gap-4 lg:flex-row'>
+            <div className='h-fit w-full overflow-hidden rounded-2xl bg-muted lg:flex-1'>
+              <div className='p-4 sm:p-6'>
+                <div className='flex items-center space-x-2'>
+                  <Briefcase className='size-4 text-muted-foreground' />
+                  <h5>Productivity</h5>
+                </div>
+                <p className='text-sm text-muted-foreground'>
+                  Create projects, manage clients and track your progress with
+                  tasks.
+                </p>
+              </div>
+              <Image
+                src={
+                  'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-productivity.svg'
+                }
+                className='ml-6 w-full object-cover'
+                alt='Productivity'
+                width={792}
+                height={224}
+              />
             </div>
-            <div className='flex items-center gap-2'>
-              <CheckCircle className='h-4 w-4 text-primary' />
-              <span className='text-sm'>Version control</span>
-            </div>
-            <div className='flex items-center gap-2'>
-              <CheckCircle className='h-4 w-4 text-primary' />
-              <span className='text-sm'>Client approvals</span>
+            <div className='w-full overflow-hidden rounded-2xl bg-muted lg:w-80'>
+              <div className='p-4 sm:p-6'>
+                <div className='flex items-center space-x-2'>
+                  <Handshake className='size-4 text-muted-foreground' />
+                  <h5>Collaboration</h5>
+                </div>
+                <p className='text-sm text-muted-foreground'>
+                  Receive feedback and manage approvals.
+                </p>
+              </div>
+              <Image
+                src={
+                  'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-collaboration.svg'
+                }
+                className='h-[231px] w-full object-cover lg:w-fit'
+                alt='Collaboration'
+                width={296}
+                height={231}
+              />
             </div>
           </div>
-        </div>
 
-        <div className='mt-6 rounded-2xl bg-muted p-4 sm:p-6'>
-          <h4 className='text-lg font-medium'>File Organization</h4>
-          <p className='mt-2 text-muted-foreground'>
-            Keep all your design files organized and accessible. Share files
-            securely with clients and track versions effortlessly.
-          </p>
-          <div className='mt-4 flex flex-col space-y-2 sm:flex-row sm:items-center sm:gap-4 sm:space-y-0'>
-            <div className='flex items-center gap-2'>
-              <CheckCircle className='h-4 w-4 text-primary' />
-              <span className='text-sm'>Secure storage</span>
+          <div className='flex w-full flex-col gap-4 lg:flex-row'>
+            <div className='w-full overflow-hidden rounded-2xl bg-muted lg:w-80'>
+              <div className='p-4 sm:p-6'>
+                <div className='flex items-center space-x-2'>
+                  <Archive className='size-4 text-muted-foreground' />
+                  <h5>File Storage</h5>
+                </div>
+                <p className='text-sm text-muted-foreground'>
+                  Store, organize and share your files.
+                </p>
+              </div>
+              <Image
+                src={
+                  'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-file-storage.svg'
+                }
+                className='h-[231px] w-full object-cover'
+                alt='File Storage'
+                width={296}
+                height={231}
+              />
             </div>
-            <div className='flex items-center gap-2'>
-              <CheckCircle className='h-4 w-4 text-primary' />
-              <span className='text-sm'>Easy sharing</span>
-            </div>
-            <div className='flex items-center gap-2'>
-              <CheckCircle className='h-4 w-4 text-primary' />
-              <span className='text-sm'>Version history</span>
-            </div>
-          </div>
-        </div>
-
-        <div className='mt-6 rounded-2xl bg-muted p-4 sm:p-6'>
-          <h4 className='text-lg font-medium'>Client Management</h4>
-          <p className='mt-2 text-muted-foreground'>
-            Manage your clients and their projects efficiently. Keep track of
-            communications, deadlines, and deliverables in one central place.
-          </p>
-          <div className='mt-4 flex flex-col space-y-2 sm:flex-row sm:items-center sm:gap-4 sm:space-y-0'>
-            <div className='flex items-center gap-2'>
-              <CheckCircle className='h-4 w-4 text-primary' />
-              <span className='text-sm'>Contact info</span>
-            </div>
-            <div className='flex items-center gap-2'>
-              <CheckCircle className='h-4 w-4 text-primary' />
-              <span className='text-sm'>Project history</span>
-            </div>
-            <div className='flex items-center gap-2'>
-              <CheckCircle className='h-4 w-4 text-primary' />
-              <span className='text-sm'>Communication logs</span>
+            <div className='h-fit w-full overflow-hidden rounded-2xl bg-muted lg:flex-1'>
+              <div className='p-4 sm:p-6'>
+                <div className='flex items-center space-x-2'>
+                  <History className='size-4 text-muted-foreground' />
+                  <h5>Version Control</h5>
+                </div>
+                <p className='text-sm text-muted-foreground'>
+                  Share designs and revert to previous versions.
+                </p>
+              </div>
+              <Image
+                src={
+                  'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-version-control.svg'
+                }
+                className='ml-6 w-full object-cover'
+                alt='Version Control'
+                width={792}
+                height={224}
+              />
             </div>
           </div>
         </div>
       </div>
 
-      <div className='mt-16 flex w-full flex-col items-center justify-center rounded-2xl bg-foreground p-6 py-12 sm:mt-24 sm:p-12 sm:py-24'>
+      <div className='mt-16 flex w-full flex-col items-center justify-center rounded-2xl bg-foreground p-6 py-12 sm:mt-24 sm:p-12'>
         <Bckgrnd className='size-12 invert' />
         <h2 className='mt-4 text-center text-background'>
           Ready to elevate your design workflow?
