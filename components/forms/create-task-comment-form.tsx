@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { createTaskCommentSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAction } from 'next-safe-action/hooks'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -34,9 +35,12 @@ export default function CreateTaskCommentForm({
       message: '',
       task: taskId,
       workspace: workspaceId,
-      version: selectedVersion ?? undefined,
     },
   })
+
+  useEffect(() => {
+    form.setValue('version', selectedVersion || undefined)
+  }, [selectedVersion, form])
 
   const { execute, status } = useAction(createTaskCommentAction, {
     onError: ({ error }) => {
