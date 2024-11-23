@@ -7,7 +7,7 @@ import { useTaskVersion } from '@/hooks/use-task-version'
 import { getTaskComments } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/client'
 import { cn, formatRelativeTime } from '@/lib/utils'
-import { TaskImage } from '@/types'
+import { TaskImage, User } from '@/types'
 import { TaskCommentWithRelations } from '@/types/custom'
 import { RealtimeChannel } from '@supabase/supabase-js'
 import React, { useMemo } from 'react'
@@ -17,6 +17,7 @@ type Props = {
   taskId: string
   workspaceId: string
   taskImages: TaskImage[]
+  user: User
 }
 
 export default function TaskComments({
@@ -24,6 +25,7 @@ export default function TaskComments({
   taskId,
   workspaceId,
   taskImages,
+  user,
 }: Props) {
   const [comments, setComments] = React.useState<TaskCommentWithRelations[]>([])
   const [loading, setLoading] = React.useState(true)
@@ -83,8 +85,8 @@ export default function TaskComments({
   }, [supabase, fetchComments, taskId])
 
   return (
-    <div className='flex h-full flex-col space-y-6 pt-4'>
-      <div className='flex h-full flex-col items-start justify-end space-y-6'>
+    <div className='flex h-full flex-col'>
+      <div className='flex h-full flex-col justify-end space-y-6 overflow-y-auto pr-2'>
         {loading ? (
           <TaskCommentSkeleton />
         ) : comments.length === 0 ? (
@@ -98,10 +100,7 @@ export default function TaskComments({
               className='flex gap-2 animate-in slide-in-from-bottom-3'
             >
               <Avatar className='size-9'>
-                <AvatarImage
-                  src={comment.user?.avatar_url || ''}
-                  alt={comment.user.display_name}
-                />
+                <AvatarImage src={comment.user?.avatar_url || ''} />
                 <AvatarFallback>
                   {comment.user?.display_name
                     ?.split(' ')
@@ -112,7 +111,9 @@ export default function TaskComments({
               <div>
                 <div className='flex items-center space-x-2'>
                   <h6 className='text-sm font-medium'>
-                    {comment.user.display_name}
+                    {comment.user.id === user.id
+                      ? 'You'
+                      : comment.user.display_name}
                   </h6>
                   <p className='text-xs text-muted-foreground'>
                     {formatRelativeTime(new Date(comment.created_at))}
@@ -133,11 +134,13 @@ export default function TaskComments({
           ))
         )}
       </div>
-      <CreateTaskCommentForm
-        taskId={taskId}
-        workspaceId={workspaceId}
-        selectedVersion={selectedImage?.id ?? null}
-      />
+      <div className='flex-shrink-0 pt-6'>
+        <CreateTaskCommentForm
+          taskId={taskId}
+          workspaceId={workspaceId}
+          selectedVersion={selectedImage?.id ?? null}
+        />
+      </div>
     </div>
   )
 }

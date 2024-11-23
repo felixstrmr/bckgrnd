@@ -8,6 +8,13 @@ type Props = {
 export default function ProjectGridView({ projects }: Props) {
   return (
     <div className='flex gap-4'>
+      {projects.length === 0 && (
+        <div className='flex h-48 w-full items-center justify-center'>
+          <p className='text-sm text-muted-foreground'>
+            No projects added yet.
+          </p>
+        </div>
+      )}
       {projects.map((project) => (
         <ProjectGridItem key={project.id} project={project} />
       ))}

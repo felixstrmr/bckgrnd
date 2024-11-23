@@ -5,7 +5,11 @@ import TaskSidebar from '@/components/sidebars/task-sidebar'
 import { buttonVariants } from '@/components/ui/button'
 import TaskImageCanvas from '@/components/views/task/task-image-canvas'
 import { getTaskImages } from '@/lib/queries'
-import { getTaskWithCache, getWorkspaceWithCache } from '@/lib/queries/cached'
+import {
+  getTaskWithCache,
+  getUserWithCache,
+  getWorkspaceWithCache,
+} from '@/lib/queries/cached'
 import { createClient } from '@/lib/supabase/server'
 import { formatRelativeTime, getDomain } from '@/lib/utils'
 import { TaskImage } from '@/types'
@@ -22,10 +26,11 @@ export default async function Page({ params }: Props) {
   const domain = getDomain(domainParam)
 
   const supabase = await createClient()
-  const [task, taskImages, workspace] = await Promise.all([
+  const [task, taskImages, workspace, user] = await Promise.all([
     getTaskWithCache(supabase, domain, taskId),
     getTaskImages(supabase, domain, taskId),
     getWorkspaceWithCache(supabase, domain),
+    getUserWithCache(supabase, domain),
   ])
 
   if (taskImages.error) {
@@ -43,8 +48,8 @@ export default async function Page({ params }: Props) {
       : null
 
   return (
-    <div className='flex size-full flex-col space-y-6 p-6'>
-      <div className='flex justify-between'>
+    <div className='flex h-[calc(100vh)] flex-col space-y-6 p-6'>
+      <div className='flex flex-shrink-0 justify-between'>
         <div className='flex items-center gap-4'>
           <Link
             href={`/projects/${task.project.id}/tasks`}
@@ -82,7 +87,7 @@ export default async function Page({ params }: Props) {
           />
         </div>
       </div>
-      <div className='flex size-full gap-4'>
+      <div className='flex min-h-0 flex-1 gap-4'>
         <TaskImageCanvas
           taskImages={taskImages.data}
           taskId={taskId}
@@ -93,6 +98,7 @@ export default async function Page({ params }: Props) {
           taskId={taskId}
           workspaceId={workspace.id}
           taskImages={taskImages.data}
+          user={user}
         />
       </div>
     </div>

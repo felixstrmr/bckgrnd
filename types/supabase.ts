@@ -601,29 +601,29 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
-          display_name: string
+          display_name: string | null
           email: string
-          first_name: string
+          first_name: string | null
           id: string
-          last_name: string
+          last_name: string | null
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
-          display_name: string
+          display_name?: string | null
           email: string
-          first_name: string
+          first_name?: string | null
           id?: string
-          last_name: string
+          last_name?: string | null
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
-          display_name?: string
+          display_name?: string | null
           email?: string
-          first_name?: string
+          first_name?: string | null
           id?: string
-          last_name?: string
+          last_name?: string | null
         }
         Relationships: []
       }
@@ -633,6 +633,7 @@ export type Database = {
           id: string
           is_default: boolean
           user: string
+          user_role: Database["public"]["Enums"]["workspace_user_roles"]
           workspace: string
         }
         Insert: {
@@ -640,6 +641,7 @@ export type Database = {
           id?: string
           is_default?: boolean
           user: string
+          user_role?: Database["public"]["Enums"]["workspace_user_roles"]
           workspace: string
         }
         Update: {
@@ -647,6 +649,7 @@ export type Database = {
           id?: string
           is_default?: boolean
           user?: string
+          user_role?: Database["public"]["Enums"]["workspace_user_roles"]
           workspace?: string
         }
         Relationships: [
@@ -727,6 +730,7 @@ export type Database = {
     Enums: {
       project_user_roles: "owner"
       task_types: "image" | "pdf"
+      workspace_user_roles: "client" | "agent"
     }
     CompositeTypes: {
       [_ in never]: never

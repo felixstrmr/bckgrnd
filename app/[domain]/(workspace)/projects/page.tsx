@@ -1,7 +1,7 @@
 import RevalidateTagButton from '@/components/buttons/revalidate-button'
 import { buttonVariants } from '@/components/ui/button'
 import ProjectGridView from '@/components/views/projects/project-grid-view'
-import { getProjectsWithCache } from '@/lib/queries/cached'
+import { getProjects } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/server'
 import { getDomain } from '@/lib/utils'
 import { Plus } from 'lucide-react'
@@ -16,7 +16,11 @@ export default async function Page({ params }: Props) {
   domain = getDomain(domain)
 
   const supabase = await createClient()
-  const projects = await getProjectsWithCache(supabase, domain)
+  const { data: projects, error } = await getProjects(supabase, domain)
+
+  if (error) {
+    throw error
+  }
 
   return (
     <div className='flex size-full flex-col space-y-6 p-6'>

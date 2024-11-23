@@ -73,9 +73,11 @@ export default function CreateTaskCommentForm({
             </FormItem>
           )}
         />
-        <Button loading={loading} size={'sm'} className='mt-2'>
-          Send
-        </Button>
+        <div className='flex w-full justify-end'>
+          <Button loading={loading} size={'sm'} className='mt-2'>
+            Send
+          </Button>
+        </div>
       </form>
     </Form>
   )
