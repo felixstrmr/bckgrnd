@@ -5,52 +5,56 @@ import Twitter from '@/components/icons/twitter'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { env } from '@/lib/env'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 
 export default function HomeNavbar() {
   return (
-    <div className='fixed left-0 right-0 top-0 z-50 mx-auto mt-4 flex w-full max-w-6xl items-center justify-between rounded-2xl border bg-background/50 p-2 backdrop-blur-md'>
-      <div className='flex items-center space-x-4'>
+    <div className='fixed left-0 right-0 top-4 z-50 mx-auto mt-4 flex w-full max-w-6xl items-center justify-between gap-2 rounded-2xl border bg-secondary/50 p-2 backdrop-blur-md sm:gap-0'>
+      <div className='flex w-full items-center justify-start space-x-4 sm:w-auto'>
         <Link href={'/'}>
           <Bckgrnd className='size-9 shadow-sm' />
         </Link>
-        <Separator orientation='vertical' className='h-9' />
-        <div className='flex items-center space-x-2'>
+        <Separator orientation='vertical' className='hidden h-9 sm:block' />
+        <div className='flex items-center'>
           <Link
             href={'https://link.bckgrnd.one/x'}
             passHref
             target='_blank'
-            className={buttonVariants({ variant: 'secondary' })}
+            className={cn(
+              buttonVariants({ variant: 'ghost', size: 'sm' }),
+              'sm:size-default group text-muted-foreground',
+            )}
           >
-            <Twitter className='size-4 dark:invert' />
-            Twitter
+            <Twitter className='size-4 fill-muted-foreground transition-colors group-hover:fill-primary' />
+            <span className='hidden sm:inline'>Twitter</span>
           </Link>
 
           <Link
             href={'https://link.bckgrnd.one/github'}
             passHref
             target='_blank'
-            className={buttonVariants({ variant: 'ghost' })}
+            className={cn(
+              buttonVariants({ variant: 'ghost', size: 'sm' }),
+              'sm:size-default group text-muted-foreground',
+            )}
           >
-            <Github className='size-4 dark:invert' />
-            Github
+            <Github className='size-4 fill-muted-foreground transition-colors group-hover:fill-primary' />
+            <span className='hidden sm:inline'>Github</span>
           </Link>
         </div>
       </div>
-      <div className='flex items-center space-x-2'>
+      <div className='flex w-full items-center justify-center space-x-2 sm:w-auto'>
         <Link
           href={`${env.NEXT_PUBLIC_PROTOCOL}://app.${env.NEXT_PUBLIC_ROOT_DOMAIN}`}
-          className={buttonVariants({ variant: 'secondary' })}
+          className={cn(
+            buttonVariants({ variant: 'secondary' }),
+            'hidden w-full sm:block',
+          )}
         >
           Login
         </Link>
-        <div className='relative'>
-          <JoinWaitlistButton size='default' />
-          <div className='absolute -right-0.5 -top-0.5 flex'>
-            <div className='absolute z-10 size-2 animate-ping rounded-full bg-green-600'></div>
-            <div className='relative size-2 rounded-full bg-green-600' />
-          </div>
-        </div>
+        <JoinWaitlistButton size='default' className='w-full sm:w-auto' />
       </div>
     </div>
   )

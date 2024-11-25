@@ -93,10 +93,10 @@ function SidebarItem({ href, name, isActive, icon: Icon }: SidebarItemProps) {
     <Link
       href={href}
       className={cn(
-        'flex h-9 items-center justify-start gap-2 rounded-md p-2 text-sm transition-all',
+        'flex h-9 items-center justify-start gap-2 rounded-md border p-2 text-sm transition-all',
         isActive
-          ? 'bg-muted text-foreground'
-          : 'bg-transparent text-muted-foreground hover:bg-muted',
+          ? 'border-border bg-muted text-foreground'
+          : 'border-transparent bg-transparent text-muted-foreground hover:bg-muted',
       )}
     >
       <Icon className='size-4' />

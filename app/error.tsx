@@ -10,7 +10,7 @@ type Props = {
 export default function Error({ error }: Props) {
   return (
     <div className='flex size-full flex-col items-center justify-center'>
-      <h1 className='text-destructive/50'>ERROR</h1>
+      <h1 className='text-destructive'>ERROR</h1>
       <h3 className='mt-2'>Oh no, something went wrong!</h3>
       <p className='mb-6 mt-2 text-muted-foreground'>
         Error message: {error.message}
