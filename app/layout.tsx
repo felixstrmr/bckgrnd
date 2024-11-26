@@ -20,12 +20,12 @@ export const metadata: Metadata = {
       'Create, collaborate, and ship your designs faster with our powerful design-workflow tool.',
     images: [
       {
-        url: 'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/opengraph-image.jpg',
+        url: 'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/opengraph-image.webp',
         width: 800,
         height: 420,
       },
       {
-        url: 'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/opengraph-image.jpg',
+        url: 'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/opengraph-image.webp',
         width: 1800,
         height: 945,
       },

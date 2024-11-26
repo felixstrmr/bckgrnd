@@ -82,8 +82,8 @@ export default function Page() {
               'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-image.webp'
             }
           />
-          <div className='absolute left-0 top-0 -z-50 h-full w-[40%] bg-gradient-to-b from-[#B79891] to-[#94716B] opacity-80 blur-[150px]' />
-          <div className='absolute right-0 top-0 -z-50 h-full w-[40%] bg-gradient-to-b from-[#B79891] to-[#94716B] opacity-80 blur-[150px]' />
+          <div className='absolute left-0 top-0 -z-50 h-full w-[40%] bg-gradient-to-b from-[#B79891] to-[#B79891] opacity-80 blur-[150px]' />
+          <div className='absolute right-0 top-0 -z-50 h-full w-[40%] bg-gradient-to-b from-[#B79891] to-[#B79891] opacity-80 blur-[150px]' />
         </div>
         <div className='absolute z-40 -mt-[4.5rem] w-full bg-background'>
           <div className='mx-auto w-full max-w-6xl px-4 md:px-6'>
@@ -198,7 +198,7 @@ export default function Page() {
             </div>
 
             <div className='flex flex-col items-center justify-center rounded-2xl bg-primary px-4 py-16 text-center md:py-24'>
-              <h2 className='max-w-lg text-3xl text-primary-foreground md:text-5xl'>
+              <h2 className='max-w-xl text-3xl text-primary-foreground md:text-5xl'>
                 See how Bckgrnd transforms creative work!
               </h2>
               <p className='mt-3 text-base text-[#737373] md:text-lg'>
