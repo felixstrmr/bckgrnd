@@ -1,4 +1,4 @@
-![hero](github.jpg)
+![hero](github-header.jpg)
 
 ## About Bckgrnd
 
