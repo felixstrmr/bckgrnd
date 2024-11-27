@@ -20,7 +20,7 @@ export default function Page() {
   return (
     <section className='w-full pb-20'>
       <div className='relative h-full w-screen sm:h-screen'>
-        <div className='bg-fill bg-fill absolute -z-50 size-full bg-[url(https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/bg.webp)] bg-center' />
+        <div className='bg-fill absolute -z-50 size-full bg-[url(https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/bg.webp)] bg-center 2xl:bg-cover' />
 
         <div className='relative z-10'>
           <div className='mx-auto w-full max-w-6xl px-4 pt-36 md:px-6 md:pt-48'>
