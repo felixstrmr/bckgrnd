@@ -14,46 +14,6 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 
-const CURRENT_YEAR = new Date().getFullYear()
-
-const FEATURE_CARDS = [
-  {
-    title: 'Productivity',
-    description:
-      'Create projects, manage clients and track your progress with tasks.',
-    icon: Briefcase,
-    image: '/web/hero-card-productivity.svg',
-    width: 738.66,
-    colSpan: 4,
-    imageClassName: 'ml-6',
-  },
-  {
-    title: 'Collaboration',
-    description: 'Receive feedback and manage approvals.',
-    icon: Handshake,
-    image: '/web/hero-card-collaboration.svg',
-    width: 373,
-    colSpan: 2,
-  },
-  {
-    title: 'File Storage',
-    description: 'Store, organize and share your files.',
-    icon: Archive,
-    image: '/web/hero-card-file-storage.svg',
-    width: 373,
-    colSpan: 2,
-  },
-  {
-    title: 'Version Control',
-    description: 'Share designs and revert to previous versions.',
-    icon: History,
-    image: '/web/hero-card-version-control.svg',
-    width: 738.66,
-    colSpan: 4,
-    imageClassName: 'ml-6',
-  },
-]
-
 export default function Page() {
   const appUrl = `${env.NEXT_PUBLIC_PROTOCOL}://app.${env.NEXT_PUBLIC_ROOT_DOMAIN}`
 
@@ -140,7 +100,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className='py-20 md:py-36'>
+          <div className='flex w-full flex-col py-20 md:py-36'>
             <h2 className='text-center text-muted-foreground md:text-left'>
               Built for{' '}
               <WordRotate
@@ -155,86 +115,141 @@ export default function Page() {
             </p>
 
             <div className='mt-12 grid grid-cols-1 gap-4 md:mt-20 md:grid-cols-6'>
-              {FEATURE_CARDS.map((card) => (
-                <div
-                  key={card.title}
-                  className={cn(
-                    'flex flex-col justify-between overflow-hidden rounded-2xl bg-muted',
-                    card.colSpan && `md:col-span-${card.colSpan}`,
-                    card.colSpan === 4 && 'md:h-80',
-                  )}
-                >
-                  <div className='p-6'>
-                    <div className='flex items-center space-x-2'>
-                      <card.icon className='size-4 text-muted-foreground' />
-                      <h5>{card.title}</h5>
-                    </div>
-                    <p className='text-sm text-muted-foreground'>
-                      {card.description}
-                    </p>
+              <div className='flex flex-col justify-between overflow-hidden rounded-2xl bg-muted md:col-span-4 md:h-80'>
+                <div className='p-6'>
+                  <div className='flex items-center space-x-2'>
+                    <Briefcase className='size-4 text-muted-foreground' />
+                    <h5>Productivity</h5>
                   </div>
-                  <Image
-                    src={`https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public${card.image}`}
-                    alt={card.title.toLowerCase()}
-                    width={card.width}
-                    height={224}
-                    className={card.imageClassName}
-                  />
+                  <p className='text-sm text-muted-foreground'>
+                    Create projects, manage clients and track your progress with
+                    tasks.
+                  </p>
                 </div>
-              ))}
+                <Image
+                  className='ml-6'
+                  src={
+                    'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-productivity.svg'
+                  }
+                  alt='productivity'
+                  width={738.66}
+                  height={224}
+                />
+              </div>
+
+              <div className='flex flex-col justify-between overflow-hidden rounded-2xl bg-muted md:col-span-2'>
+                <div className='p-6'>
+                  <div className='flex items-center space-x-2'>
+                    <Handshake className='size-4 text-muted-foreground' />
+                    <h5>Collaboration</h5>
+                  </div>
+                  <p className='text-sm text-muted-foreground'>
+                    Receive feedback and manage approvals.
+                  </p>
+                </div>
+                <Image
+                  src={
+                    'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-collaboration.svg'
+                  }
+                  alt='collaboration'
+                  width={373}
+                  height={224}
+                />
+              </div>
+
+              <div className='flex flex-col justify-between overflow-hidden rounded-2xl bg-muted md:col-span-2'>
+                <div className='p-6'>
+                  <div className='flex items-center space-x-2'>
+                    <Archive className='size-4 text-muted-foreground' />
+                    <h5>File Storage</h5>
+                  </div>
+                  <p className='text-sm text-muted-foreground'>
+                    Store, organize and share your files.
+                  </p>
+                </div>
+                <Image
+                  src={
+                    'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-file-storage.svg'
+                  }
+                  alt='collaboration'
+                  width={373}
+                  height={224}
+                />
+              </div>
+
+              <div className='flex flex-col justify-between overflow-hidden rounded-2xl bg-muted md:col-span-4'>
+                <div className='p-6'>
+                  <div className='flex items-center space-x-2'>
+                    <History className='size-4 text-muted-foreground' />
+                    <h5>Version Control</h5>
+                  </div>
+                  <p className='text-sm text-muted-foreground'>
+                    Share designs and revert to previous versions.
+                  </p>
+                </div>
+                <Image
+                  src={
+                    'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-version-control.svg'
+                  }
+                  alt='version control'
+                  className='ml-6'
+                  width={738.66}
+                  height={224}
+                />
+              </div>
             </div>
           </div>
-
-          <div className='flex flex-col items-center justify-center rounded-2xl bg-primary px-4 py-16 text-center md:py-24'>
-            <h2 className='max-w-xl text-3xl text-primary-foreground md:text-5xl'>
-              See how Bckgrnd transforms creative work!
-            </h2>
-            <p className='mt-3 text-base text-[#737373] md:text-lg'>
-              Early access and exclusive benefits for waitlist members
-            </p>
-            <div className='mt-8 flex w-full flex-col items-center gap-2 md:mt-12 md:flex-row md:justify-center'>
-              <Link
-                href='mailto:support@bckgrnd.co'
-                className={cn(
-                  buttonVariants({ variant: 'outline', size: 'lg' }),
-                  'h-12 w-full bg-transparent text-primary-foreground md:w-auto',
-                )}
-              >
-                Contact us
-              </Link>
-              <JoinWaitlistButton
-                size='lg'
-                className='h-12 w-full rounded-xl bg-background text-base text-primary hover:bg-background/80 md:w-auto'
-              />
-            </div>
-          </div>
-
-          <footer className='mt-12 flex flex-col space-y-4 border-t py-6 md:mt-16 md:flex-row md:items-center md:justify-between md:space-y-0'>
-            <div className='flex flex-col space-y-2 md:flex-row md:items-center md:gap-4 md:space-y-0'>
-              <Link
-                href='/privacy'
-                className='text-sm text-muted-foreground hover:text-foreground'
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href='/terms'
-                className='text-sm text-muted-foreground hover:text-foreground'
-              >
-                Terms of Service
-              </Link>
-              <Link
-                href='mailto:support@bckgrnd.one'
-                className='text-sm text-muted-foreground hover:text-foreground'
-              >
-                Contact
-              </Link>
-            </div>
-            <p className='text-sm text-muted-foreground'>
-              © {CURRENT_YEAR} Bckgrnd. All rights reserved.
-            </p>
-          </footer>
         </div>
+
+        <div className='flex flex-col items-center justify-center rounded-2xl bg-primary px-4 py-16 text-center md:py-24'>
+          <h2 className='max-w-xl text-3xl text-primary-foreground md:text-5xl'>
+            See how Bckgrnd transforms creative work!
+          </h2>
+          <p className='mt-3 text-base text-[#737373] md:text-lg'>
+            Early access and exclusive benefits for waitlist members
+          </p>
+          <div className='mt-8 flex w-full flex-col items-center gap-2 md:mt-12 md:flex-row md:justify-center'>
+            <Link
+              href='mailto:support@bckgrnd.co'
+              className={cn(
+                buttonVariants({ variant: 'outline', size: 'lg' }),
+                'h-12 w-full bg-transparent text-primary-foreground md:w-auto',
+              )}
+            >
+              Contact us
+            </Link>
+            <JoinWaitlistButton
+              size='lg'
+              className='h-12 w-full rounded-xl bg-background text-base text-primary hover:bg-background/80 md:w-auto'
+            />
+          </div>
+        </div>
+
+        <footer className='mt-12 flex flex-col space-y-4 border-t py-6 md:mt-16 md:flex-row md:items-center md:justify-between md:space-y-0'>
+          <div className='flex flex-col space-y-2 md:flex-row md:items-center md:gap-4 md:space-y-0'>
+            <Link
+              href='/privacy'
+              className='text-sm text-muted-foreground hover:text-foreground'
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href='/terms'
+              className='text-sm text-muted-foreground hover:text-foreground'
+            >
+              Terms of Service
+            </Link>
+            <Link
+              href='mailto:support@bckgrnd.one'
+              className='text-sm text-muted-foreground hover:text-foreground'
+            >
+              Contact
+            </Link>
+          </div>
+          <p className='text-sm text-muted-foreground'>
+            © {new Date().getFullYear()} Bckgrnd. All rights reserved.
+          </p>
+        </footer>
       </div>
     </section>
   )
