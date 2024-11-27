@@ -42,7 +42,7 @@ export default function JoinWaitlistForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(execute)} className='w-80 space-y-6'>
+      <form onSubmit={form.handleSubmit(execute)} className='w-full space-y-6'>
         <FormField
           control={form.control}
           name='email'
