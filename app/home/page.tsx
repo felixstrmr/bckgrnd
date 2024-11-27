@@ -201,14 +201,14 @@ export default function Page() {
           </div>
         </div>
 
-        <div className='flex flex-col items-center justify-center rounded-2xl bg-primary px-4 py-16 text-center md:py-24'>
+        <div className='mx-6 flex max-w-6xl flex-col items-center justify-center rounded-2xl bg-primary px-4 py-16 text-center lg:py-24 xl:mx-auto'>
           <h2 className='max-w-xl text-3xl text-primary-foreground md:text-5xl'>
             See how Bckgrnd transforms creative work!
           </h2>
           <p className='mt-3 text-base text-[#737373] md:text-lg'>
             Early access and exclusive benefits for waitlist members
           </p>
-          <div className='mt-8 flex w-full flex-col items-center gap-2 md:mt-12 md:flex-row md:justify-center'>
+          <div className='mt-8 flex w-full flex-col-reverse items-center gap-2 md:mt-12 md:flex-row md:justify-center'>
             <Link
               href='mailto:support@bckgrnd.co'
               className={cn(
