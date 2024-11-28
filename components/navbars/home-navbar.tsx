@@ -22,7 +22,7 @@ export default function HomeNavbar() {
             passHref
             target='_blank'
             className={cn(
-              buttonVariants({ variant: 'ghost', size: 'sm' }),
+              buttonVariants({ variant: 'ghost' }),
               'sm:size-default group text-muted-foreground',
             )}
           >
@@ -35,7 +35,7 @@ export default function HomeNavbar() {
             passHref
             target='_blank'
             className={cn(
-              buttonVariants({ variant: 'ghost', size: 'sm' }),
+              buttonVariants({ variant: 'ghost' }),
               'sm:size-default group text-muted-foreground',
             )}
           >

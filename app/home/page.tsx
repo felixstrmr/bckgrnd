@@ -37,9 +37,10 @@ export default function Page() {
                 Organize, Share, and Track Your Design Work in One Place.
               </h1>
 
-              <p className='mt-4 max-w-2xl text-lg text-foreground/60 md:mt-6 md:text-2xl'>
+              <p className='mt-4 max-w-3xl text-lg text-foreground/60 md:mt-6 md:text-2xl'>
                 Bckgrnd helps designers manage projects, files, list tasks,
-                collaborate with clients, and deliver work.
+                collaborate with clients, and deliver work without the bother of
+                being on multiple apps.
               </p>
 
               <div className='mt-8 flex w-full flex-col-reverse gap-2 px-4 md:mt-12 md:flex-row md:justify-center md:space-x-2 md:px-0'>
@@ -75,7 +76,7 @@ export default function Page() {
           <div className='absolute bottom-0 left-0 h-3/4 w-full bg-gradient-to-b from-transparent to-background' />
 
           <Image
-            className='z-40 aspect-video translate-y-3 rounded-t-md bg-secondary shadow-2xl md:rounded-t-2xl'
+            className='z-20 aspect-video translate-y-3 rounded-t-md bg-secondary shadow-2xl md:rounded-t-2xl'
             alt='hero image'
             width={1920}
             height={1080}
