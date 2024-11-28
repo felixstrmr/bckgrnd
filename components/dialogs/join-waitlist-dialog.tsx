@@ -70,7 +70,7 @@ export default function JoinWaitlistDialog() {
     )
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer open={open} onOpenChange={setOpen} repositionInputs={false}>
       <DrawerContent className='flex flex-col items-center px-9'>
         <DrawerHeader className='mt-9 flex w-full flex-col items-start px-0'>
           <DrawerTitle>Join Waitlist</DrawerTitle>
