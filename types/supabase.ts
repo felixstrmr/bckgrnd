@@ -225,8 +225,10 @@ export type Database = {
           created_at: string
           created_by: string
           description: string | null
+          end_date: string | null
           id: string
           name: string
+          start_date: string | null
           status: string
           updated_at: string | null
           workspace: string
@@ -236,8 +238,10 @@ export type Database = {
           created_at?: string
           created_by?: string
           description?: string | null
+          end_date?: string | null
           id?: string
           name: string
+          start_date?: string | null
           status: string
           updated_at?: string | null
           workspace: string
@@ -247,8 +251,10 @@ export type Database = {
           created_at?: string
           created_by?: string
           description?: string | null
+          end_date?: string | null
           id?: string
           name?: string
+          start_date?: string | null
           status?: string
           updated_at?: string | null
           workspace?: string

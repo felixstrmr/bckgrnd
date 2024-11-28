@@ -48,7 +48,7 @@ export default async function Page({ params }: Props) {
       : null
 
   return (
-    <div className='flex h-[calc(100vh)] flex-col space-y-6 p-6'>
+    <div className='flex size-full flex-col space-y-6 p-6'>
       <div className='flex flex-shrink-0 justify-between'>
         <div className='flex items-center gap-4'>
           <Link

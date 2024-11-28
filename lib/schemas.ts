@@ -46,6 +46,12 @@ export const createProjectSchema = z.object({
     .string()
     .max(500, 'Description cannot exceed 500 characters')
     .optional(),
+  date: z
+    .object({
+      from: z.date().optional(),
+      to: z.date().optional(),
+    })
+    .optional(),
   domain: z.string().min(1),
   client: z.string().min(1, 'Client is required').uuid(),
   workspace: z.string().min(1).uuid(),

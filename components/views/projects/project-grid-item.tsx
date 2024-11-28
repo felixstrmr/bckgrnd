@@ -5,8 +5,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { formatRelativeTime } from '@/lib/utils'
 import { ProjectWithRelations } from '@/types/custom'
-import { CheckSquare, Files, User } from 'lucide-react'
+import { CheckSquare, Clock, Files, User } from 'lucide-react'
 import Link from 'next/link'
 
 type Props = {
@@ -48,6 +49,16 @@ export default function ProjectGridItem({ project }: Props) {
         <div className='flex items-center gap-1 text-muted-foreground'>
           <Files className='size-3' />
           <p className='text-xs'>0</p>
+        </div>
+        <div className='ml-auto flex items-center gap-1 text-muted-foreground'>
+          {project.end_date && (
+            <>
+              <Clock className='size-3' />
+              <p className='text-xs'>
+                {formatRelativeTime(new Date(project.end_date))}
+              </p>
+            </>
+          )}
         </div>
       </div>
     </Link>

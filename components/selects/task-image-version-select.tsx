@@ -33,9 +33,16 @@ export default function TaskImageVersionSelect({ taskImages }: Props) {
             value={taskImage.id}
             className='text-xs'
           >
-            {taskImage.id === latestImage?.id
-              ? 'Latest'
-              : `V${taskImage.version}`}
+            {taskImage.id === latestImage?.id ? (
+              <>
+                Latest
+                <span className='ml-1 text-xs text-muted-foreground'>
+                  V{taskImage.version}
+                </span>
+              </>
+            ) : (
+              `V${taskImage.version}`
+            )}
           </SelectItem>
         ))}
       </SelectContent>

@@ -1,5 +1,4 @@
-import CreatedVsDoneTasksChart from '@/components/charts/created-vs-done-tasks-chart'
-import { getProjectWithCache, getTasksWithCache } from '@/lib/queries/cached'
+import { getProjectWithCache } from '@/lib/queries/cached'
 import { createClient } from '@/lib/supabase/server'
 import { formatRelativeTime, getDomain } from '@/lib/utils'
 import { notFound } from 'next/navigation'
@@ -13,10 +12,7 @@ export default async function Page({ params }: Props) {
   const domain = getDomain(domainParam)
 
   const supabase = await createClient()
-  const [project, tasks] = await Promise.all([
-    getProjectWithCache(supabase, domain, projectId),
-    getTasksWithCache(supabase, domain, projectId),
-  ])
+  const project = await getProjectWithCache(supabase, domain, projectId)
 
   if (!project) return notFound()
 
@@ -34,7 +30,6 @@ export default async function Page({ params }: Props) {
           </p>
         )}
       </div>
-      <CreatedVsDoneTasksChart tasks={tasks} />
     </div>
   )
 }

@@ -9,11 +9,28 @@ export const createProjectAction = actionClient
   .schema(createProjectSchema)
   .action(
     async ({
-      parsedInput: { name, description, domain, client, status, workspace },
+      parsedInput: {
+        name,
+        description,
+        domain,
+        client,
+        status,
+        workspace,
+        date,
+      },
     }) => {
       const supabase = await createClient()
 
-      console.log(name, description, domain, client, status, workspace)
+      let startDate: string | undefined
+      let endDate: string | undefined
+
+      if (date?.from && !date?.to) {
+        endDate = date?.from?.toISOString()
+        startDate = undefined
+      } else {
+        startDate = date?.from?.toISOString()
+        endDate = date?.to?.toISOString()
+      }
 
       const { data, error } = await supabase
         .from('projects')
@@ -23,6 +40,8 @@ export const createProjectAction = actionClient
           client,
           status,
           workspace,
+          start_date: startDate,
+          end_date: endDate,
         })
         .select('*')
         .single()

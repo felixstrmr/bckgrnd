@@ -1,8 +1,8 @@
 'use client'
 
 import { createProjectAction } from '@/actions/create-project-action'
-import DynamicIcon from '@/components/dynamic-icon'
 import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import {
   Command,
   CommandEmpty,
@@ -23,21 +23,22 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { createProjectSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { Client, ProjectStatus } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowRight, Check, ChevronsUpDown, User } from 'lucide-react'
+import { format } from 'date-fns'
+import {
+  ArrowRight,
+  CalendarIcon,
+  Check,
+  ChevronsUpDown,
+  User,
+} from 'lucide-react'
 import { useAction } from 'next-safe-action/hooks'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import { DateRange } from 'react-day-picker'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -205,36 +206,47 @@ export default function CreateProjectForm({
             />
             <FormField
               control={form.control}
-              name='status'
+              name='date'
               render={({ field }) => (
-                <FormItem>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className='h-8 text-xs hover:bg-muted'>
-                        <SelectValue placeholder='Select a status' />
-                        <div className='w-6'></div>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {projectStatuses.map((status) => (
-                        <SelectItem
-                          value={status.id}
-                          key={status.id}
-                          className='text-xs'
+                <FormItem className='flex flex-col'>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={'outline'}
+                          size={'sm'}
+                          className={cn(
+                            'pl-3 text-left font-normal active:scale-100',
+                            !field.value && 'text-muted-foreground',
+                          )}
                         >
-                          <DynamicIcon
-                            icon={status.icon}
-                            style={{ color: status.color }}
-                            className='mr-2 inline-block size-3'
-                          />
-                          {status.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                          {field.value ? (
+                            field.value.from && !field.value.to ? (
+                              `${format(field.value.from, 'PP')}`
+                            ) : field.value?.from && field.value?.to ? (
+                              `${format(field.value.from, 'PP')} - ${format(
+                                field.value.to,
+                                'PP',
+                              )}`
+                            ) : (
+                              <span>Pick a date</span>
+                            )
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className='w-auto p-0' align='start'>
+                      <Calendar
+                        mode='range'
+                        selected={field.value as DateRange}
+                        onSelect={field.onChange}
+                        numberOfMonths={2}
+                      />
+                    </PopoverContent>
+                  </Popover>
                   <FormMessage />
                 </FormItem>
               )}
