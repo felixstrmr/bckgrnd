@@ -48,7 +48,7 @@
     --secondary-foreground: 0 0% 98%;
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --ring: 0 0% 83.1%;
     --chart-1: 220 70% 50%;
@@ -67,7 +67,7 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply text-6xl font-medium tracking-tight;
+    @apply text-6xl font-medium leading-[1.15] tracking-tight;
   }
   h2 {
     @apply text-4xl font-medium tracking-tight;
