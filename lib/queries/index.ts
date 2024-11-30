@@ -98,7 +98,9 @@ export function getProject(
 ) {
   return supabase
     .from('projects')
-    .select('*, workspace:workspaces(domain)')
+    .select(
+      '*, workspace:workspaces(domain), client:clients(id, name), status:project_statuses(name, icon, color)',
+    )
     .eq('workspace.domain', domain)
     .eq('id', projectId)
     .single()

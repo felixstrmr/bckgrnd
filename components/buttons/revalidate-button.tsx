@@ -7,9 +7,10 @@ import { useTransition } from 'react'
 
 type Props = {
   tag: string
+  className?: string
 }
 
-export default function RevalidateTagButton({ tag }: Props) {
+export default function RevalidateTagButton({ tag, className }: Props) {
   const [isPending, startTransition] = useTransition()
 
   const handleRevalidate = () => {
@@ -24,6 +25,7 @@ export default function RevalidateTagButton({ tag }: Props) {
       size='icon'
       onClick={handleRevalidate}
       disabled={isPending}
+      className={className}
     >
       <RefreshCcw className={isPending ? 'animate-spin' : ''} />
     </Button>
