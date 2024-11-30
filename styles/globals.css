@@ -70,7 +70,7 @@
     @apply text-6xl font-medium leading-[1.15] tracking-tight;
   }
   h2 {
-    @apply text-4xl font-medium tracking-tight;
+    @apply text-5xl font-medium tracking-tight;
   }
   h3 {
     @apply text-2xl font-medium tracking-tight;

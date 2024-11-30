@@ -3,5 +3,5 @@ type Props = {
 }
 
 export default function HomeLayout({ children }: Props) {
-  return <div className='flex size-full'>{children}</div>
+  return <div className='flex size-full overflow-x-hidden'>{children}</div>
 }

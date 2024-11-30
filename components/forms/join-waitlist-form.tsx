@@ -45,12 +45,11 @@ export default function JoinWaitlistForm() {
           control={form.control}
           name='email'
           render={({ field }) => (
-            <FormItem>
+            <FormItem className='flex h-32 flex-col items-start'>
               <div className='flex w-96 rounded-2xl border border-input bg-background p-1 pl-4 text-sm transition-all focus-within:border-muted-foreground focus-within:ring focus-within:ring-primary/25 hover:border-muted-foreground'>
                 <FormControl className='w-full'>
                   <input
                     disabled={loading}
-                    autoFocus
                     placeholder='Enter your email'
                     className='bg-transparent placeholder:text-muted-foreground focus:outline-none'
                     {...field}
