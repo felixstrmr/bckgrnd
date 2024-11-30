@@ -118,10 +118,16 @@ export default function CreateProjectForm({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <input
+                  <textarea
                     disabled={loading}
                     placeholder='Add a description (optional)'
-                    className='w-full bg-transparent text-sm outline-none disabled:bg-transparent disabled:opacity-50'
+                    className='w-full resize-none bg-transparent text-sm outline-none disabled:bg-transparent disabled:opacity-50'
+                    onInput={(e) => {
+                      const target = e.target as HTMLTextAreaElement
+                      target.style.height = 'auto'
+                      target.style.height = `${target.scrollHeight}px`
+                    }}
+                    rows={1}
                     {...field}
                   />
                 </FormControl>
