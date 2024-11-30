@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/tooltip'
 import { formatRelativeTime } from '@/lib/utils'
 import { ProjectWithRelations } from '@/types/custom'
-import { CheckSquare, Clock, Files, User } from 'lucide-react'
+import { CheckCircle, ClipboardCheck, Clock, User } from 'lucide-react'
 import Link from 'next/link'
 
 type Props = {
@@ -43,12 +43,12 @@ export default function ProjectGridItem({ project }: Props) {
       </div>
       <div className='flex gap-2 border-t bg-muted px-4 py-3'>
         <div className='flex items-center gap-1 text-muted-foreground'>
-          <CheckSquare className='size-3' />
+          <ClipboardCheck className='size-3' />
           <p className='text-xs'>{project.tasks[0].count || 0}</p>
         </div>
         <div className='flex items-center gap-1 text-muted-foreground'>
-          <Files className='size-3' />
-          <p className='text-xs'>0</p>
+          <CheckCircle className='size-3' />
+          <p className='text-xs'>{project.completion}%</p>
         </div>
         <div className='ml-auto flex items-center gap-1 text-muted-foreground'>
           {project.end_date && (

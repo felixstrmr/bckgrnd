@@ -222,11 +222,14 @@ export type Database = {
       projects: {
         Row: {
           client: string
+          completion: number
           created_at: string
           created_by: string
+          deleted_at: string | null
           description: string | null
           end_date: string | null
           id: string
+          is_deleted: boolean
           name: string
           start_date: string | null
           status: string
@@ -235,11 +238,14 @@ export type Database = {
         }
         Insert: {
           client: string
+          completion?: number
           created_at?: string
           created_by?: string
+          deleted_at?: string | null
           description?: string | null
           end_date?: string | null
           id?: string
+          is_deleted?: boolean
           name: string
           start_date?: string | null
           status: string
@@ -248,11 +254,14 @@ export type Database = {
         }
         Update: {
           client?: string
+          completion?: number
           created_at?: string
           created_by?: string
+          deleted_at?: string | null
           description?: string | null
           end_date?: string | null
           id?: string
+          is_deleted?: boolean
           name?: string
           start_date?: string | null
           status?: string
@@ -449,6 +458,7 @@ export type Database = {
           id: string
           name: string
           position: number
+          type: Database["public"]["Enums"]["task_status_types"]
           workspace: string
         }
         Insert: {
@@ -458,6 +468,7 @@ export type Database = {
           id?: string
           name: string
           position: number
+          type?: Database["public"]["Enums"]["task_status_types"]
           workspace: string
         }
         Update: {
@@ -467,6 +478,7 @@ export type Database = {
           id?: string
           name?: string
           position?: number
+          type?: Database["public"]["Enums"]["task_status_types"]
           workspace?: string
         }
         Relationships: [
@@ -734,7 +746,8 @@ export type Database = {
       }
     }
     Enums: {
-      project_user_roles: "owner"
+      project_user_roles: "lead"
+      task_status_types: "completed" | "uncompleted"
       task_types: "image" | "pdf"
       workspace_user_roles: "client" | "agent"
     }

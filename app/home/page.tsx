@@ -6,6 +6,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import WordRotate from '@/components/ui/word-rotate'
+import { env } from '@/lib/env'
 import { cn } from '@/lib/utils'
 import {
   Archive,
@@ -50,7 +51,7 @@ export default function Page() {
         </div>
         <div className='flex items-center space-x-2'>
           <Link
-            href={'/login'}
+            href={`${env.NEXT_PUBLIC_PROTOCOL}://app.${env.NEXT_PUBLIC_ROOT_DOMAIN}/login`}
             className={buttonVariants({ variant: 'ghost' })}
           >
             Login
@@ -251,7 +252,7 @@ export default function Page() {
       </div>
 
       {/* Footer */}
-      <footer className='mx-auto mt-12 flex w-full max-w-7xl flex-col space-y-4 border-x border-t px-4 py-6 md:mt-16 md:flex-row md:items-center md:justify-between md:space-y-0'>
+      <footer className='mx-auto mt-12 flex w-full max-w-7xl flex-col space-y-4 border-t px-4 py-6 md:mt-16 md:flex-row md:items-center md:justify-between md:space-y-0'>
         <div className='flex flex-col space-y-2 md:flex-row md:items-center md:gap-4 md:space-y-0'>
           <Link
             href='/privacy'
