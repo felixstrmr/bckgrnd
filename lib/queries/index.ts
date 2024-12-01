@@ -52,7 +52,7 @@ export async function getDefaultWorkspace(supabase: SupabaseClient<Database>) {
 export function getClients(supabase: SupabaseClient<Database>, domain: string) {
   return supabase
     .from('clients')
-    .select('*, workspace:workspaces(domain), status:client_statuses(*)')
+    .select('*, workspace:workspaces!inner(*), status:client_statuses(*)')
     .eq('workspace.domain', domain)
     .throwOnError()
 }
@@ -65,7 +65,7 @@ export function getClientStatuses(
 ) {
   return supabase
     .from('client_statuses')
-    .select('*, workspace:workspaces(domain)')
+    .select('*, workspace:workspaces!inner(*)')
     .eq('workspace.domain', domain)
     .throwOnError()
 }
@@ -81,7 +81,7 @@ export function getProjects(
     .select(
       `
       *,
-      workspace:workspaces(domain),
+      workspace:workspaces!inner(*),
       status:project_statuses(*),
       client:clients(*),
       tasks:tasks(count)
@@ -99,7 +99,12 @@ export function getProject(
   return supabase
     .from('projects')
     .select(
-      '*, workspace:workspaces(domain), client:clients(id, name), status:project_statuses(name, icon, color)',
+      `
+      *,
+      workspace:workspaces!inner(*),
+      client:clients(id, name),
+      status:project_statuses(name, icon, color)
+    `,
     )
     .eq('workspace.domain', domain)
     .eq('id', projectId)
@@ -115,7 +120,7 @@ export function getProjectStatuses(
 ) {
   return supabase
     .from('project_statuses')
-    .select('*, workspace:workspaces(domain)')
+    .select('*, workspace:workspaces!inner(*)')
     .eq('workspace.domain', domain)
     .throwOnError()
 }
@@ -129,7 +134,7 @@ export function getTasks(
 ) {
   return supabase
     .from('tasks')
-    .select('*, workspace:workspaces(domain), priority:task_priorities(*)')
+    .select('*, workspace:workspaces!inner(*), priority:task_priorities(*)')
     .eq('workspace.domain', domain)
     .eq('project', projectId)
     .throwOnError()
@@ -142,7 +147,7 @@ export function getTask(
 ) {
   return supabase
     .from('tasks')
-    .select('*, workspace:workspaces(domain), project:projects(*)')
+    .select('*, workspace:workspaces!inner(*), project:projects(*)')
     .eq('workspace.domain', domain)
     .eq('id', taskId)
     .single()
@@ -157,7 +162,7 @@ export function getTaskStatuses(
 ) {
   return supabase
     .from('task_statuses')
-    .select('*, workspace:workspaces(domain)')
+    .select('*, workspace:workspaces!inner(*)')
     .eq('workspace.domain', domain)
     .throwOnError()
 }
@@ -171,7 +176,7 @@ export function getTaskImages(
 ) {
   return supabase
     .from('task_images')
-    .select('*, workspace:workspaces(domain)')
+    .select('*, workspace:workspaces!inner(*)')
     .eq('workspace.domain', domain)
     .eq('task', taskId)
     .order('version', { ascending: false })
@@ -188,7 +193,7 @@ export function getTaskComments(
   return supabase
     .from('task_comments')
     .select(
-      '*, workspace:workspaces(domain), user:users(*), image:task_images(*)',
+      '*, workspace:workspaces!inner(*), user:users(*), image:task_images(*)',
     )
     .eq('workspace.domain', domain)
     .eq('task', taskId)
