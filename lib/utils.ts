@@ -51,6 +51,22 @@ export function formatRelativeTime(date: Date): string {
   }
 }
 
+export function formatFileSize(size: number): string {
+  if (!Number.isFinite(size) || size < 0) return 'Invalid size'
+
+  const units = ['B', 'KB', 'MB', 'GB', 'TB']
+  let value = Math.abs(size)
+  let unitIndex = 0
+
+  while (value >= 1024 && unitIndex < units.length - 1) {
+    value /= 1024
+    unitIndex++
+  }
+
+  const decimals = unitIndex === 0 ? 0 : 2
+  return `${value.toFixed(decimals)}${units[unitIndex]}`
+}
+
 export function getGreeting(): string {
   const hour = new Date().getHours()
 

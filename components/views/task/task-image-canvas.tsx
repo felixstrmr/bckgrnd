@@ -1,11 +1,11 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import TaskImageMenubar from '@/components/menubars/task-image-menubar'
 import { useTaskVersion } from '@/hooks/use-task-version'
 import { TaskImage } from '@/types'
-import { RotateCcw } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 type Props = {
   taskImages: TaskImage[]
@@ -18,24 +18,32 @@ export default function TaskImageCanvas({ taskImages }: Props) {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [scale, setScale] = useState(1)
 
   const { selectedImage } = useTaskVersion(taskImages)
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true)
-    setDragStart({
-      x: e.clientX - position.x,
-      y: e.clientY - position.y,
-    })
-  }
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      setIsDragging(true)
+      setDragStart({
+        x: e.clientX - position.x,
+        y: e.clientY - position.y,
+      })
+    },
+    [position],
+  )
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isDragging) return
 
-    const newX = e.clientX - dragStart.x
-    const newY = e.clientY - dragStart.y
-    setPosition({ x: newX, y: newY })
-  }
+      const newX = e.clientX - dragStart.x
+      const newY = e.clientY - dragStart.y
+      setPosition({ x: newX, y: newY })
+    },
+    [isDragging, dragStart],
+  )
 
   const handleMouseUp = () => {
     setIsDragging(false)
@@ -45,9 +53,33 @@ export default function TaskImageCanvas({ taskImages }: Props) {
     setIsDragging(false)
   }
 
-  const handleReset = () => {
+  const handleWheel = useCallback(
+    (e: React.WheelEvent) => {
+      e.preventDefault()
+      const delta = e.deltaY * -0.01
+      const newScale = Math.min(Math.max(scale + delta, 0.1), 4)
+      setScale(newScale)
+    },
+    [scale],
+  )
+
+  const handleReset = useCallback(() => {
     setPosition({ x: 0, y: 0 })
-  }
+    setScale(1)
+  }, [])
+
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      if (e.touches.length === 1) {
+        setIsDragging(true)
+        setDragStart({
+          x: e.touches[0].clientX - position.x,
+          y: e.touches[0].clientY - position.y,
+        })
+      }
+    },
+    [position],
+  )
 
   return (
     <div className='relative size-full'>
@@ -58,15 +90,21 @@ export default function TaskImageCanvas({ taskImages }: Props) {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
+        onWheel={handleWheel}
+        onTouchStart={handleTouchStart}
+        tabIndex={0}
       >
         {selectedImage ? (
           <div
             className='flex size-full cursor-grab items-center justify-center active:cursor-grabbing'
             style={{
-              transform: `translate(${position.x}px, ${position.y}px)`,
+              transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
               transition: isDragging ? 'none' : 'transform 0.1s',
             }}
           >
+            {isLoading && (
+              <Loader2 className='absolute size-8 animate-spin text-muted-foreground' />
+            )}
             <Image
               src={selectedImage.image_url}
               width={1920}
@@ -75,6 +113,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
               unoptimized
               alt='Task Image'
               draggable={false}
+              onLoad={() => setIsLoading(false)}
             />
           </div>
         ) : (
@@ -83,15 +122,17 @@ export default function TaskImageCanvas({ taskImages }: Props) {
           </div>
         )}
       </div>
-      {selectedImage && position.x !== 0 && position.y !== 0 && (
-        <Button
-          onClick={handleReset}
-          variant='outline'
-          size='icon'
+      {selectedImage && (
+        <TaskImageMenubar
+          handleReset={handleReset}
+          selectedImage={selectedImage}
+          imageMoved={
+            selectedImage &&
+            (position.x !== 0 || position.y !== 0 || scale !== 1) &&
+            !isLoading
+          }
           className='absolute left-4 top-4'
-        >
-          <RotateCcw className='size-4' />
-        </Button>
+        />
       )}
     </div>
   )

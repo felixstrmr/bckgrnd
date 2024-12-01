@@ -56,6 +56,7 @@ export const uploadTaskImageAction = actionClient
         image_name: fileName,
         image_size: image.size,
         image_type: image.type,
+        image_path: path,
       })
 
       if (insertError) {

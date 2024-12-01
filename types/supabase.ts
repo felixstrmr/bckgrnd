@@ -361,35 +361,44 @@ export type Database = {
       task_images: {
         Row: {
           created_at: string
+          height: number | null
           id: string
           image_name: string
+          image_path: string
           image_size: number
           image_type: string
           image_url: string
           task: string
           version: number
+          width: number | null
           workspace: string
         }
         Insert: {
           created_at?: string
+          height?: number | null
           id?: string
           image_name: string
+          image_path: string
           image_size: number
           image_type: string
           image_url: string
           task: string
           version: number
+          width?: number | null
           workspace: string
         }
         Update: {
           created_at?: string
+          height?: number | null
           id?: string
           image_name?: string
+          image_path?: string
           image_size?: number
           image_type?: string
           image_url?: string
           task?: string
           version?: number
+          width?: number | null
           workspace?: string
         }
         Relationships: [
