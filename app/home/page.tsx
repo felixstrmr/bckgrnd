@@ -69,7 +69,10 @@ export default function Page() {
       <div className='relative mx-auto w-full max-w-7xl' id='hero'>
         <div className='absolute bottom-0 -z-10 h-1/2 w-full bg-gradient-to-t from-background to-transparent' />
         <div className='absolute -z-20 size-full w-full border-x' />
-        <div className='absolute inset-0 -z-30 bg-[url(https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/bg_1.webp)] bg-cover bg-center' />
+        <div
+          rel='preconnect'
+          className='absolute inset-0 -z-30 bg-[url(https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/bg_1.webp)] bg-cover bg-center'
+        />
 
         <div className='relative z-10 mt-36 flex flex-col items-center px-4 text-center'>
           <Link
