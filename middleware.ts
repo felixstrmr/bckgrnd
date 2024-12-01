@@ -1,4 +1,5 @@
 import { env } from '@/lib/env'
+import ApiMiddleware from '@/lib/middlewares/api-middleware'
 import AppMiddleware from '@/lib/middlewares/app-middleware'
 import DomainMiddleware from '@/lib/middlewares/domain-middleware'
 import HomeMiddleware from '@/lib/middlewares/home-middleware'
@@ -43,6 +44,10 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
+  if (hostname === `api.${env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
+    return ApiMiddleware(request, response)
+  }
 
   if (hostname === `app.${env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
     return AppMiddleware(request, response, user)
