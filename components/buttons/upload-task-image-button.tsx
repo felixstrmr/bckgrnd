@@ -32,7 +32,8 @@ export default function UploadTaskImageButton({
 
   const { execute, status } = useAction(uploadTaskImageAction, {
     onError: ({ error }) => {
-      toast.error(error.serverError || 'Failed to upload image')
+      toast.dismiss()
+      toast.error(error.serverError)
     },
     onExecute: () => {
       toast.loading('Uploading image...')

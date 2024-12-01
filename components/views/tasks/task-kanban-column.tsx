@@ -49,7 +49,7 @@ export default function TaskKanbanColumn({
   return (
     <div
       ref={setNodeRef}
-      className={`flex h-fit flex-col space-y-2 rounded-xl p-2 transition-colors ${
+      className={`flex h-fit flex-col space-y-2 rounded-xl border p-2 transition-colors ${
         isOver ? 'bg-secondary' : 'bg-muted'
       }`}
     >

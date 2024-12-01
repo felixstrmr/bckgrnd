@@ -79,7 +79,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
     <div className='relative size-full'>
       <div
         ref={containerRef}
-        className='size-full overflow-hidden rounded-lg bg-muted p-4'
+        className='size-full overflow-hidden rounded-lg border bg-muted p-4'
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

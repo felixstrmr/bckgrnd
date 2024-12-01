@@ -2,7 +2,7 @@
 
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { ArrowLeft, LucideIcon, Users, View } from 'lucide-react'
+import { ArrowLeft, LucideIcon, Palette, Users, View } from 'lucide-react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 
@@ -25,6 +25,12 @@ export default function ClientSidebar({ clientId }: Props) {
       href: `/clients/${clientId}/users`,
       isActive: segment === 'users',
       icon: Users,
+    },
+    {
+      name: 'Branding',
+      href: `/clients/${clientId}/branding`,
+      isActive: segment === 'branding',
+      icon: Palette,
     },
   ] as SidebarItemProps[]
 

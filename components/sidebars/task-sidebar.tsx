@@ -23,7 +23,7 @@ export default function TaskSidebar({
   const [tab] = useQueryState('tab', parseAsString.withDefault('comments'))
 
   return (
-    <div className='flex h-full w-96 min-w-96 flex-col overflow-hidden rounded-lg border p-4'>
+    <div className='bg-mute4d flex h-full w-96 min-w-96 flex-col overflow-hidden rounded-lg border p-4'>
       <TaskSidebarTabs />
       {tab === 'comments' && (
         <TaskComments
