@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <div className='flex size-full flex-col'>
       {/* Navbar */}
-      <div className='fixed left-0 right-0 top-0 z-40 mx-auto flex w-full max-w-7xl justify-between border-x border-b bg-background/75 p-4 backdrop-blur-md'>
+      <div className='fixed left-0 right-0 top-0 z-40 mx-auto flex w-full max-w-6xl justify-between border-x border-b bg-background/75 p-4 backdrop-blur-md'>
         <div className='flex items-center gap-4'>
           <Link href={'/'}>
             <Bckgrnd className='size-9' />
@@ -66,7 +66,7 @@ export default function Page() {
       </div>
 
       {/* Hero Section */}
-      <div className='relative mx-auto w-full max-w-7xl' id='hero'>
+      <div className='relative mx-auto w-full max-w-6xl' id='hero'>
         <div className='absolute bottom-0 -z-10 h-1/2 w-full bg-gradient-to-t from-background to-transparent' />
         <div className='absolute -z-20 size-full w-full border-x' />
         <div
@@ -105,15 +105,15 @@ export default function Page() {
               'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-image.webp'
             }
             alt='hero image'
-            width={1248}
-            height={702}
-            className='relative aspect-video min-h-[702px] min-w-[1248px] rounded-2xl'
+            width={1120}
+            height={630}
+            className='relative aspect-video min-h-[630px] min-w-[1120px] rounded-2xl'
           />
         </div>
       </div>
 
       {/* Trusted by designers */}
-      <div className='mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-20 md:py-32'>
+      <div className='mx-auto flex w-full max-w-6xl flex-col items-center px-4 py-20 md:py-32'>
         <p className='text-muted-foreground'>
           Trusted by designers working with
         </p>
@@ -127,7 +127,7 @@ export default function Page() {
       {/* Features */}
       <div
         id='features'
-        className='mx-auto flex w-full max-w-7xl flex-col px-4 py-20 md:py-32'
+        className='mx-auto flex w-full max-w-6xl flex-col px-4 py-20 md:py-32'
       >
         <h2 className='text-center text-3xl text-muted-foreground md:text-left md:text-4xl'>
           Built for{' '}
@@ -229,7 +229,7 @@ export default function Page() {
       </div>
 
       {/* CTA */}
-      <div className='mx-auto flex w-full max-w-7xl flex-col items-center px-4'>
+      <div className='mx-auto flex w-full max-w-6xl flex-col items-center px-4'>
         <div className='flex w-full flex-col items-center rounded-2xl border bg-muted px-12 py-20 md:py-32'>
           <h2 className='text-center'>Save time and get more done.</h2>
           <p className='mt-2 text-center text-lg text-muted-foreground'>
@@ -237,7 +237,7 @@ export default function Page() {
           </p>
           <div className='mt-6 flex items-center gap-4'>
             <Link
-              href='mailto:support@bckgrnd.co'
+              href='mailto:support@bckgrnd.one'
               className={cn(
                 buttonVariants({ variant: 'secondary', size: 'lg' }),
               )}
@@ -255,7 +255,7 @@ export default function Page() {
       </div>
 
       {/* Footer */}
-      <footer className='mx-auto mt-12 flex w-full max-w-7xl flex-col space-y-4 border-t px-4 py-6 md:mt-16 md:flex-row md:items-center md:justify-between md:space-y-0'>
+      <footer className='mx-auto mt-12 flex w-full max-w-6xl flex-col space-y-4 border-t px-4 py-6 md:mt-16 md:flex-row md:items-center md:justify-between md:space-y-0'>
         <div className='flex flex-col space-y-2 md:flex-row md:items-center md:gap-4 md:space-y-0'>
           <Link
             href='/privacy'

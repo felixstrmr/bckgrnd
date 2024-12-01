@@ -1,6 +1,5 @@
 'use client'
 
-import TaskImageMenubar from '@/components/menubars/task-image-menubar'
 import { useTaskVersion } from '@/hooks/use-task-version'
 import { TaskImage } from '@/types'
 import { Loader2 } from 'lucide-react'
@@ -63,11 +62,6 @@ export default function TaskImageCanvas({ taskImages }: Props) {
     [scale],
   )
 
-  const handleReset = useCallback(() => {
-    setPosition({ x: 0, y: 0 })
-    setScale(1)
-  }, [])
-
   const handleTouchStart = useCallback(
     (e: React.TouchEvent) => {
       if (e.touches.length === 1) {
@@ -122,18 +116,6 @@ export default function TaskImageCanvas({ taskImages }: Props) {
           </div>
         )}
       </div>
-      {selectedImage && (
-        <TaskImageMenubar
-          handleReset={handleReset}
-          selectedImage={selectedImage}
-          imageMoved={
-            selectedImage &&
-            (position.x !== 0 || position.y !== 0 || scale !== 1) &&
-            !isLoading
-          }
-          className='absolute left-4 top-4'
-        />
-      )}
     </div>
   )
 }

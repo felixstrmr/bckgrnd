@@ -1,5 +1,5 @@
 import RevalidateTagButton from '@/components/buttons/revalidate-button'
-import UploadTaskImageDialog from '@/components/dialogs/upload-task-image-dialog'
+import UploadTaskImageButton from '@/components/buttons/upload-task-image-button'
 import TaskImageVersionSelect from '@/components/selects/task-image-version-select'
 import TaskSidebar from '@/components/sidebars/task-sidebar'
 import { buttonVariants } from '@/components/ui/button'
@@ -77,7 +77,7 @@ export default async function Page({ params }: Props) {
         </div>
         <div className='flex items-center gap-2'>
           <RevalidateTagButton tag={`task-${domain}-${taskId}`} />
-          <UploadTaskImageDialog
+          <UploadTaskImageButton
             domain={domain}
             workspaceId={workspace.id}
             taskId={task.id}

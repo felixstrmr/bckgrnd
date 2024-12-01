@@ -41,8 +41,9 @@ export async function getDefaultWorkspace(supabase: SupabaseClient<Database>) {
 
   return supabase
     .from('workspaces')
-    .select('*, workspace_users:workspace_users(user)')
+    .select('*, workspace_users:workspace_users!inner(user)')
     .in('workspace_users.user', [user.id])
+    .eq('workspace_users.is_default', true)
     .single()
     .throwOnError()
 }

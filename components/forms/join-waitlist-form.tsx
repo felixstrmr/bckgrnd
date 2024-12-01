@@ -10,7 +10,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { joinWaitlistSchema } from '@/lib/schemas'
-import { useJoinWaitlistModalStore } from '@/store/join-waitlist-modal-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAction } from 'next-safe-action/hooks'
 import { useForm } from 'react-hook-form'
@@ -18,8 +17,6 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 export default function JoinWaitlistForm() {
-  const { setOpen } = useJoinWaitlistModalStore()
-
   const form = useForm<z.infer<typeof joinWaitlistSchema>>({
     resolver: zodResolver(joinWaitlistSchema),
     defaultValues: {
@@ -32,7 +29,6 @@ export default function JoinWaitlistForm() {
       toast.error(error.serverError)
     },
     onSuccess: () => {
-      setOpen(false)
       toast.success('You have been added to the waitlist')
     },
   })

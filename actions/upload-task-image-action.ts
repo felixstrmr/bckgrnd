@@ -65,5 +65,6 @@ export const uploadTaskImageAction = actionClient
       }
 
       revalidateTag(`task-${domain}-${task}`)
+      revalidateTag(`task-images-${task}`)
     },
   )

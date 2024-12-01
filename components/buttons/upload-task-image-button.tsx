@@ -2,18 +2,9 @@
 
 import { uploadTaskImageAction } from '@/actions/upload-task-image-action'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
 import { TASK_IMAGE_MAX_SIZE, TASK_IMAGE_TYPES } from '@/lib/constants'
-import { cn } from '@/lib/utils'
-import { useUploadTaskImageModalStore } from '@/store/upload-task-image-modal-store'
 import { TaskImage } from '@/types'
-import { Loader2, Upload } from 'lucide-react'
+import { Upload } from 'lucide-react'
 import { useAction } from 'next-safe-action/hooks'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -29,7 +20,7 @@ type Props = {
   latestImage: TaskImage
 }
 
-export default function UploadTaskImageDialog({
+export default function UploadTaskImageButton({
   taskId,
   workspaceId,
   clientId,
@@ -38,14 +29,16 @@ export default function UploadTaskImageDialog({
   latestImage,
 }: Props) {
   const router = useRouter()
-  const { open, setOpen } = useUploadTaskImageModalStore()
 
   const { execute, status } = useAction(uploadTaskImageAction, {
     onError: ({ error }) => {
       toast.error(error.serverError || 'Failed to upload image')
     },
+    onExecute: () => {
+      toast.loading('Uploading image...')
+    },
     onSuccess: () => {
-      setOpen(false)
+      toast.dismiss()
       toast.success('Image uploaded successfully')
       router.refresh()
     },
@@ -83,7 +76,7 @@ export default function UploadTaskImageDialog({
     [execute, taskId, domain, workspaceId, clientId, projectId, latestImage],
   )
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 1,
     multiple: false,
     accept: TASK_IMAGE_TYPES,
@@ -92,42 +85,10 @@ export default function UploadTaskImageDialog({
   })
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>
-          <Upload className='size-4' />
-          Upload
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Upload New Version</DialogTitle>
-        </DialogHeader>
-        {loading ? (
-          <div className='flex items-center justify-center rounded-md border p-12'>
-            <Loader2 className='size-6 animate-spin' />
-          </div>
-        ) : (
-          <div
-            {...getRootProps()}
-            className={cn(
-              'rounded-md border border-dashed p-12 transition-colors hover:cursor-pointer hover:bg-muted',
-              isDragActive && 'border-blue-600',
-            )}
-          >
-            <input {...getInputProps()} />
-            <div className='flex flex-col items-center gap-2'>
-              <div className='rounded-full bg-muted p-3'>
-                <Upload className='size-6 text-muted-foreground' />
-              </div>
-              <h6>Click to upload</h6>
-              <p className='text-sm text-muted-foreground'>
-                Max 10MB, JPEG, PNG, GIF, WEBP, SVG
-              </p>
-            </div>
-          </div>
-        )}
-      </DialogContent>
-    </Dialog>
+    <Button {...getRootProps()}>
+      <input {...getInputProps()} />
+      <Upload className='size-4' />
+      Upload
+    </Button>
   )
 }
