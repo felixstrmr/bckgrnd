@@ -42,8 +42,8 @@ export default function DeleteClientDialog({ client }: Props) {
       <DialogHeader>
         <DialogTitle>Are you absolutely sure?</DialogTitle>
       </DialogHeader>
-      <div className='flex w-80 items-center justify-center rounded-lg border border-red-300 bg-red-100 p-4'>
-        <p className='text-center text-sm text-red-600'>
+      <div className='flex w-80 items-center justify-center rounded-lg border border-red-600/25 bg-red-600/10 p-4'>
+        <p className='text-center text-sm text-red-500'>
           This action cannot be undone. This will permanently delete the client.
         </p>
       </div>

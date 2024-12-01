@@ -4,6 +4,7 @@ import {
   getProject,
   getProjects,
   getProjectStatuses,
+  getSession,
   getTask,
   getTasks,
   getTaskStatuses,
@@ -13,7 +14,7 @@ import {
 import { SupabaseClient } from '@supabase/supabase-js'
 import { unstable_cache } from 'next/cache'
 
-// User
+// Auth
 
 export async function getUserWithCache(
   supabase: SupabaseClient,
@@ -40,6 +41,19 @@ export async function getUserWithCache(
   }
 
   return data
+}
+
+export async function getSessionWithCache(supabase: SupabaseClient) {
+  const result = await unstable_cache(
+    async () => getSession(supabase),
+    [`session`],
+    {
+      revalidate: 3600,
+      tags: [`session`],
+    },
+  )()
+
+  return result
 }
 
 // Workspace

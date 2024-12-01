@@ -1,7 +1,7 @@
 import { Database } from '@/types/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
 
-// User
+// Auth
 
 export async function getUser(supabase: SupabaseClient<Database>) {
   const {
@@ -16,6 +16,14 @@ export async function getUser(supabase: SupabaseClient<Database>) {
     .eq('id', [user.id])
     .single()
     .throwOnError()
+}
+
+export async function getSession(supabase: SupabaseClient<Database>) {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  return session
 }
 
 // Workspace

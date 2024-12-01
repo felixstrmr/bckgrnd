@@ -5,6 +5,7 @@ import { uploadTaskImageSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
 import { randomUUID } from 'crypto'
 import { revalidateTag } from 'next/cache'
+import sharp from 'sharp'
 
 export const uploadTaskImageAction = actionClient
   .schema(uploadTaskImageSchema)
@@ -38,25 +39,20 @@ export const uploadTaskImageAction = actionClient
         throw error
       }
 
-      const { data: signedUrl, error: signUrlError } = await supabase.storage
-        .from('files')
-        .createSignedUrl(path, 31536000)
-
-      if (signUrlError) {
-        console.error(signUrlError)
-        throw signUrlError
-      }
+      const buffer = Buffer.from(await image.arrayBuffer())
+      const metadata = await sharp(buffer).metadata()
 
       const { error: insertError } = await supabase.from('task_images').insert({
         workspace,
         id: uuid,
         task,
         version: 1,
-        image_url: signedUrl.signedUrl,
         image_name: fileName,
         image_size: image.size,
         image_type: image.type,
         image_path: path,
+        image_width: metadata.width,
+        image_height: metadata.height,
       })
 
       if (insertError) {

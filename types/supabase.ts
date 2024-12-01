@@ -361,44 +361,41 @@ export type Database = {
       task_images: {
         Row: {
           created_at: string
-          height: number | null
           id: string
+          image_height: number | null
           image_name: string
           image_path: string
           image_size: number
           image_type: string
-          image_url: string
+          image_width: number | null
           task: string
           version: number
-          width: number | null
           workspace: string
         }
         Insert: {
           created_at?: string
-          height?: number | null
           id?: string
+          image_height?: number | null
           image_name: string
           image_path: string
           image_size: number
           image_type: string
-          image_url: string
+          image_width?: number | null
           task: string
           version: number
-          width?: number | null
           workspace: string
         }
         Update: {
           created_at?: string
-          height?: number | null
           id?: string
+          image_height?: number | null
           image_name?: string
           image_path?: string
           image_size?: number
           image_type?: string
-          image_url?: string
+          image_width?: number | null
           task?: string
           version?: number
-          width?: number | null
           workspace?: string
         }
         Relationships: [
@@ -732,21 +729,13 @@ export type Database = {
           access_allowed: boolean
         }[]
       }
-      is_in_same_workspace:
-        | {
-            Args: {
-              _targetuser: string
-              _user: string
-            }
-            Returns: boolean
-          }
-        | {
-            Args: {
-              _targetuser: unknown
-              _user: string
-            }
-            Returns: boolean
-          }
+      is_in_same_workspace: {
+        Args: {
+          _targetuser: string
+          _user: string
+        }
+        Returns: boolean
+      }
       is_workspace_user: {
         Args: {
           _workspace: string

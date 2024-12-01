@@ -71,7 +71,7 @@ export default function Page() {
         <div className='absolute -z-20 size-full w-full border-x' />
         <div
           rel='preconnect'
-          className='absolute inset-0 -z-30 bg-[url(https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/bg_1.webp)] bg-cover bg-center'
+          className='absolute inset-0 -z-30 bg-[url(https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/bg.webp)] bg-cover bg-center'
         />
 
         <div className='relative z-10 mt-36 flex flex-col items-center px-4 text-center'>
