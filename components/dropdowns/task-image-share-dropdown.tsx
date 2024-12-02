@@ -27,11 +27,16 @@ export default function TaskImageShareDropdown({ taskImages }: Props) {
 
   const { execute } = useAction(shareTaskImageAction, {
     onError: ({ error }) => {
+      toast.dismiss()
       toast.error(error.serverError)
     },
+    onExecute: () => {
+      toast.loading('Generating link...')
+    },
     onSuccess: ({ data }) => {
+      toast.dismiss()
       toast.success('Copied to clipboard')
-      navigator.clipboard.writeText(data?.shortLink || '')
+      navigator.clipboard.writeText(data?.signedUrl || '')
     },
   })
 
