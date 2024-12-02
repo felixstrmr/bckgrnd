@@ -31,7 +31,7 @@ export default function TaskImageShareDropdown({ taskImages }: Props) {
     },
     onSuccess: ({ data }) => {
       toast.success('Copied to clipboard')
-      navigator.clipboard.writeText(data?.signedUrl || '')
+      navigator.clipboard.writeText(data?.shortLink || '')
     },
   })
 
