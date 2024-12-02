@@ -36,7 +36,7 @@ export default function TaskImageShareDropdown({ taskImages }: Props) {
     onSuccess: ({ data }) => {
       toast.dismiss()
       toast.success('Copied to clipboard')
-      navigator.clipboard.writeText(data?.shortLink || '')
+      navigator.clipboard.writeText(data || '')
     },
   })
 
@@ -55,7 +55,7 @@ export default function TaskImageShareDropdown({ taskImages }: Props) {
           Share
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align='start'>
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Image URL</DropdownMenuSubTrigger>
           <DropdownMenuPortal>
@@ -71,7 +71,6 @@ export default function TaskImageShareDropdown({ taskImages }: Props) {
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
-        <DropdownMenuItem>Portal URL</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

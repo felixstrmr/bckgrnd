@@ -16,6 +16,7 @@ type Props = {
   domain: string
   taskId: string
   workspaceId: string
+  projectId: string
   taskImages: TaskImage[]
   user: User
 }
@@ -24,6 +25,7 @@ export default function TaskComments({
   domain,
   taskId,
   workspaceId,
+  projectId,
   taskImages,
   user,
 }: Props) {
@@ -139,6 +141,8 @@ export default function TaskComments({
           taskId={taskId}
           workspaceId={workspaceId}
           selectedVersion={selectedImage?.id ?? null}
+          domain={domain}
+          projectId={projectId}
         />
       </div>
     </div>

@@ -34,6 +34,12 @@ export type TaskWithRelations = Task & {
   }
   project: string
   priority: TaskPriority
+  task_comments: {
+    count: number
+  }[]
+  task_images: {
+    count: number
+  }[]
 }
 
 export type TaskCommentWithRelations = TaskComment & {

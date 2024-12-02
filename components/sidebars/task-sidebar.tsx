@@ -9,6 +9,7 @@ type Props = {
   domain: string
   taskId: string
   workspaceId: string
+  projectId: string
   taskImages: TaskImage[]
   user: User
 }
@@ -17,6 +18,7 @@ export default function TaskSidebar({
   domain,
   taskId,
   workspaceId,
+  projectId,
   taskImages,
   user,
 }: Props) {
@@ -28,6 +30,7 @@ export default function TaskSidebar({
       {tab === 'comments' && (
         <TaskComments
           domain={domain}
+          projectId={projectId}
           taskId={taskId}
           workspaceId={workspaceId}
           taskImages={taskImages}

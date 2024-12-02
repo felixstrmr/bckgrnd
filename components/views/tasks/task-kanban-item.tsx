@@ -69,11 +69,11 @@ export default function TaskKanbanItem({ task }: Props) {
           <div className='flex items-center gap-3'>
             <div className='flex items-center gap-1 text-muted-foreground'>
               <History className='size-3' />
-              <p className='text-xs'>0</p>
+              <p className='text-xs'>{task.task_images[0].count}</p>
             </div>
             <div className='flex items-center gap-1 text-muted-foreground'>
               <MessageCircle className='size-3' />
-              <p className='text-xs'>0</p>
+              <p className='text-xs'>{task.task_comments[0].count}</p>
             </div>
           </div>
           <p className='text-xs text-muted-foreground'>

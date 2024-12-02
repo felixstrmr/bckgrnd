@@ -96,6 +96,7 @@ export default async function Page({ params }: Props) {
           domain={domain}
         />
         <TaskSidebar
+          projectId={task.project.id}
           domain={domain}
           taskId={taskId}
           workspaceId={workspace.id}

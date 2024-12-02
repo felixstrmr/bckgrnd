@@ -12,6 +12,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { createTaskCommentSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Send } from 'lucide-react'
 import { useAction } from 'next-safe-action/hooks'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
@@ -22,12 +23,16 @@ type Props = {
   taskId: string
   workspaceId: string
   selectedVersion: string | null
+  domain: string
+  projectId: string
 }
 
 export default function CreateTaskCommentForm({
   taskId,
   workspaceId,
   selectedVersion,
+  domain,
+  projectId,
 }: Props) {
   const form = useForm<z.infer<typeof createTaskCommentSchema>>({
     resolver: zodResolver(createTaskCommentSchema),
@@ -35,6 +40,8 @@ export default function CreateTaskCommentForm({
       message: '',
       task: taskId,
       workspace: workspaceId,
+      domain: domain,
+      project: projectId,
     },
   })
 
@@ -59,25 +66,33 @@ export default function CreateTaskCommentForm({
           control={form.control}
           name='message'
           render={({ field }) => (
-            <FormItem>
+            <FormItem className='relative'>
               <FormControl>
                 <Textarea
                   disabled={loading}
                   placeholder='Add a comment...'
                   rows={3}
-                  className='w-full'
+                  className='min-h-24 w-full resize-none'
                   {...field}
                 />
               </FormControl>
+              <div className='absolute bottom-2 right-2 flex items-center justify-end gap-2'>
+                <p className='text-xs text-muted-foreground'>
+                  {field.value.length} / 256
+                </p>
+                <Button
+                  loading={loading}
+                  disabled={!field.value}
+                  size={'sm'}
+                  className='size-8 p-0'
+                >
+                  {!loading && <Send className='size-4' />}
+                </Button>
+              </div>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div className='flex w-full justify-end'>
-          <Button loading={loading} size={'sm'} className='mt-2'>
-            Send
-          </Button>
-        </div>
       </form>
     </Form>
   )
