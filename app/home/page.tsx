@@ -35,7 +35,7 @@ export default function Page() {
               target='_blank'
               className='group flex items-center gap-2 text-sm text-muted-foreground transition-all hover:text-foreground'
             >
-              <Twitter className='size-4 fill-muted-foreground transition-all group-hover:fill-foreground' />
+              <Twitter className='hidden size-4 fill-muted-foreground transition-all group-hover:fill-foreground md:block' />
               Twitter
             </Link>
             <Link
@@ -44,7 +44,7 @@ export default function Page() {
               target='_blank'
               className='group flex items-center gap-2 text-sm text-muted-foreground transition-all hover:text-foreground'
             >
-              <Github className='size-4 fill-muted-foreground transition-all group-hover:fill-foreground' />
+              <Github className='hidden size-4 fill-muted-foreground transition-all group-hover:fill-foreground md:block' />
               Github
             </Link>
           </div>
