@@ -1,5 +1,6 @@
 'use client'
 
+import { ThemeDropdown } from '@/components/dropdowns/theme-dropdown'
 import Bckgrnd from '@/components/icons/bckgrnd'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
@@ -53,6 +54,7 @@ export default function WorkspaceSidebar() {
           ))}
         </div>
         <div className='flex flex-col space-y-1'>
+          <ThemeDropdown />
           {pagesBottom.map((page) => (
             <SidebarItem key={page.name} {...page} />
           ))}

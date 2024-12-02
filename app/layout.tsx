@@ -66,7 +66,7 @@ export default function RootLayout({ children }: Props) {
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <body className='antialiased'>
-        <ThemeProvider attribute={'class'} forcedTheme='dark'>
+        <ThemeProvider attribute={'class'} defaultTheme='dark'>
           <NuqsAdapter>
             <main className='w-sreen h-screen'>{children}</main>
           </NuqsAdapter>

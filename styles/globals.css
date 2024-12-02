@@ -57,11 +57,13 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
+  }
+  a,
+  button {
+    @apply focus-visible:outline-none focus-visible:ring focus-visible:ring-primary/25;
   }
   body {
     @apply bg-background text-foreground;
