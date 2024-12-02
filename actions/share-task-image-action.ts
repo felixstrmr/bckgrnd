@@ -32,7 +32,6 @@ export const shareTaskImageAction = actionClient
 
     const { shortLink, url } = await dub.links.create({
       url: data.signedUrl,
-      expiresAt: new Date(Date.now() + expiresInSeconds * 1000).toISOString(),
     })
 
     return {
