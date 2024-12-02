@@ -100,7 +100,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
               <Loader2 className='absolute size-8 animate-spin text-muted-foreground' />
             )}
             <Image
-              src={`/api/proxy?filePath=files/${selectedImage.image_path}`}
+              src={`/api/proxy?path=/files/${selectedImage.image_path}`}
               width={1920}
               height={1080}
               className='h-auto max-h-full w-auto max-w-full select-none rounded-sm border object-contain'

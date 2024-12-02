@@ -4,6 +4,7 @@ import { z } from 'zod'
 export const env = createEnv({
   server: {
     LOOPS_API_KEY: z.string().min(1),
+    DUB_API_KEY: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_ROOT_DOMAIN: z.string().min(1),
@@ -13,6 +14,7 @@ export const env = createEnv({
   },
   runtimeEnv: {
     LOOPS_API_KEY: process.env.LOOPS_API_KEY,
+    DUB_API_KEY: process.env.DUB_API_KEY,
 
     NEXT_PUBLIC_ROOT_DOMAIN: process.env.NEXT_PUBLIC_ROOT_DOMAIN,
     NEXT_PUBLIC_PROTOCOL: process.env.NEXT_PUBLIC_PROTOCOL,
