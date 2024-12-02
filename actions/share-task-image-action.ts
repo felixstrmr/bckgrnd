@@ -1,6 +1,7 @@
 'use server'
 
 import { actionClient } from '@/lib/clients/action-client'
+import { dub } from '@/lib/clients/dub-client'
 import { createClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 
@@ -29,5 +30,13 @@ export const shareTaskImageAction = actionClient
       throw error
     }
 
-    return data
+    const { shortLink, url } = await dub.links.create({
+      url: data.signedUrl,
+      expiresAt: new Date(Date.now() + expiresInSeconds * 1000).toISOString(),
+    })
+
+    return {
+      shortLink,
+      url,
+    }
   })
