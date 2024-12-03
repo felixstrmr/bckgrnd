@@ -1,3 +1,4 @@
+import { WHITELISTED_DOMAIN_ROUTES } from '@/lib/constants'
 import { User } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -11,7 +12,7 @@ export default async function DomainMiddleware(
   const searchParams = request.nextUrl.searchParams.toString()
   const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ''}`
 
-  if (!user && path !== '/login') {
+  if (!user && !WHITELISTED_DOMAIN_ROUTES.includes(path)) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 

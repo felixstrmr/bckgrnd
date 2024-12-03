@@ -108,6 +108,21 @@ export function getClientUsers(
     .throwOnError()
 }
 
+// Client User Invitation
+
+export function getClientUserInvitations(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+  clientId: string,
+) {
+  return supabase
+    .from('client_user_invitations')
+    .select('*, workspace:workspaces!inner(*)')
+    .eq('workspace.domain', domain)
+    .eq('client', clientId)
+    .throwOnError()
+}
+
 // Project
 
 export function getProjects(

@@ -1,11 +1,24 @@
 'use client'
 
-import { ClientUserWithRelations } from '@/types/custom'
 import { ColumnDef } from '@tanstack/react-table'
 
-export const columns: ColumnDef<ClientUserWithRelations>[] = [
+type ClientUser = {
+  email: string
+  status?: string
+  expires_at?: string
+}
+
+export const columns: ColumnDef<ClientUser>[] = [
   {
-    accessorKey: 'user.email',
+    accessorKey: 'email',
     header: 'Email',
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+  },
+  {
+    accessorKey: 'expires_at',
+    header: 'Expires At',
   },
 ]

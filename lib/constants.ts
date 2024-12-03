@@ -3,6 +3,8 @@ export const VALID_ERROR_MESSAGES = [
   'You are already on the waitlist',
 ]
 
+export const WHITELISTED_DOMAIN_ROUTES = ['/invite', '/login']
+
 export const VALID_HOME_ROUTES = ['/', '/privacy', '/terms']
 export const VALID_APP_ROUTES = ['/', '/login']
 

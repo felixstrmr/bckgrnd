@@ -2,6 +2,7 @@ import {
   getClient,
   getClients,
   getClientStatuses,
+  getClientUserInvitations,
   getClientUsers,
   getProjects,
   getProjectStatuses,
@@ -161,6 +162,30 @@ export async function getClientUsersWithCache(
     {
       revalidate: 3600,
       tags: [`client-users-${domain}-${clientId}`],
+    },
+  )()
+
+  if (error) {
+    console.error(error)
+    throw error
+  }
+
+  return data
+}
+
+// Client User Invitation
+
+export async function getClientUserInvitationsWithCache(
+  supabase: SupabaseClient,
+  domain: string,
+  clientId: string,
+) {
+  const { data, error } = await unstable_cache(
+    async () => getClientUserInvitations(supabase, domain, clientId),
+    [`client-user-invitations-${domain}-${clientId}`],
+    {
+      revalidate: 3600,
+      tags: [`client-user-invitations-${domain}-${clientId}`],
     },
   )()
 

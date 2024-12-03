@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -38,9 +37,6 @@ export default function InviteClientUserDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Invite User</DialogTitle>
-          <DialogDescription>
-            Invite a user to join {clientName} in {workspaceName}.
-          </DialogDescription>
         </DialogHeader>
         <InviteClientUserForm
           domain={domain}

@@ -40,12 +40,12 @@ export default function InviteClientUserForm({
     resolver: zodResolver(inviteClientUserSchema),
     defaultValues: {
       email: '',
+      client: clientId,
+      workspace: workspaceId,
       domain,
       inviterName,
       clientName,
       workspaceName,
-      client: clientId,
-      workspace: workspaceId,
     },
   })
 
@@ -69,7 +69,7 @@ export default function InviteClientUserForm({
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder='shadcn' {...field} />
+                <Input placeholder='Enter an email' {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name.
@@ -78,7 +78,7 @@ export default function InviteClientUserForm({
             </FormItem>
           )}
         />
-        <Button loading={loading}>Submit</Button>
+        <Button loading={loading}>Invite</Button>
       </form>
     </Form>
   )

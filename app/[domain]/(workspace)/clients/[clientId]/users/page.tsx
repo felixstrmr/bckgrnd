@@ -2,6 +2,7 @@ import InviteClientUserDialog from '@/components/dialogs/invite-client-user-dial
 import { columns } from '@/components/tables/client-users/columns'
 import { DataTable } from '@/components/tables/client-users/data-table'
 import {
+  getClientUserInvitationsWithCache,
   getClientUsersWithCache,
   getClientWithCache,
   getUserWithCache,
@@ -19,12 +20,25 @@ export default async function Page({ params }: Props) {
   const domain = getDomain(domainParam)
 
   const supabase = await createClient()
-  const [clientUsers, workspace, user, client] = await Promise.all([
-    getClientUsersWithCache(supabase, domain, clientId),
-    getWorkspaceWithCache(supabase, domain),
-    getUserWithCache(supabase, domain),
-    getClientWithCache(supabase, domain, clientId),
-  ])
+  const [clientUsers, clientUserInvitations, workspace, user, client] =
+    await Promise.all([
+      getClientUsersWithCache(supabase, domain, clientId),
+      getClientUserInvitationsWithCache(supabase, domain, clientId),
+      getWorkspaceWithCache(supabase, domain),
+      getUserWithCache(supabase, domain),
+      getClientWithCache(supabase, domain, clientId),
+    ])
+
+  const allClientUsers = [
+    ...clientUsers.map((user) => ({
+      email: user.user.email,
+    })),
+    ...clientUserInvitations.map((invitation) => ({
+      email: invitation.email,
+      status: invitation.status,
+      expires_at: invitation.expires_at,
+    })),
+  ]
 
   return (
     <div className='flex size-full flex-col space-y-6 p-6'>
@@ -44,7 +58,7 @@ export default async function Page({ params }: Props) {
           workspaceName={workspace.name}
         />
       </div>
-      <DataTable columns={columns} data={clientUsers} />
+      <DataTable columns={columns} data={allClientUsers} />
     </div>
   )
 }
