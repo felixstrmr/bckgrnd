@@ -1,4 +1,5 @@
 import {
+  getClient,
   getClients,
   getClientStatuses,
   getClientUsers,
@@ -91,6 +92,28 @@ export async function getClientsWithCache(
     {
       revalidate: 3600,
       tags: [`clients-${domain}`],
+    },
+  )()
+
+  if (error) {
+    console.error(error)
+    throw error
+  }
+
+  return data
+}
+
+export async function getClientWithCache(
+  supabase: SupabaseClient,
+  domain: string,
+  clientId: string,
+) {
+  const { data, error } = await unstable_cache(
+    async () => getClient(supabase, domain, clientId),
+    [`client-${domain}-${clientId}`],
+    {
+      revalidate: 3600,
+      tags: [`client-${domain}-${clientId}`],
     },
   )()
 

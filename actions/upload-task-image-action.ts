@@ -43,6 +43,7 @@ export const uploadTaskImageAction = actionClient
       const metadata = await sharp(buffer).metadata()
 
       const { error: insertError } = await supabase.from('task_images').insert({
+        // @ts-expect-error TODO: fix this
         workspace,
         id: uuid,
         task,

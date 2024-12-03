@@ -31,6 +31,18 @@ export const deleteClientSchema = z.object({
   id: z.string().min(1).uuid(),
 })
 
+// Client User
+
+export const inviteClientUserSchema = z.object({
+  email: z.string().min(1, 'Email is required').email('Invalid email address'),
+  inviterName: z.string().min(1),
+  client: z.string().min(1).uuid(),
+  clientName: z.string().min(1),
+  domain: z.string().min(1),
+  workspace: z.string().min(1).uuid(),
+  workspaceName: z.string().min(1),
+})
+
 // Project
 
 export const createProjectSchema = z.object({

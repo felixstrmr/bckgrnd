@@ -66,6 +66,20 @@ export function getClients(supabase: SupabaseClient<Database>, domain: string) {
     .throwOnError()
 }
 
+export function getClient(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+  clientId: string,
+) {
+  return supabase
+    .from('clients')
+    .select('*, workspace:workspaces!inner(*)')
+    .eq('workspace.domain', domain)
+    .eq('id', clientId)
+    .single()
+    .throwOnError()
+}
+
 // Client Status
 
 export function getClientStatuses(

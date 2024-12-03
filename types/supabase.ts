@@ -44,6 +44,67 @@ export type Database = {
           },
         ]
       }
+      client_user_invitations: {
+        Row: {
+          accepted_at: string | null
+          client: string
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string
+          status: Database["public"]["Enums"]["client_user_invitation_statuses"]
+          token: string
+          workspace: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          client: string
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          invited_by?: string
+          status?: Database["public"]["Enums"]["client_user_invitation_statuses"]
+          token: string
+          workspace: string
+        }
+        Update: {
+          accepted_at?: string | null
+          client?: string
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string
+          status?: Database["public"]["Enums"]["client_user_invitation_statuses"]
+          token?: string
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_user_invitations_client_fkey"
+            columns: ["client"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_user_invitations_invited_by_fkey"
+            columns: ["invited_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_user_invitations_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       client_users: {
         Row: {
           client: string
@@ -362,12 +423,12 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          image_height: number | null
+          image_height: number
           image_name: string
           image_path: string
           image_size: number
           image_type: string
-          image_width: number | null
+          image_width: number
           task: string
           version: number
           workspace: string
@@ -375,12 +436,12 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
-          image_height?: number | null
+          image_height: number
           image_name: string
           image_path: string
           image_size: number
           image_type: string
-          image_width?: number | null
+          image_width: number
           task: string
           version: number
           workspace: string
@@ -388,12 +449,12 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
-          image_height?: number | null
+          image_height?: number
           image_name?: string
           image_path?: string
           image_size?: number
           image_type?: string
-          image_width?: number | null
+          image_width?: number
           task?: string
           version?: number
           workspace?: string
@@ -744,6 +805,11 @@ export type Database = {
       }
     }
     Enums: {
+      client_user_invitation_statuses:
+        | "pending"
+        | "accepted"
+        | "expired"
+        | "cancelled"
       project_user_roles: "lead"
       task_status_types: "completed" | "uncompleted"
       task_types: "image" | "pdf"
