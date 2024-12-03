@@ -1,6 +1,6 @@
 import InviteClientUserDialog from '@/components/dialogs/invite-client-user-dialog'
-import { columns } from '@/components/tables/client-users/columns'
-import { DataTable } from '@/components/tables/client-users/data-table'
+import ClientUserTabs from '@/components/tabs/client-user-tabs'
+import ClientUserView from '@/components/views/client-user/client-user-view'
 import {
   getClientUserInvitationsWithCache,
   getClientUsersWithCache,
@@ -10,6 +10,7 @@ import {
 } from '@/lib/queries/cached'
 import { createClient } from '@/lib/supabase/server'
 import { getDomain } from '@/lib/utils'
+import { User } from 'lucide-react'
 
 type Props = {
   params: Promise<{ domain: string; clientId: string }>
@@ -29,25 +30,15 @@ export default async function Page({ params }: Props) {
       getClientWithCache(supabase, domain, clientId),
     ])
 
-  const allClientUsers = [
-    ...clientUsers.map((user) => ({
-      email: user.user.email,
-    })),
-    ...clientUserInvitations.map((invitation) => ({
-      email: invitation.email,
-      status: invitation.status,
-      expires_at: invitation.expires_at,
-    })),
-  ]
-
   return (
     <div className='flex size-full flex-col space-y-6 p-6'>
       <div className='flex items-center justify-between'>
-        <div className='flex items-center space-x-2'>
+        <div className='flex items-center space-x-4'>
           <h3>Users</h3>
-          <div className='rounded-sm bg-muted px-1.5 text-sm text-muted-foreground'>
-            {clientUsers.length}
-          </div>
+          <p className='flex h-8 items-center gap-2 rounded-lg border border-dashed bg-background px-3 text-sm text-muted-foreground shadow-sm'>
+            <User className='size-4' />
+            {client.name}
+          </p>
         </div>
         <InviteClientUserDialog
           domain={domain}
@@ -58,7 +49,11 @@ export default async function Page({ params }: Props) {
           workspaceName={workspace.name}
         />
       </div>
-      <DataTable columns={columns} data={allClientUsers} />
+      <ClientUserTabs />
+      <ClientUserView
+        clientUsers={clientUsers}
+        clientUserInvitations={clientUserInvitations}
+      />
     </div>
   )
 }

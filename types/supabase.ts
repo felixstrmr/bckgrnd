@@ -809,7 +809,7 @@ export type Database = {
         | "pending"
         | "accepted"
         | "expired"
-        | "cancelled"
+        | "declined"
       project_user_roles: "lead"
       task_status_types: "completed" | "uncompleted"
       task_types: "image" | "pdf"

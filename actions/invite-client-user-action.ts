@@ -5,6 +5,7 @@ import { loops } from '@/lib/clients/loops-client'
 import { env } from '@/lib/env'
 import { inviteClientUserSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
+import { revalidateTag } from 'next/cache'
 
 export const inviteClientUserAction = actionClient
   .schema(inviteClientUserSchema)
@@ -61,5 +62,7 @@ export const inviteClientUserAction = actionClient
       if (!resp.success) {
         throw new Error('Failed to send invite email')
       }
+
+      revalidateTag(`client-user-invitations-${domain}-${client}`)
     },
   )
