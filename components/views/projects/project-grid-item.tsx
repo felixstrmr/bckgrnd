@@ -2,7 +2,6 @@ import DynamicIcon from '@/components/dynamic-icon'
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { formatRelativeTime } from '@/lib/utils'
@@ -25,20 +24,18 @@ export default function ProjectGridItem({ project }: Props) {
         <p className='text-xs'>{project.client.name}</p>
       </div>
       <div className='flex items-center gap-2 p-4'>
-        <TooltipProvider delayDuration={0}>
-          <Tooltip>
-            <TooltipTrigger>
-              <DynamicIcon
-                icon={project.status.icon}
-                style={{ color: project.status.color }}
-                className='size-4'
-              />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{project.status.name}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger>
+            <DynamicIcon
+              icon={project.status.icon}
+              style={{ color: project.status.color }}
+              className='size-4'
+            />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{project.status.name}</p>
+          </TooltipContent>
+        </Tooltip>
         <h6 className='truncate'>{project.name}</h6>
       </div>
       <div className='flex gap-2 border-t bg-muted px-4 py-3'>

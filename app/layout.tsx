@@ -8,6 +8,7 @@ import { GeistSans } from 'geist/font/sans'
 import { Metadata } from 'next/types'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
+import { TooltipProvider } from '@/components/ui/tooltip'
 import '@/styles/globals.css'
 
 export const metadata: Metadata = {
@@ -67,9 +68,11 @@ export default function RootLayout({ children }: Props) {
     >
       <body className='antialiased'>
         <ThemeProvider attribute={'class'} defaultTheme='dark'>
-          <NuqsAdapter>
-            <main className='w-sreen h-screen'>{children}</main>
-          </NuqsAdapter>
+          <TooltipProvider>
+            <NuqsAdapter>
+              <main className='w-sreen h-screen'>{children}</main>
+            </NuqsAdapter>
+          </TooltipProvider>
         </ThemeProvider>
         <Toaster />
         <Analytics />

@@ -1,6 +1,7 @@
 import {
   Client,
   ClientStatus,
+  ClientUser,
   Project,
   ProjectStatus,
   Task,
@@ -15,6 +16,13 @@ export type ClientWithRelations = Client & {
     domain: string
   }
   status: ClientStatus
+}
+
+export type ClientUserWithRelations = ClientUser & {
+  workspace: {
+    domain: string
+  }
+  user: User
 }
 
 export type ProjectWithRelations = Project & {
