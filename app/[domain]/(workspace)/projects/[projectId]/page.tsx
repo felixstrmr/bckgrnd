@@ -1,6 +1,9 @@
 import RevalidateTagButton from '@/components/buttons/revalidate-button'
-import DynamicIcon from '@/components/dynamic-icon'
-import { getProjectWithCache } from '@/lib/queries/cached'
+import ProjectStatusesDropdown from '@/components/dropdowns/project-statuses-dropdown'
+import {
+  getProjectStatusesWithCache,
+  getProjectWithCache,
+} from '@/lib/queries/cached'
 import { createClient } from '@/lib/supabase/server'
 import { formatRelativeTime, getDomain } from '@/lib/utils'
 import { format } from 'date-fns'
@@ -17,7 +20,10 @@ export default async function Page({ params }: Props) {
   const domain = getDomain(domainParam)
 
   const supabase = await createClient()
-  const project = await getProjectWithCache(supabase, domain, projectId)
+  const [project, projectStatuses] = await Promise.all([
+    getProjectWithCache(supabase, domain, projectId),
+    getProjectStatusesWithCache(supabase, domain),
+  ])
 
   if (!project) return notFound()
 
@@ -48,14 +54,10 @@ export default async function Page({ params }: Props) {
           )}
         </div>
         <div className='mt-9 flex items-center space-x-2'>
-          <div className='flex h-8 items-center space-x-2 rounded-md p-2 transition-all hover:bg-muted'>
-            <DynamicIcon
-              icon={project.status.icon}
-              style={{ color: project.status.color }}
-              className='size-3'
-            />
-            <p className='text-xs'>{project.status.name}</p>
-          </div>
+          <ProjectStatusesDropdown
+            project={project}
+            projectStatuses={projectStatuses}
+          />
           <Link
             href={`/clients/${project.client.id}`}
             className='flex h-8 items-center space-x-2 rounded-md p-2 transition-all hover:bg-muted'

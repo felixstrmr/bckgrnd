@@ -131,6 +131,7 @@ export function getProjectStatuses(
     .from('project_statuses')
     .select('*, workspace:workspaces!inner(*)')
     .eq('workspace.domain', domain)
+    .order('position', { ascending: true })
     .throwOnError()
 }
 
