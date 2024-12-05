@@ -39,30 +39,36 @@ export default function UpdateProjectForm({ project }: Props) {
   })
   const loading = status === 'executing'
 
+  const handleFormSubmit = async (
+    formData: z.infer<typeof updateProjectSchema>,
+  ) => {
+    if (formData.name === '') {
+      toast.error('Project title cannot be empty')
+      return
+    }
+
+    const hasChanges =
+      formData.name !== project.name ||
+      formData.description !== project.description
+
+    if (hasChanges) {
+      await execute(formData)
+    }
+  }
+
   const debouncedSave = React.useMemo(
     () =>
       debounce(async () => {
         const formData = form.getValues()
-        const hasChanges =
-          formData.name !== project.name ||
-          formData.description !== project.description
-
-        if (hasChanges) {
-          await execute(formData)
-        }
+        await handleFormSubmit(formData)
       }, 1000),
-    [execute, project, form],
+    [form, project],
   )
 
+  // Cleanup debounce on unmount
   React.useEffect(() => {
-    return () => {
-      debouncedSave.cancel()
-    }
+    return () => debouncedSave.cancel()
   }, [debouncedSave])
-
-  const handleFieldChange = async () => {
-    debouncedSave()
-  }
 
   return (
     <Form {...form}>
@@ -78,14 +84,14 @@ export default function UpdateProjectForm({ project }: Props) {
                   id='project-name'
                   disabled={loading}
                   placeholder='Enter a project name'
-                  className='w-full rounded-sm bg-transparent px-2 py-1 text-2xl font-medium outline-none disabled:cursor-not-allowed disabled:bg-transparent'
+                  className='w-full rounded-sm bg-transparent text-2xl font-medium outline-none disabled:cursor-not-allowed disabled:bg-transparent'
                   onChange={(e) => {
                     field.onChange(e)
-                    handleFieldChange()
+                    debouncedSave()
                   }}
                 />
               </FormControl>
-              <FormMessage role='alert' />
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -100,10 +106,10 @@ export default function UpdateProjectForm({ project }: Props) {
                   id='project-description'
                   disabled={loading}
                   placeholder='Add a description (optional)'
-                  className='w-full resize-none rounded-sm bg-transparent px-2 py-1 text-sm outline-none disabled:cursor-not-allowed disabled:bg-transparent'
+                  className='w-full resize-none rounded-sm bg-transparent text-sm outline-none disabled:cursor-not-allowed disabled:bg-transparent'
                   onChange={(e) => {
                     field.onChange(e)
-                    handleFieldChange()
+                    debouncedSave()
                   }}
                   onInput={(e) => {
                     const target = e.target as HTMLTextAreaElement
@@ -113,7 +119,7 @@ export default function UpdateProjectForm({ project }: Props) {
                   rows={1}
                 />
               </FormControl>
-              <FormMessage role='alert' />
+              <FormMessage />
             </FormItem>
           )}
         />

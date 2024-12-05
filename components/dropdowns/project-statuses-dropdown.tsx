@@ -24,15 +24,7 @@ export default function ProjectStatusesDropdown({
 }: Props) {
   const { execute, status } = useAction(updateProjectAction, {
     onError: ({ error }) => {
-      toast.dismiss()
       toast.error(error.serverError)
-    },
-    onExecute: () => {
-      toast.loading('Updating project status...')
-    },
-    onSuccess: () => {
-      toast.dismiss()
-      toast.success('Project status updated')
     },
   })
   const loading = status === 'executing'
