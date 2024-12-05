@@ -62,7 +62,7 @@ export default function UpdateProjectForm({ project }: Props) {
         const formData = form.getValues()
         await handleFormSubmit(formData)
       }, 1000),
-    [form, project],
+    [form, project, handleFormSubmit],
   )
 
   // Cleanup debounce on unmount
