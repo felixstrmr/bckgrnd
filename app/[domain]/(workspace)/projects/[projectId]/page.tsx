@@ -1,5 +1,6 @@
 import RevalidateTagButton from '@/components/buttons/revalidate-button'
 import ProjectStatusesDropdown from '@/components/dropdowns/project-statuses-dropdown'
+import UpdateProjectForm from '@/components/forms/update-project-form'
 import {
   getProjectStatusesWithCache,
   getProjectWithCache,
@@ -46,12 +47,7 @@ export default async function Page({ params }: Props) {
           <p className='mb-7 w-fit rounded-lg border border-dashed p-1 px-2 text-xs text-muted-foreground'>
             Created {formatRelativeTime(new Date(project.created_at))}
           </p>
-          <h3>{project.name}</h3>
-          {project.description ? (
-            <p className='text-muted-foreground'>{project.description}</p>
-          ) : (
-            <p className='text-sm text-muted-foreground'>No description</p>
-          )}
+          <UpdateProjectForm project={project} />
         </div>
         <div className='mt-9 flex items-center space-x-2'>
           <ProjectStatusesDropdown

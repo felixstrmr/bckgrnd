@@ -104,7 +104,7 @@ export default function CreateProjectForm({
                     disabled={loading}
                     autoFocus
                     placeholder='Enter a project name'
-                    className='w-full bg-transparent text-xl font-medium outline-none disabled:opacity-50'
+                    className='w-full bg-transparent text-2xl font-medium outline-none disabled:opacity-50'
                     {...field}
                   />
                 </FormControl>

@@ -1,3 +1,6 @@
+'use client'
+
+import { updateProjectAction } from '@/actions/update-project-action'
 import DynamicIcon from '@/components/dynamic-icon'
 import {
   DropdownMenu,
@@ -7,6 +10,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { ProjectStatus } from '@/types'
 import { ProjectWithRelations } from '@/types/custom'
+import { useAction } from 'next-safe-action/hooks'
+import { toast } from 'sonner'
 
 type Props = {
   project: ProjectWithRelations
@@ -17,6 +22,27 @@ export default function ProjectStatusesDropdown({
   project,
   projectStatuses,
 }: Props) {
+  const { execute, status } = useAction(updateProjectAction, {
+    onError: ({ error }) => {
+      toast.dismiss()
+      toast.error(error.serverError)
+    },
+    onExecute: () => {
+      toast.loading('Updating project status...')
+    },
+    onSuccess: () => {
+      toast.dismiss()
+      toast.success('Project status updated')
+    },
+  })
+  const loading = status === 'executing'
+
+  const handleChange = (statusId: string) => {
+    if (project.status.id === statusId) return
+
+    execute({ id: project.id, status: statusId })
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,7 +57,11 @@ export default function ProjectStatusesDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent align='start'>
         {projectStatuses.map((status) => (
-          <DropdownMenuItem key={status.id}>
+          <DropdownMenuItem
+            key={status.id}
+            onClick={() => handleChange(status.id)}
+            disabled={loading}
+          >
             <DynamicIcon
               icon={status.icon}
               style={{ color: status.color }}

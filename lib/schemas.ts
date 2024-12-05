@@ -70,6 +70,13 @@ export const createProjectSchema = z.object({
   status: z.string().min(1).uuid(),
 })
 
+export const updateProjectSchema = z.object({
+  id: z.string().min(1).uuid(),
+  status: z.string().uuid().optional(),
+  name: z.string().min(1).optional(),
+  description: z.string().max(500).optional(),
+})
+
 // Task
 
 export const createTaskSchema = z.object({
