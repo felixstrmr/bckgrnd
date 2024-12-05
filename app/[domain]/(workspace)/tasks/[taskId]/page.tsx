@@ -4,6 +4,7 @@ import TaskImageShareDropdown from '@/components/dropdowns/task-image-share-drop
 import TaskImageVersionSelect from '@/components/selects/task-image-version-select'
 import TaskSidebar from '@/components/sidebars/task-sidebar'
 import { buttonVariants } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import TaskImageCanvas from '@/components/views/task/task-image-canvas'
 import { getTaskImages } from '@/lib/queries'
 import {
@@ -54,10 +55,11 @@ export default async function Page({ params }: Props) {
         <div className='flex items-center gap-4'>
           <Link
             href={`/projects/${task.project.id}/tasks`}
-            className={buttonVariants({ variant: 'outline', size: 'icon' })}
+            className={buttonVariants({ variant: 'ghost', size: 'icon' })}
           >
             <ArrowLeft className='size-4' />
           </Link>
+          <Separator orientation='vertical' className='h-4' />
           <h3 className='whitespace-nowrap'>{task.name}</h3>
           {taskImages.data.length > 0 ? (
             <TaskImageVersionSelect taskImages={taskImages.data} />

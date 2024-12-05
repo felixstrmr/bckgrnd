@@ -1,3 +1,5 @@
+'use client'
+
 import ProjectGridItem from '@/components/views/projects/project-grid-item'
 import { ProjectWithRelations } from '@/types/custom'
 

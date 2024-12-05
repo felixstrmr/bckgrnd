@@ -48,10 +48,15 @@ export default function CreateTaskForm({
 
   const { execute, status } = useAction(createTaskAction, {
     onError: ({ error }) => {
+      toast.dismiss()
       toast.error(error.serverError)
+    },
+    onExecute: () => {
+      toast.loading('Creating task...')
     },
     onSuccess: () => {
       setOpen(false)
+      toast.dismiss()
       toast.success('Task created successfully')
     },
   })

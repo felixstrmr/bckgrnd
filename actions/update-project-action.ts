@@ -20,10 +20,12 @@ export const updateProjectAction = actionClient
     const domain = getDomain(domainHeader ?? '')
     const supabase = await createClient()
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('projects')
       .update({ status, name, description })
       .eq('id', id)
+      .select()
+      .single()
 
     if (error) {
       console.error(error)
@@ -31,4 +33,6 @@ export const updateProjectAction = actionClient
     }
 
     revalidateTag(`projects-${domain}`)
+
+    return data
   })

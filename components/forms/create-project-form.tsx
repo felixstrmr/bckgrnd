@@ -74,10 +74,15 @@ export default function CreateProjectForm({
 
   const { execute, status } = useAction(createProjectAction, {
     onError: ({ error }) => {
+      toast.dismiss()
       toast.error(error.serverError)
+    },
+    onExecute: () => {
+      toast.loading('Creating project...')
     },
     onSuccess: ({ data }) => {
       router.push(`/projects/${data?.id}`)
+      toast.dismiss()
       toast.success('Project created successfully')
     },
   })
