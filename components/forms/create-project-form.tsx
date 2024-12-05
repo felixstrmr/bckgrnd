@@ -28,13 +28,7 @@ import { cn } from '@/lib/utils'
 import { Client, ProjectStatus } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
-import {
-  ArrowRight,
-  CalendarIcon,
-  Check,
-  ChevronsUpDown,
-  User,
-} from 'lucide-react'
+import { ArrowRight, CalendarIcon, Check, User } from 'lucide-react'
 import { useAction } from 'next-safe-action/hooks'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -156,21 +150,20 @@ export default function CreateProjectForm({
                           role='combobox'
                           size='sm'
                           className={cn(
-                            'w-48 items-center justify-between p-2 font-normal active:scale-100',
+                            'items-center justify-between px-2.5 font-normal active:scale-100',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
                           <div className='flex items-center gap-1'>
-                            <User className='size-3' />
+                            <User className='size-3 text-muted-foreground/50' />
                             <p>
                               {field.value
                                 ? clients.find(
                                     (client) => client.id === field.value,
                                   )?.name
-                                : 'Select client'}
+                                : 'Client'}
                             </p>
                           </div>
-                          <ChevronsUpDown className='opacity-50' />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -227,10 +220,11 @@ export default function CreateProjectForm({
                           variant={'outline'}
                           size={'sm'}
                           className={cn(
-                            'pl-3 text-left font-normal active:scale-100',
+                            'px-2.5 text-left font-normal active:scale-100',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
+                          <CalendarIcon className='size-4 text-muted-foreground/50' />
                           {field.value ? (
                             field.value.from && !field.value.to ? (
                               `${format(field.value.from, 'PP')}`
@@ -240,12 +234,11 @@ export default function CreateProjectForm({
                                 'PP',
                               )}`
                             ) : (
-                              <span>Pick a date</span>
+                              <span>Start & end date</span>
                             )
                           ) : (
-                            <span>Pick a date</span>
+                            <span>Start & end date</span>
                           )}
-                          <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>

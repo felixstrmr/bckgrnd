@@ -30,7 +30,7 @@ export default async function Page({ params }: Props) {
         tag={`projects-${domain}-${projectId}`}
         className='ml-auto'
       />
-      <div className='mx-auto w-full max-w-3xl'>
+      <div className='mx-auto w-full max-w-3xl animate-in slide-in-from-bottom-2'>
         <div className='space-y-2'>
           <p className='mb-7 w-fit rounded-lg border border-dashed p-1 px-2 text-xs text-muted-foreground'>
             Created {formatRelativeTime(new Date(project.created_at))}
