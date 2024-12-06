@@ -8,6 +8,7 @@ import {
   TaskComment,
   TaskImage,
   TaskPriority,
+  TaskStatus,
   User,
 } from '@/types'
 
@@ -40,7 +41,7 @@ export type TaskWithRelations = Task & {
   workspace: {
     domain: string
   }
-  project: string
+  status: TaskStatus
   priority: TaskPriority
   task_comments: {
     count: number

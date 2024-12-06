@@ -189,7 +189,7 @@ export function getTasks(
   return supabase
     .from('tasks')
     .select(
-      '*, workspace:workspaces!inner(*), priority:task_priorities(*), task_comments:task_comments(count), task_images:task_images(count)',
+      '*, workspace:workspaces!inner(*), status:task_statuses(*), priority:task_priorities(*), task_comments:task_comments(count), task_images:task_images(count)',
     )
     .eq('workspace.domain', domain)
     .eq('project', projectId)

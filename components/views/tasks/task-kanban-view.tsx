@@ -44,15 +44,22 @@ export default function TaskKanbanView({
   )
 
   const filterTasks = (taskStatus: TaskStatus) => {
-    return optimisticState.tasks.filter((task) => task.status === taskStatus.id)
+    return optimisticState.tasks.filter(
+      (task) => task.status.id === taskStatus.id,
+    )
   }
 
   const { execute, optimisticState } = useOptimisticAction(updateTaskAction, {
     currentState: { tasks },
+    // @ts-expect-error - TODO: fix this
     updateFn(state, input) {
+      const newStatus = taskStatuses.find(
+        (status) => status.id === input.status,
+      )
+      if (!newStatus) return state
       return {
         tasks: state.tasks.map((task) =>
-          task.id === input.id ? { ...task, status: input.status } : task,
+          task.id === input.id ? { ...task, status: newStatus } : task,
         ),
       }
     },

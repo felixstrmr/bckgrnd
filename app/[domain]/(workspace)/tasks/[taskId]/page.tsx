@@ -1,13 +1,15 @@
-import RevalidateTagButton from '@/components/buttons/revalidate-button'
 import UploadTaskImageButton from '@/components/buttons/upload-task-image-button'
 import TaskImageShareDropdown from '@/components/dropdowns/task-image-share-dropdown'
+import UpdateTaskForm from '@/components/forms/update-task-form'
 import TaskImageVersionSelect from '@/components/selects/task-image-version-select'
+import TaskStatusesSelect from '@/components/selects/task-statuses-select'
 import TaskSidebar from '@/components/sidebars/task-sidebar'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import TaskImageCanvas from '@/components/views/task/task-image-canvas'
 import { getTaskImages } from '@/lib/queries'
 import {
+  getTaskStatusesWithCache,
   getTaskWithCache,
   getUserWithCache,
   getWorkspaceWithCache,
@@ -15,7 +17,7 @@ import {
 import { createClient } from '@/lib/supabase/server'
 import { formatRelativeTime, getDomain } from '@/lib/utils'
 import { TaskImage } from '@/types'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -28,9 +30,10 @@ export default async function Page({ params }: Props) {
   const domain = getDomain(domainParam)
 
   const supabase = await createClient()
-  const [task, taskImages, workspace, user] = await Promise.all([
+  const [task, taskImages, taskStatuses, workspace, user] = await Promise.all([
     getTaskWithCache(supabase, domain, taskId),
     getTaskImages(supabase, domain, taskId),
+    getTaskStatusesWithCache(supabase, domain),
     getWorkspaceWithCache(supabase, domain),
     getUserWithCache(supabase, domain),
   ])
@@ -60,7 +63,7 @@ export default async function Page({ params }: Props) {
             <ArrowLeft className='size-4' />
           </Link>
           <Separator orientation='vertical' className='h-4' />
-          <h3 className='whitespace-nowrap'>{task.name}</h3>
+          <UpdateTaskForm task={task} />
           {taskImages.data.length > 0 ? (
             <TaskImageVersionSelect taskImages={taskImages.data} />
           ) : (
@@ -68,18 +71,23 @@ export default async function Page({ params }: Props) {
               No Versions
             </div>
           )}
-          {task.updated_at ? (
-            <p className='whitespace-nowrap text-sm text-muted-foreground'>
-              Updated {formatRelativeTime(new Date(task.updated_at))}
+          <div className='flex items-center gap-1 text-sm text-muted-foreground'>
+            <Clock className='size-4' />
+            <p>
+              {task.updated_at
+                ? formatRelativeTime(new Date(task.updated_at))
+                : formatRelativeTime(new Date(task.created_at))}
             </p>
-          ) : (
-            <p className='whitespace-nowrap text-sm text-muted-foreground'>
-              Created {formatRelativeTime(new Date(task.created_at))}
-            </p>
-          )}
+          </div>
         </div>
         <div className='flex items-center gap-2'>
-          <RevalidateTagButton tag={`task-${domain}-${taskId}`} />
+          <TaskStatusesSelect
+            taskId={task.id}
+            taskStatusId={task.status}
+            projectId={task.project.id}
+            taskStatuses={taskStatuses}
+            domain={domain}
+          />
           <TaskImageShareDropdown taskImages={taskImages.data} />
           <UploadTaskImageButton
             domain={domain}

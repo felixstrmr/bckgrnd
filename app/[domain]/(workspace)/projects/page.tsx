@@ -24,7 +24,7 @@ export default async function Page({ params }: Props) {
   }
 
   return (
-    <div className='flex size-full flex-col space-y-6 p-6'>
+    <div className='flex size-full flex-col space-y-9 p-6'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center space-x-2'>
           <h3>Projects</h3>

@@ -21,7 +21,7 @@ export const updateTaskAction = actionClient
       throw error
     }
 
-    revalidateTag(`tasks-${domain}-${project}`)
+    revalidateTag(`task-${domain}-${id}`)
 
     return data
   })
