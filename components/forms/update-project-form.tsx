@@ -290,6 +290,11 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
                         setEndDateOpen(false)
                         debouncedSave()
                       }}
+                      disabled={(date) =>
+                        optimisticState.project.start_date
+                          ? date < new Date(optimisticState.project.start_date)
+                          : false
+                      }
                       initialFocus
                     />
                   </PopoverContent>
