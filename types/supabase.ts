@@ -199,6 +199,7 @@ export type Database = {
           is_default: boolean
           name: string
           position: number
+          type: Database["public"]["Enums"]["status_types"]
           workspace: string
         }
         Insert: {
@@ -209,6 +210,7 @@ export type Database = {
           is_default?: boolean
           name: string
           position: number
+          type?: Database["public"]["Enums"]["status_types"]
           workspace: string
         }
         Update: {
@@ -219,6 +221,7 @@ export type Database = {
           is_default?: boolean
           name?: string
           position?: number
+          type?: Database["public"]["Enums"]["status_types"]
           workspace?: string
         }
         Relationships: [
@@ -525,7 +528,7 @@ export type Database = {
           id: string
           name: string
           position: number
-          type: Database["public"]["Enums"]["task_status_types"]
+          type: Database["public"]["Enums"]["status_types"]
           workspace: string
         }
         Insert: {
@@ -535,7 +538,7 @@ export type Database = {
           id?: string
           name: string
           position: number
-          type?: Database["public"]["Enums"]["task_status_types"]
+          type?: Database["public"]["Enums"]["status_types"]
           workspace: string
         }
         Update: {
@@ -545,7 +548,7 @@ export type Database = {
           id?: string
           name?: string
           position?: number
-          type?: Database["public"]["Enums"]["task_status_types"]
+          type?: Database["public"]["Enums"]["status_types"]
           workspace?: string
         }
         Relationships: [
@@ -811,7 +814,7 @@ export type Database = {
         | "expired"
         | "declined"
       project_user_roles: "lead"
-      task_status_types: "completed" | "uncompleted"
+      status_types: "completed" | "uncompleted"
       task_types: "image" | "pdf"
       workspace_user_roles: "client" | "agent"
     }
