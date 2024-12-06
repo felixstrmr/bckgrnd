@@ -9,30 +9,43 @@ import { headers } from 'next/headers'
 
 export const updateProjectAction = actionClient
   .schema(updateProjectSchema)
-  .action(async ({ parsedInput: { id, status, name, description } }) => {
-    const headersList = await headers()
-    const domainHeader = headersList.get('x-forwarded-host')
+  .action(
+    async ({
+      parsedInput: { id, status, name, description, start_date, end_date },
+    }) => {
+      const headersList = await headers()
+      const domainHeader = headersList.get('x-forwarded-host')
 
-    if (!domainHeader) {
-      throw new Error('Missing domain header')
-    }
+      if (!domainHeader) {
+        throw new Error('Missing domain header')
+      }
 
-    const domain = getDomain(domainHeader ?? '')
-    const supabase = await createClient()
+      const domain = getDomain(domainHeader ?? '')
+      const supabase = await createClient()
 
-    const { data, error } = await supabase
-      .from('projects')
-      .update({ status, name, description })
-      .eq('id', id)
-      .select()
-      .single()
+      const startDate = start_date?.toISOString()
+      const endDate = end_date?.toISOString()
 
-    if (error) {
-      console.error(error)
-      throw error
-    }
+      const { data, error } = await supabase
+        .from('projects')
+        .update({
+          status,
+          name,
+          description,
+          start_date: startDate,
+          end_date: endDate,
+        })
+        .eq('id', id)
+        .select()
+        .single()
 
-    revalidateTag(`projects-${domain}`)
+      if (error) {
+        console.error(error)
+        throw error
+      }
 
-    return data
-  })
+      revalidateTag(`projects-${domain}`)
+
+      return data
+    },
+  )

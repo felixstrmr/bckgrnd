@@ -75,6 +75,8 @@ export const updateProjectSchema = z.object({
   status: z.string().uuid().optional(),
   name: z.string().min(1).optional(),
   description: z.string().max(500).optional(),
+  start_date: z.date().optional(),
+  end_date: z.date().optional(),
 })
 
 // Task

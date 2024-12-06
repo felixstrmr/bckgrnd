@@ -2,6 +2,7 @@
 
 import { updateProjectAction } from '@/actions/update-project-action'
 import DynamicIcon from '@/components/dynamic-icon'
+import { Calendar } from '@/components/ui/calendar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +16,13 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { updateProjectSchema } from '@/lib/schemas'
+import { cn } from '@/lib/utils'
 import { ProjectStatus } from '@/types'
 import { ProjectWithRelations } from '@/types/custom'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -24,7 +31,7 @@ import { debounce } from 'lodash'
 import { CalendarMinus, CalendarPlus, Loader2, User } from 'lucide-react'
 import { useOptimisticAction } from 'next-safe-action/hooks'
 import Link from 'next/link'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -59,6 +66,12 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
       id: optimisticState.project.id,
       name: optimisticState.project.name,
       description: optimisticState.project.description ?? '',
+      start_date: optimisticState.project.start_date
+        ? new Date(optimisticState.project.start_date)
+        : undefined,
+      end_date: optimisticState.project.end_date
+        ? new Date(optimisticState.project.end_date)
+        : undefined,
     },
   })
 
@@ -71,7 +84,10 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
 
       const hasChanges =
         formData.name !== optimisticState.project.name ||
-        formData.description !== optimisticState.project.description
+        formData.description !== optimisticState.project.description ||
+        formData.start_date?.toISOString() !==
+          optimisticState.project.start_date ||
+        formData.end_date?.toISOString() !== optimisticState.project.end_date
 
       if (hasChanges) {
         await execute(formData)
@@ -80,6 +96,8 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
     [
       optimisticState.project.name,
       optimisticState.project.description,
+      optimisticState.project.start_date,
+      optimisticState.project.end_date,
       execute,
     ],
   )
@@ -102,13 +120,8 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
     execute({ id: optimisticState.project.id, status: statusId })
   }
 
-  const startDate = project.start_date
-    ? format(new Date(project.start_date), 'PP')
-    : 'No date'
-
-  const endDate = project.end_date
-    ? format(new Date(project.end_date), 'PP')
-    : 'No date'
+  const [startDateOpen, setStartDateOpen] = useState(false)
+  const [endDateOpen, setEndDateOpen] = useState(false)
 
   return (
     <Form {...form}>
@@ -171,7 +184,7 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
         <div className='mt-9 flex items-center space-x-2'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className='flex h-8 items-center space-x-2 rounded-md p-2 transition-all hover:bg-muted'>
+              <button className='flex h-8 items-center space-x-1.5 rounded-md p-2 transition-all hover:bg-muted'>
                 <DynamicIcon
                   icon={optimisticState.project.status.icon}
                   style={{ color: optimisticState.project.status.color }}
@@ -186,6 +199,7 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
                   key={status.id}
                   onClick={() => handleStatusChange(status.id)}
                   disabled={loading}
+                  className='space-x-1.5'
                 >
                   <DynamicIcon
                     icon={status.icon}
@@ -199,19 +213,91 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
           </DropdownMenu>
           <Link
             href={`/clients/${project.client.id}`}
-            className='flex h-8 items-center space-x-2 rounded-md p-2 transition-all hover:bg-muted'
+            className='flex h-8 items-center space-x-1.5 rounded-md p-2 transition-all hover:bg-muted'
           >
             <User className='size-3 text-muted-foreground' />
             <p className='text-xs'>{project.client.name}</p>
           </Link>
-          <div className='flex h-8 items-center space-x-2 rounded-md p-2 transition-all hover:bg-muted'>
-            <CalendarPlus className='size-3 text-muted-foreground' />
-            <p className='text-xs'>{startDate}</p>
-          </div>
-          <div className='flex h-8 items-center space-x-2 rounded-md p-2 transition-all hover:bg-muted'>
-            <CalendarMinus className='size-3 text-muted-foreground' />
-            <p className='text-xs'>{endDate}</p>
-          </div>
+          <FormField
+            control={form.control}
+            name='start_date'
+            render={({ field }) => (
+              <FormItem className='flex flex-col'>
+                <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <button
+                        className={cn(
+                          'flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs font-normal transition-all hover:bg-muted',
+                          !field.value && 'text-muted-foreground',
+                        )}
+                      >
+                        <CalendarPlus className='size-3 text-muted-foreground' />
+                        {field.value ? (
+                          format(field.value, 'PP')
+                        ) : (
+                          <span>Start date</span>
+                        )}
+                      </button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className='w-auto p-0' align='start'>
+                    <Calendar
+                      mode='single'
+                      selected={field.value}
+                      onSelect={(date) => {
+                        field.onChange(date)
+                        setStartDateOpen(false)
+                        debouncedSave()
+                      }}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='end_date'
+            render={({ field }) => (
+              <FormItem className='flex flex-col'>
+                <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <button
+                        className={cn(
+                          'flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs font-normal transition-all hover:bg-muted',
+                          !field.value && 'text-muted-foreground',
+                        )}
+                      >
+                        <CalendarMinus className='size-3 text-muted-foreground' />
+                        {field.value ? (
+                          format(field.value, 'PP')
+                        ) : (
+                          <span>End date</span>
+                        )}
+                      </button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className='w-auto p-0' align='start'>
+                    <Calendar
+                      mode='single'
+                      selected={field.value}
+                      onSelect={(date) => {
+                        field.onChange(date)
+                        setEndDateOpen(false)
+                        debouncedSave()
+                      }}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       </div>
     </Form>
