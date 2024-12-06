@@ -10,7 +10,8 @@ export default async function DomainMiddleware(
 ) {
   const url = request.nextUrl
   const searchParams = request.nextUrl.searchParams.toString()
-  const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ''}`
+  const path = url.pathname
+  const fullPath = `${path}${searchParams.length > 0 ? `?${searchParams}` : ''}`
 
   if (!user && !WHITELISTED_DOMAIN_ROUTES.includes(path)) {
     return NextResponse.redirect(new URL('/login', request.url))
@@ -20,7 +21,7 @@ export default async function DomainMiddleware(
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  const rewrittenUrl = new URL(`/${hostname}${path}`, request.url)
+  const rewrittenUrl = new URL(`/${hostname}${fullPath}`, request.url)
   response = NextResponse.rewrite(rewrittenUrl)
 
   return response
