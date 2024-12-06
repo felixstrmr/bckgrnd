@@ -184,11 +184,11 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
         <div className='mt-9 flex items-center space-x-2'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className='flex h-8 items-center space-x-1.5 rounded-md p-2 transition-all hover:bg-muted'>
+              <button className='flex h-8 items-center gap-2 rounded-md p-2 transition-all hover:bg-muted'>
                 <DynamicIcon
                   icon={optimisticState.project.status.icon}
                   style={{ color: optimisticState.project.status.color }}
-                  className='size-3'
+                  className='size-4'
                 />
                 <p className='text-xs'>{optimisticState.project.status.name}</p>
               </button>
@@ -199,12 +199,12 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
                   key={status.id}
                   onClick={() => handleStatusChange(status.id)}
                   disabled={loading}
-                  className='space-x-1.5'
+                  className='gap-2'
                 >
                   <DynamicIcon
                     icon={status.icon}
                     style={{ color: status.color }}
-                    className='size-3'
+                    className='size-4'
                   />
                   <p className='text-xs'>{status.name}</p>
                 </DropdownMenuItem>
@@ -213,9 +213,9 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
           </DropdownMenu>
           <Link
             href={`/clients/${project.client.id}`}
-            className='flex h-8 items-center space-x-1.5 rounded-md p-2 transition-all hover:bg-muted'
+            className='flex h-8 items-center gap-2 rounded-md p-2 transition-all hover:bg-muted'
           >
-            <User className='size-3 text-muted-foreground' />
+            <User className='size-4 text-muted-foreground' />
             <p className='text-xs'>{project.client.name}</p>
           </Link>
           <FormField
@@ -228,11 +228,11 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
                     <FormControl>
                       <button
                         className={cn(
-                          'flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs font-normal transition-all hover:bg-muted',
+                          'flex h-8 items-center gap-2 rounded-md px-2.5 text-xs font-normal transition-all hover:bg-muted',
                           !field.value && 'text-muted-foreground',
                         )}
                       >
-                        <CalendarPlus className='size-3 text-muted-foreground' />
+                        <CalendarPlus className='size-4 text-muted-foreground' />
                         {field.value ? (
                           format(field.value, 'PP')
                         ) : (
@@ -268,11 +268,11 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
                     <FormControl>
                       <button
                         className={cn(
-                          'flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs font-normal transition-all hover:bg-muted',
+                          'flex h-8 items-center gap-2 rounded-md px-2.5 text-xs font-normal transition-all hover:bg-muted',
                           !field.value && 'text-muted-foreground',
                         )}
                       >
-                        <CalendarMinus className='size-3 text-muted-foreground' />
+                        <CalendarMinus className='size-4 text-muted-foreground' />
                         {field.value ? (
                           format(field.value, 'PP')
                         ) : (
