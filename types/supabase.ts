@@ -715,6 +715,24 @@ export type Database = {
         }
         Relationships: []
       }
+      waitlist_counters: {
+        Row: {
+          count: number
+          created_at: string
+          id: string
+        }
+        Insert: {
+          count?: number
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          count?: number
+          created_at?: string
+          id?: string
+        }
+        Relationships: []
+      }
       workspace_users: {
         Row: {
           created_at: string
