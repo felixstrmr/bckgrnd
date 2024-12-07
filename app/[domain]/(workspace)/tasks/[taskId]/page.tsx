@@ -71,9 +71,9 @@ export default async function Page({ params }: Props) {
               No Versions
             </div>
           )}
-          <div className='flex items-center gap-1 text-sm text-muted-foreground'>
+          <div className='flex items-center gap-1.5 text-sm text-muted-foreground'>
             <Clock className='size-4' />
-            <p>
+            <p className='whitespace-nowrap'>
               {task.updated_at
                 ? formatRelativeTime(new Date(task.updated_at))
                 : formatRelativeTime(new Date(task.created_at))}

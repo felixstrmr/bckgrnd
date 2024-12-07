@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { TaskStatus } from '@/types'
-import { useAction } from 'next-safe-action/hooks'
+import { useOptimisticAction } from 'next-safe-action/hooks'
 import { toast } from 'sonner'
 
 type Props = {
@@ -28,7 +28,7 @@ export default function TaskStatusesSelect({
   taskStatuses,
   domain,
 }: Props) {
-  const { execute } = useAction(updateTaskAction, {
+  const { execute, optimisticState } = useOptimisticAction(updateTaskAction, {
     onError: ({ error }) => {
       toast.dismiss()
       toast.error(error.serverError)
@@ -40,13 +40,13 @@ export default function TaskStatusesSelect({
       toast.dismiss()
       toast.success('Task status updated successfully')
     },
+    currentState: taskStatusId,
+    updateFn: (state, input) => input.status,
   })
-
-  const taskStatus = taskStatuses.find((s) => s.id === taskStatusId)
 
   return (
     <Select
-      value={taskStatus?.id}
+      value={optimisticState}
       onValueChange={(value) =>
         execute({
           status: value,
@@ -56,10 +56,10 @@ export default function TaskStatusesSelect({
         })
       }
     >
-      <SelectTrigger className='border-none transition-all hover:bg-muted'>
+      <SelectTrigger className='border-none shadow-none transition-all hover:bg-muted'>
         <SelectValue placeholder='Select a status' />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent align='start'>
         {taskStatuses.map((taskStatus) => (
           <SelectItem key={taskStatus.id} value={taskStatus.id}>
             <DynamicIcon
@@ -68,7 +68,7 @@ export default function TaskStatusesSelect({
               className='mr-2 inline-flex'
             />
             {taskStatus.name}
-            <div className='inline-flex h-1 w-3' />
+            <div className='inline-flex size-2' />
           </SelectItem>
         ))}
       </SelectContent>

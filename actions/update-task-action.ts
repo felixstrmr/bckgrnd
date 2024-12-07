@@ -22,6 +22,7 @@ export const updateTaskAction = actionClient
     }
 
     revalidateTag(`task-${domain}-${id}`)
+    revalidateTag(`tasks-${domain}-${project}`)
 
     return data
   })
