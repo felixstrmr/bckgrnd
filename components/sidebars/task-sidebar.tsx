@@ -2,6 +2,7 @@
 
 import TaskSidebarTabs from '@/components/tabs/task-sidebar-tabs'
 import TaskComments from '@/components/views/task/task-comments'
+import TaskImageHistory from '@/components/views/task/task-image-history'
 import { TaskImage, User } from '@/types'
 import { parseAsString, useQueryState } from 'nuqs'
 
@@ -27,7 +28,7 @@ export default function TaskSidebar({
   return (
     <div className='bg-mute4d flex h-full w-96 min-w-96 flex-col overflow-hidden rounded-lg border p-4'>
       <TaskSidebarTabs />
-      {tab === 'comments' && (
+      {tab === 'comments' ? (
         <TaskComments
           domain={domain}
           projectId={projectId}
@@ -36,6 +37,8 @@ export default function TaskSidebar({
           taskImages={taskImages}
           user={user}
         />
+      ) : (
+        <TaskImageHistory taskImages={taskImages} />
       )}
     </div>
   )

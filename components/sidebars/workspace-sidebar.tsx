@@ -44,7 +44,7 @@ export default function WorkspaceSidebar() {
   return (
     <aside className='flex h-full flex-col p-4'>
       <Link href={'/'}>
-        <Bckgrnd className='size-9' />
+        <Bckgrnd className='size-9 invert dark:invert-0' />
       </Link>
       <Separator className='my-4' />
       <div className='flex h-full flex-col justify-between'>
