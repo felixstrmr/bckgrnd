@@ -2,8 +2,10 @@
 
 import Bckgrnd from '@/components/icons/bckgrnd'
 import { buttonVariants } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { env } from '@/lib/env'
 import { cn } from '@/lib/utils'
+
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -15,10 +17,12 @@ export default function HomeNavbar() {
       setIsScrolled(window.scrollY > 10)
     }
 
+    const debouncedHandleScroll = debounce(handleScroll, 10)
+
     handleScroll()
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', debouncedHandleScroll)
+    return () => window.removeEventListener('scroll', debouncedHandleScroll)
   }, [])
 
   return (
@@ -26,14 +30,17 @@ export default function HomeNavbar() {
       className={cn(
         'fixed left-0 right-0 top-4 z-50 mx-auto flex w-full justify-between rounded-2xl border bg-background/80 p-2 backdrop-blur-md transition-all duration-500',
         isScrolled
-          ? 'max-w-3xl border-border shadow-md'
+          ? 'max-w-3xl border-border bg-muted shadow-md'
           : 'max-w-6xl border-transparent',
       )}
     >
-      <Link href={'/'} className='flex items-center gap-2.5'>
-        <Bckgrnd className='size-9' />
-        <h4 className='font-semibold'>Bckgrnd</h4>
-      </Link>
+      <div className='flex items-center gap-4'>
+        <Link href={'/'} className='flex items-center gap-2.5'>
+          <Bckgrnd className='size-9 invert-0 dark:invert' />
+          <h4 className='font-semibold'>Bckgrnd</h4>
+        </Link>
+        <Separator orientation='vertical' className='h-6' />
+      </div>
       <div className='flex items-center gap-2'>
         <Link
           href={`${env.NEXT_PUBLIC_PROTOCOL}://app.${env.NEXT_PUBLIC_ROOT_DOMAIN}/login`}
@@ -55,4 +62,16 @@ export default function HomeNavbar() {
       </div>
     </nav>
   )
+}
+
+function debounce(func: Function, wait: number) {
+  let timeout: NodeJS.Timeout
+  return function executedFunction(...args: any[]) {
+    const later = () => {
+      clearTimeout(timeout)
+      func(...args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
 }
