@@ -18,7 +18,6 @@ export default function TaskImageCanvas({ taskImages }: Props) {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [scale, setScale] = useState(1)
 
   const { selectedImage } = useTaskVersion(taskImages)
 
@@ -52,16 +51,6 @@ export default function TaskImageCanvas({ taskImages }: Props) {
     setIsDragging(false)
   }
 
-  const handleWheel = useCallback(
-    (e: React.WheelEvent) => {
-      e.preventDefault()
-      const delta = e.deltaY * -0.01
-      const newScale = Math.min(Math.max(scale + delta, 0.1), 4)
-      setScale(newScale)
-    },
-    [scale],
-  )
-
   const handleTouchStart = useCallback(
     (e: React.TouchEvent) => {
       if (e.touches.length === 1) {
@@ -84,7 +73,6 @@ export default function TaskImageCanvas({ taskImages }: Props) {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
-        onWheel={handleWheel}
         onTouchStart={handleTouchStart}
         tabIndex={0}
       >
@@ -92,7 +80,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
           <div
             className='flex size-full cursor-grab items-center justify-center active:cursor-grabbing'
             style={{
-              transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+              transform: `translate(${position.x}px, ${position.y}px)`,
               transition: isDragging ? 'none' : 'transform 0.1s',
             }}
           >

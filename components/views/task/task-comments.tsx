@@ -3,6 +3,7 @@
 import CreateTaskCommentForm from '@/components/forms/create-task-comment-form'
 import TaskCommentSkeleton from '@/components/skeletons/task-comment-skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { useTaskVersion } from '@/hooks/use-task-version'
 import { getTaskComments } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/client'
@@ -87,19 +88,21 @@ export default function TaskComments({
   }, [supabase, fetchComments, taskId])
 
   return (
-    <div className='flex h-full flex-col'>
-      <div className='flex h-full flex-col justify-end space-y-6 overflow-y-auto pr-2'>
-        {loading ? (
-          <TaskCommentSkeleton />
-        ) : comments.length === 0 ? (
-          <div className='flex h-full w-full flex-col items-center justify-center text-center'>
-            <p className='text-sm text-muted-foreground'>No comments yet.</p>
-          </div>
-        ) : (
-          comments.map((comment) => (
+    <div className='relative flex size-full flex-col overflow-hidden'>
+      {loading ? (
+        <div className='absolute inset-0 flex flex-col space-y-6 bg-background'>
+          <TaskCommentSkeleton className='' />
+        </div>
+      ) : comments.length === 0 ? (
+        <div className='flex size-full flex-col items-center justify-center text-center'>
+          <p className='text-sm text-muted-foreground'>No comments yet.</p>
+        </div>
+      ) : (
+        <ScrollArea className='my-4 h-full min-h-0'>
+          {comments.map((comment) => (
             <div
               key={comment.id}
-              className='flex gap-2 animate-in slide-in-from-bottom-3'
+              className='flex gap-2 py-2 animate-in slide-in-from-bottom-3'
             >
               <Avatar className='size-9'>
                 <AvatarImage src={comment.user?.avatar_url || ''} />
@@ -133,10 +136,10 @@ export default function TaskComments({
                 </div>
               </div>
             </div>
-          ))
-        )}
-      </div>
-      <div className='flex-shrink-0 pt-6'>
+          ))}
+        </ScrollArea>
+      )}
+      <div className='flex w-full'>
         <CreateTaskCommentForm
           taskId={taskId}
           workspaceId={workspaceId}

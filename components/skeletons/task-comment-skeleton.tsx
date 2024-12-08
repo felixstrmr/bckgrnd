@@ -1,8 +1,12 @@
 import { Skeleton } from '@/components/ui/skeleton'
+import { cn } from '@/lib/utils'
+type Props = {
+  className?: string
+}
 
-export default function TaskCommentSkeleton() {
+export default function TaskCommentSkeleton({ className }: Props) {
   return (
-    <div className='pr-4 pt-4'>
+    <div className={cn('pr-4 pt-4', className)}>
       <div className='flex flex-col space-y-6'>
         {[1, 2, 3].map((i) => (
           <div key={i} className='flex gap-2'>

@@ -42,11 +42,16 @@ export default function CreateTaskCommentForm({
       workspace: workspaceId,
       domain: domain,
       project: projectId,
+      version: selectedVersion || undefined,
     },
   })
 
   useEffect(() => {
-    form.setValue('version', selectedVersion || undefined)
+    if (selectedVersion !== form.getValues('version')) {
+      form.setValue('version', selectedVersion || undefined, {
+        shouldDirty: true,
+      })
+    }
   }, [selectedVersion, form])
 
   const { execute, status } = useAction(createTaskCommentAction, {
@@ -61,22 +66,22 @@ export default function CreateTaskCommentForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(execute)}>
+      <form onSubmit={form.handleSubmit(execute)} className='relative w-full'>
         <FormField
           control={form.control}
           name='message'
           render={({ field }) => (
-            <FormItem className='relative'>
+            <FormItem>
               <FormControl>
                 <Textarea
                   disabled={loading}
                   placeholder='Add a comment...'
                   rows={3}
-                  className='min-h-24 w-full resize-none'
+                  className='max-h-32 min-h-20 w-full resize-none pr-20'
                   {...field}
                 />
               </FormControl>
-              <div className='absolute bottom-2 right-2 flex items-center justify-end gap-2'>
+              <div className='absolute bottom-2 right-2 flex items-center justify-end gap-2 bg-background'>
                 <p className='text-xs text-muted-foreground'>
                   {field.value.length} / 256
                 </p>

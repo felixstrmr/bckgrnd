@@ -17,7 +17,7 @@ export const createTaskCommentAction = actionClient
         message,
         task,
         workspace,
-        image: version || null,
+        image: version,
       })
 
       if (error) {
