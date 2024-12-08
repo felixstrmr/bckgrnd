@@ -66,7 +66,10 @@ export default function CreateTaskCommentForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(execute)} className='relative w-full'>
+      <form
+        onSubmit={form.handleSubmit(execute)}
+        className='relative w-full p-1'
+      >
         <FormField
           control={form.control}
           name='message'
@@ -81,7 +84,7 @@ export default function CreateTaskCommentForm({
                   {...field}
                 />
               </FormControl>
-              <div className='absolute bottom-2 right-2 flex items-center justify-end gap-2 bg-background'>
+              <div className='absolute bottom-3 right-3 flex items-center justify-end gap-2 bg-background'>
                 <p className='text-xs text-muted-foreground'>
                   {field.value.length} / 256
                 </p>

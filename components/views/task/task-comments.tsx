@@ -88,7 +88,7 @@ export default function TaskComments({
   }, [supabase, fetchComments, taskId])
 
   return (
-    <div className='relative flex size-full flex-col overflow-hidden'>
+    <div className='relative flex size-full flex-col overflow-auto'>
       {loading ? (
         <div className='absolute inset-0 flex flex-col space-y-6 bg-background'>
           <TaskCommentSkeleton className='' />
@@ -98,7 +98,7 @@ export default function TaskComments({
           <p className='text-sm text-muted-foreground'>No comments yet.</p>
         </div>
       ) : (
-        <ScrollArea className='my-4 h-full min-h-0'>
+        <ScrollArea className='my-4 flex-1'>
           {comments.map((comment) => (
             <div
               key={comment.id}
@@ -139,7 +139,7 @@ export default function TaskComments({
           ))}
         </ScrollArea>
       )}
-      <div className='flex w-full'>
+      <div className='mt-auto'>
         <CreateTaskCommentForm
           taskId={taskId}
           workspaceId={workspaceId}
