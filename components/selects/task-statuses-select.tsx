@@ -30,15 +30,7 @@ export default function TaskStatusesSelect({
 }: Props) {
   const { execute, optimisticState } = useOptimisticAction(updateTaskAction, {
     onError: ({ error }) => {
-      toast.dismiss()
       toast.error(error.serverError)
-    },
-    onExecute: () => {
-      toast.loading('Updating task status...')
-    },
-    onSuccess: () => {
-      toast.dismiss()
-      toast.success('Task status updated successfully')
     },
     currentState: taskStatusId,
     updateFn: (state, input) => input.status,

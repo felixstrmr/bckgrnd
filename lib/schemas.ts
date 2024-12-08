@@ -79,6 +79,11 @@ export const updateProjectSchema = z.object({
   end_date: z.date().optional(),
 })
 
+export const deleteProjectSchema = z.object({
+  id: z.string().min(1).uuid(),
+  domain: z.string().min(1),
+})
+
 // Task
 
 export const createTaskSchema = z.object({

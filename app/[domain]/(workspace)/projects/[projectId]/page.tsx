@@ -1,4 +1,4 @@
-import RevalidateTagButton from '@/components/buttons/revalidate-button'
+import ProjectMenuDropdown from '@/components/dropdowns/project-menu-dropdown'
 import UpdateProjectForm from '@/components/forms/update-project-form'
 import {
   getProjectStatusesWithCache,
@@ -26,10 +26,9 @@ export default async function Page({ params }: Props) {
 
   return (
     <div className='flex size-full flex-col space-y-12 p-6'>
-      <RevalidateTagButton
-        tag={`projects-${domain}-${projectId}`}
-        className='ml-auto'
-      />
+      <div className='ml-auto flex items-center gap-2'>
+        <ProjectMenuDropdown domain={domain} project={project} />
+      </div>
       <div className='mx-auto w-full max-w-3xl animate-in slide-in-from-bottom-2'>
         <div className='space-y-2'>
           <p className='mb-7 w-fit rounded-lg border border-dashed p-1 px-2 text-xs text-muted-foreground'>

@@ -7,7 +7,6 @@ import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import WordRotate from '@/components/ui/word-rotate'
 import { env } from '@/lib/env'
-import { createClient } from '@/lib/supabase/server'
 import { cn } from '@/lib/utils'
 import {
   Archive,
@@ -20,17 +19,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export default async function Page() {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase
-    .from('waitlist_counters')
-    .select('count')
-    .single()
-
-  if (error) {
-    console.error(error)
-  }
-
   return (
     <div className='flex size-full flex-col'>
       {/* Navbar */}
@@ -106,9 +94,6 @@ export default async function Page() {
 
           <div className='mt-12' id='waitlist'>
             <JoinWaitlistForm />
-            <p className='text-muted-foreground'>
-              Join {data?.count}+ people on the waitlist.
-            </p>
           </div>
         </div>
 

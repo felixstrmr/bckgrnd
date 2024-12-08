@@ -30,20 +30,5 @@ export const joinWaitlistAction = actionClient
       throw response.message
     }
 
-    try {
-      await fetch(
-        'https://jobs.strmrlab.de/webhook/a11dfb7d-cbbe-4329-91d9-983e25dfb18d',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email }),
-        },
-      )
-    } catch (error) {
-      console.error('Failed to send webhook:', error)
-    }
-
     return response
   })
