@@ -42,7 +42,7 @@ export default function JoinWaitlistForm() {
           name='email'
           render={({ field }) => (
             <FormItem className='flex h-20 flex-col items-start'>
-              <div className='flex w-96 rounded-2xl border border-input bg-background p-1 pl-4 text-sm transition-all focus-within:border-muted-foreground focus-within:ring focus-within:ring-primary/25 hover:border-muted-foreground'>
+              <div className='flex w-96 rounded-2xl border border-input bg-background p-1 pl-4 text-sm shadow-md transition-all focus-within:border-muted-foreground focus-within:ring focus-within:ring-primary/25 hover:border-muted-foreground'>
                 <FormControl className='w-full'>
                   <input
                     disabled={loading}

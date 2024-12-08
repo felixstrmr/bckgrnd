@@ -30,7 +30,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --selection-color: #ffffff;
-    --selection-background: #09090b;
+    --selection-background: #7e5e57;
   }
 
   .dark {
@@ -58,8 +58,8 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --selection-color: #09090b;
-    --selection-background: #ffffff;
+    --selection-color: #ffffff;
+    --selection-background: #b79891;
   }
 
   * {
@@ -103,11 +103,11 @@
 }
 
 .dark::-moz-selection {
-  color: #09090b;
-  background: #ffffff;
+  color: #ffffff;
+  background: #b79891;
 }
 
 .dark::selection {
-  color: #09090b;
-  background: #ffffff;
+  color: #ffffff;
+  background: #b79891;
 }
