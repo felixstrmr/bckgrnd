@@ -212,7 +212,7 @@ export default function UpdateProjectForm({ project, projectStatuses }: Props) {
             </DropdownMenuContent>
           </DropdownMenu>
           <Link
-            href={`/clients/${project.client.id}`}
+            href={`/dashboard/clients/${project.client.id}`}
             className='flex h-8 items-center gap-2 rounded-md p-2 transition-all hover:bg-muted'
           >
             <User className='size-4 text-muted-foreground' />

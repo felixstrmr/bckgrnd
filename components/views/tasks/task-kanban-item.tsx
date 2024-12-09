@@ -40,7 +40,7 @@ export default function TaskKanbanItem({ task }: Props) {
       return
     }
 
-    router.push(`/tasks/${task.id}`)
+    router.push(`/dashboard/tasks/${task.id}`)
   }
 
   return (

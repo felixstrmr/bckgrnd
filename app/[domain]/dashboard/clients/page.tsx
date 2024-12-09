@@ -31,7 +31,7 @@ export default async function Page({ params }: Props) {
         <div className='flex items-center space-x-2'>
           <RevalidateTagButton tag={`clients-${domain}`} />
           <Link
-            href={`/clients/create`}
+            href={`/dashboard/clients/create`}
             className={buttonVariants({ variant: 'default' })}
           >
             <Plus />

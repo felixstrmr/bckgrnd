@@ -57,7 +57,7 @@ export default async function Page({ params }: Props) {
       <div className='flex flex-shrink-0 justify-between'>
         <div className='flex items-center gap-4'>
           <Link
-            href={`/projects/${task.project.id}/tasks`}
+            href={`/dashboard/projects/${task.project.id}/tasks`}
             className={buttonVariants({ variant: 'ghost', size: 'icon' })}
           >
             <ArrowLeft className='size-4' />

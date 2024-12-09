@@ -16,25 +16,25 @@ export default function ProjectSidebar({ projectId }: Props) {
   const pagesTop = [
     {
       name: 'Overview',
-      href: `/projects/${projectId}`,
+      href: `/dashboard/projects/${projectId}`,
       isActive: !segment,
       icon: View,
     },
     {
       name: 'Tasks',
-      href: `/projects/${projectId}/tasks`,
+      href: `/dashboard/projects/${projectId}/tasks`,
       isActive: segment === 'tasks',
       icon: ListTodo,
     },
     {
       name: 'Files',
-      href: `/projects/${projectId}/files`,
+      href: `/dashboard/projects/${projectId}/files`,
       isActive: segment === 'files',
       icon: Files,
     },
     {
       name: 'Settings',
-      href: `/projects/${projectId}/settings`,
+      href: `/dashboard/projects/${projectId}/settings`,
       isActive: segment === 'settings',
       icon: Cog,
     },
@@ -44,7 +44,7 @@ export default function ProjectSidebar({ projectId }: Props) {
     <div className='h-full w-64 min-w-64 border-r p-6'>
       <div className='flex items-center justify-between'>
         <Link
-          href={'/projects'}
+          href={'/dashboard/projects'}
           className='flex items-center gap-2 text-sm text-muted-foreground transition-all hover:text-foreground'
         >
           <ArrowLeft className='size-4' />

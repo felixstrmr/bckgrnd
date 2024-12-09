@@ -16,6 +16,16 @@ export const joinWaitlistSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email address'),
 })
 
+// Workspace
+
+export const updateWorkspaceNameSchema = z.object({
+  name: z
+    .string()
+    .min(1, 'Name is required')
+    .max(64, 'Name cannot exceed 64 characters'),
+  workspace: z.string().min(1).uuid(),
+})
+
 // Client
 
 export const createClientSchema = z.object({
@@ -137,19 +147,4 @@ export const createTaskCommentSchema = z.object({
   version: z.string().optional(),
   domain: z.string().min(1),
   project: z.string().min(1).uuid(),
-})
-
-// Workspace
-
-export const updateWorkspaceNameSchema = z.object({
-  name: z
-    .string()
-    .min(1, 'Name is required')
-    .max(50, 'Name cannot exceed 50 characters')
-    .regex(
-      /^[a-zA-Z0-9\s\-_]+$/,
-      'Name can only contain letters, numbers, spaces, hyphens, and underscores',
-    ),
-  id: z.string().min(1).uuid(),
-  domain: z.string().min(1),
 })

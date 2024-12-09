@@ -16,19 +16,19 @@ export default function ClientSidebar({ clientId }: Props) {
   const pagesTop = [
     {
       name: 'Overview',
-      href: `/clients/${clientId}`,
+      href: `/dashboard/clients/${clientId}`,
       isActive: !segment,
       icon: View,
     },
     {
       name: 'Users',
-      href: `/clients/${clientId}/users`,
+      href: `/dashboard/clients/${clientId}/users`,
       isActive: segment === 'users',
       icon: Users,
     },
     {
       name: 'Branding',
-      href: `/clients/${clientId}/branding`,
+      href: `/dashboard/clients/${clientId}/branding`,
       isActive: segment === 'branding',
       icon: Palette,
     },
@@ -38,7 +38,7 @@ export default function ClientSidebar({ clientId }: Props) {
     <div className='h-full w-64 min-w-64 border-r p-6'>
       <div className='flex items-center justify-between'>
         <Link
-          href={'/clients'}
+          href={'/dashboard/clients'}
           className='flex items-center gap-2 text-sm text-muted-foreground transition-all hover:text-foreground'
         >
           <ArrowLeft className='size-4' />

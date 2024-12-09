@@ -16,7 +16,7 @@ type Props = {
 export default function ProjectGridItem({ project }: Props) {
   return (
     <Link
-      href={`/projects/${project.id}`}
+      href={`/dashboard/projects/${project.id}`}
       className='w-64 min-w-64 overflow-hidden rounded-lg border shadow-sm transition-all hover:border-muted-foreground/25'
     >
       <div className='flex items-center gap-1 p-4 pb-0 text-muted-foreground'>

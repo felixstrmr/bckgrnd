@@ -29,7 +29,7 @@ export default async function Page({ params }: Props) {
     <div className='flex size-full flex-col space-y-12 p-6'>
       <div>
         <Link
-          href={'/projects'}
+          href={'/dashboard/projects'}
           className={buttonVariants({ variant: 'outline', size: 'icon' })}
         >
           <ArrowLeft />

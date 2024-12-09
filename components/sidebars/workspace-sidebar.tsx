@@ -14,19 +14,19 @@ export default function WorkspaceSidebar() {
   const pagesTop = [
     {
       name: 'Dashboard',
-      href: '/',
+      href: '/dashboard',
       isActive: !segment,
       icon: Home,
     },
     {
       name: 'Clients',
-      href: '/clients',
+      href: '/dashboard/clients',
       isActive: segment === 'clients',
       icon: Users,
     },
     {
       name: 'Projects',
-      href: '/projects',
+      href: '/dashboard/projects',
       isActive: segment === 'projects' || segment === 'tasks',
       icon: FolderKanban,
     },
@@ -35,7 +35,7 @@ export default function WorkspaceSidebar() {
   const pagesBottom = [
     {
       name: 'Settings',
-      href: '/settings',
+      href: '/dashboard/settings',
       isActive: segment === 'settings',
       icon: Cog,
     },

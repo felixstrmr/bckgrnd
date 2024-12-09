@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({
                         cell.column.id !== 'actions'
                       ) {
                         // @ts-expect-error TODO: fix this
-                        router.push(`/clients/${row.original.id}`)
+                        router.push(`/dashboard/clients/${row.original.id}`)
                       }
                     }}
                   >

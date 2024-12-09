@@ -38,7 +38,7 @@ export default function ProjectSearchCommand({ projects }: Props) {
           <CommandEmpty>No projects found.</CommandEmpty>
           <CommandGroup heading='Projects' className='pb-2'>
             {projects.map((project) => (
-              <Link href={`/projects/${project.id}`} key={project.id}>
+              <Link href={`/dashboard/projects/${project.id}`} key={project.id}>
                 <CommandItem className='flex items-center gap-2'>
                   <DynamicIcon
                     icon={project.status.icon}
