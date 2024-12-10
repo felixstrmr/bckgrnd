@@ -78,7 +78,7 @@ function SidebarItem({ href, isActive, icon: Icon }: SidebarItemProps) {
       className={cn(
         'flex size-9 items-center justify-center rounded-md border transition-all',
         isActive
-          ? 'border-border bg-background text-foreground'
+          ? 'border-border bg-background text-foreground shadow-sm'
           : 'border-transparent bg-transparent text-muted-foreground hover:bg-background',
       )}
     >

@@ -32,7 +32,7 @@ export default async function Page({ params }: Props) {
         </div>
         <div className='flex items-center space-x-2'>
           <Link
-            href={`/projects/create`}
+            href={`/dashboard/projects/create`}
             className={buttonVariants({ variant: 'default' })}
           >
             <Plus />

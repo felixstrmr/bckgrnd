@@ -16,7 +16,7 @@ export default async function Page() {
     : `${workspace.data.domain}.${env.NEXT_PUBLIC_ROOT_DOMAIN}`
 
   const redirectUrl = new URL(
-    `${env.NEXT_PUBLIC_PROTOCOL}://${domain}`,
+    `${env.NEXT_PUBLIC_PROTOCOL}://${domain}/dashboard`,
   ).toString()
 
   return redirect(redirectUrl)

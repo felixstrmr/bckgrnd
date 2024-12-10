@@ -75,7 +75,7 @@ export default function CreateProjectForm({
       toast.loading('Creating project...')
     },
     onSuccess: ({ data }) => {
-      router.push(`/projects/${data?.id}`)
+      router.push(`/dashboard/projects/${data?.id}`)
       toast.dismiss()
       toast.success('Project created successfully')
     },
