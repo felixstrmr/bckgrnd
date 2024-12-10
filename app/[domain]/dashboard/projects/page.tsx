@@ -1,5 +1,3 @@
-import ProjectSearchCommand from '@/components/commands/project-search-command'
-import ProjectFilterDropdown from '@/components/dropdowns/project-filter-dropdown'
 import { buttonVariants } from '@/components/ui/button'
 import ProjectGridView from '@/components/views/projects/project-grid-view'
 import { getProjects } from '@/lib/queries'
@@ -33,8 +31,6 @@ export default async function Page({ params }: Props) {
           </div>
         </div>
         <div className='flex items-center space-x-2'>
-          <ProjectSearchCommand projects={projects} />
-          <ProjectFilterDropdown />
           <Link
             href={`/projects/create`}
             className={buttonVariants({ variant: 'default' })}
