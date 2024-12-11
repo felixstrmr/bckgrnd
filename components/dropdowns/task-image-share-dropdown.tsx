@@ -13,13 +13,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useTaskVersion } from '@/hooks/use-task-version'
-import { TaskImage } from '@/types'
+import { TaskImageWithRelations } from '@/types/custom'
 import { Share } from 'lucide-react'
 import { useAction } from 'next-safe-action/hooks'
 import { toast } from 'sonner'
 
 type Props = {
-  taskImages: TaskImage[]
+  taskImages: TaskImageWithRelations[]
 }
 
 export default function TaskImageShareDropdown({ taskImages }: Props) {
@@ -42,7 +42,7 @@ export default function TaskImageShareDropdown({ taskImages }: Props) {
 
   const handleShareClick = (expiresIn: string) => {
     execute({
-      path: selectedImage.image_path,
+      path: selectedImage.image.path,
       expiresIn: expiresIn as '1 week' | '1 month' | '1 year',
     })
   }

@@ -8,10 +8,10 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useTaskVersion } from '@/hooks/use-task-version'
-import { TaskImage } from '@/types'
+import { TaskImageWithRelations } from '@/types/custom'
 
 type Props = {
-  taskImages: TaskImage[]
+  taskImages: TaskImageWithRelations[]
 }
 
 export default function TaskImageVersionSelect({ taskImages }: Props) {

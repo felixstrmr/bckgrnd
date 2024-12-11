@@ -42,18 +42,27 @@ export const uploadTaskImageAction = actionClient
       const buffer = Buffer.from(await image.arrayBuffer())
       const metadata = await sharp(buffer).metadata()
 
-      const { error: insertError } = await supabase.from('task_images').insert({
-        // @ts-expect-error TODO: fix this
+      const { data, error: fileError } = await supabase.from('files').insert({
         workspace,
         id: uuid,
+        name: fileName,
+        path,
+        size: image.size,
+        type: image.type,
+        width: metadata.width,
+        height: metadata.height,
+      })
+
+      if (fileError) {
+        console.error(fileError)
+        throw fileError
+      }
+
+      const { error: insertError } = await supabase.from('task_images').insert({
+        workspace,
         task,
         version: 1,
-        image_name: fileName,
-        image_size: image.size,
-        image_type: image.type,
-        image_path: path,
-        image_width: metadata.width,
-        image_height: metadata.height,
+        image: uuid,
       })
 
       if (insertError) {

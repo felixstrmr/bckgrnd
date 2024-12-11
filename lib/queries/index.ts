@@ -232,7 +232,7 @@ export function getTaskImages(
 ) {
   return supabase
     .from('task_images')
-    .select('*, workspace:workspaces!inner(*)')
+    .select('*, workspace:workspaces!inner(*), image:files(*)')
     .eq('workspace.domain', domain)
     .eq('task', taskId)
     .order('version', { ascending: false })

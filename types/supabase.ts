@@ -190,6 +190,60 @@ export type Database = {
           },
         ]
       }
+      files: {
+        Row: {
+          created_at: string
+          created_by: string
+          height: number | null
+          id: string
+          name: string
+          path: string
+          size: number
+          type: string
+          width: number | null
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          height?: number | null
+          id?: string
+          name: string
+          path: string
+          size: number
+          type: string
+          width?: number | null
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          height?: number | null
+          id?: string
+          name?: string
+          path?: string
+          size?: number
+          type?: string
+          width?: number | null
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "files_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "files_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_statuses: {
         Row: {
           color: string
@@ -426,12 +480,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          image_height: number
-          image_name: string
-          image_path: string
-          image_size: number
-          image_type: string
-          image_width: number
+          image: string
           task: string
           version: number
           workspace: string
@@ -439,12 +488,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
-          image_height: number
-          image_name: string
-          image_path: string
-          image_size: number
-          image_type: string
-          image_width: number
+          image: string
           task: string
           version: number
           workspace: string
@@ -452,17 +496,19 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
-          image_height?: number
-          image_name?: string
-          image_path?: string
-          image_size?: number
-          image_type?: string
-          image_width?: number
+          image?: string
           task?: string
           version?: number
           workspace?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "task_images_image_fkey"
+            columns: ["image"]
+            isOneToOne: false
+            referencedRelation: "files"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "task_images_task_fkey"
             columns: ["task"]
@@ -779,7 +825,15 @@ export type Database = {
           logo?: string | null
           name?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "workspaces_logo_fkey"
+            columns: ["logo"]
+            isOneToOne: false
+            referencedRelation: "files"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

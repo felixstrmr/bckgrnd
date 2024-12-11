@@ -2,6 +2,7 @@ import {
   Client,
   ClientStatus,
   ClientUser,
+  File,
   Project,
   ProjectStatus,
   Task,
@@ -54,4 +55,11 @@ export type TaskWithRelations = Task & {
 export type TaskCommentWithRelations = TaskComment & {
   image: TaskImage | null
   user: User
+}
+
+export type TaskImageWithRelations = TaskImage & {
+  workspace: {
+    domain: string
+  }
+  image: File
 }

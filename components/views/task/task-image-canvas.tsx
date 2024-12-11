@@ -1,13 +1,13 @@
 'use client'
 
 import { useTaskVersion } from '@/hooks/use-task-version'
-import { TaskImage } from '@/types'
+import { TaskImageWithRelations } from '@/types/custom'
 import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import React, { useCallback, useRef, useState } from 'react'
 
 type Props = {
-  taskImages: TaskImage[]
+  taskImages: TaskImageWithRelations[]
   taskId: string
   domain: string
 }
@@ -88,7 +88,7 @@ export default function TaskImageCanvas({ taskImages }: Props) {
               <Loader2 className='absolute size-8 animate-spin text-muted-foreground' />
             )}
             <Image
-              src={`/api/proxy?path=/files/${selectedImage.image_path}`}
+              src={`/api/proxy?path=/files/${selectedImage.image.path}`}
               width={1920}
               height={1080}
               className='h-auto max-h-full w-auto max-w-full select-none rounded-sm border object-contain'

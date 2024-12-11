@@ -8,8 +8,11 @@ import { useTaskVersion } from '@/hooks/use-task-version'
 import { getTaskComments } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/client'
 import { cn, formatRelativeTime } from '@/lib/utils'
-import { TaskImage, User } from '@/types'
-import { TaskCommentWithRelations } from '@/types/custom'
+import { User } from '@/types'
+import {
+  TaskCommentWithRelations,
+  TaskImageWithRelations,
+} from '@/types/custom'
 import { RealtimeChannel } from '@supabase/supabase-js'
 import React, { useMemo } from 'react'
 
@@ -18,7 +21,7 @@ type Props = {
   taskId: string
   workspaceId: string
   projectId: string
-  taskImages: TaskImage[]
+  taskImages: TaskImageWithRelations[]
   user: User
 }
 

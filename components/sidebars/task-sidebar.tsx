@@ -3,7 +3,8 @@
 import TaskSidebarTabs from '@/components/tabs/task-sidebar-tabs'
 import TaskComments from '@/components/views/task/task-comments'
 import TaskImageHistory from '@/components/views/task/task-image-history'
-import { TaskImage, User } from '@/types'
+import { User } from '@/types'
+import { TaskImageWithRelations } from '@/types/custom'
 import { parseAsString, useQueryState } from 'nuqs'
 
 type Props = {
@@ -11,7 +12,7 @@ type Props = {
   taskId: string
   workspaceId: string
   projectId: string
-  taskImages: TaskImage[]
+  taskImages: TaskImageWithRelations[]
   user: User
 }
 
