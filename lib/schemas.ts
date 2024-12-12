@@ -1,0 +1,28 @@
+import { z } from 'zod'
+
+export const workspaceLoginSchema = z.object({
+  email: z
+    .string()
+    .email({ message: 'Invalid email address' })
+    .min(1, 'Email is required'),
+  password: z.string().min(1, 'Password is required'),
+})
+
+export const createClientSchema = z.object({
+  name: z
+    .string()
+    .min(1, 'Name is required')
+    .max(255, { message: 'Must be less than 255 characters' }),
+  domain: z.string(),
+  workspaceId: z.string().uuid(),
+})
+
+export const uploadTaskFileSchema = z.object({
+  domain: z.string(),
+  taskId: z.string().uuid(),
+  clientId: z.string().uuid(),
+  projectId: z.string().uuid(),
+  workspaceId: z.string().uuid(),
+  file: z.instanceof(File),
+  latestVersion: z.number(),
+})
