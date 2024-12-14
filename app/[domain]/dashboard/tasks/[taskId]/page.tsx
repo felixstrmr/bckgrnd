@@ -2,12 +2,11 @@ import UploadTaskFileButton from '@/components/buttons/upload-task-file-button'
 import TaskFileVersionSelect from '@/components/selects/task-file-version-select'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import TaskComments from '@/components/views/task/task-comments'
 import TaskFileCanvas from '@/components/views/task/task-file-canvas'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
 import {
-  getLatestTaskFile,
+  getLastTaskFile,
   getTask,
   getTaskFile,
   getTaskFileVersions,
@@ -20,7 +19,7 @@ import { notFound } from 'next/navigation'
 
 type Props = {
   params: Promise<{ domain: string; taskId: string }>
-  searchParams: Promise<{ version: string | null }>
+  searchParams: Promise<{ version: string }>
 }
 
 export default async function Page({ params, searchParams }: Props) {
@@ -32,11 +31,13 @@ export default async function Page({ params, searchParams }: Props) {
   const supabase = await createClient()
   const [task, taskFile, taskFileVersions] = await Promise.all([
     getTask(supabase, domain, taskId),
-    handleTaskFileFetch(supabase, domain, taskId, version),
-    getTaskFileVersions(supabase, taskId),
+    getTaskFileDynamic(supabase, domain, taskId, version),
+    getTaskFileVersions(supabase, domain, taskId),
   ])
 
   if (!task) return notFound()
+
+  const lastVersion = taskFileVersions[0]?.version ?? 0
 
   return (
     <div className='flex size-full flex-col space-y-6 p-6'>
@@ -53,7 +54,7 @@ export default async function Page({ params, searchParams }: Props) {
           {taskFile ? (
             <TaskFileVersionSelect taskFileVersions={taskFileVersions} />
           ) : (
-            <div className='flex items-center gap-1 rounded-md border bg-background px-2 py-1 text-sm text-muted-foreground shadow'>
+            <div className='flex items-center gap-1 rounded-md bg-muted px-2 py-1 text-sm text-muted-foreground'>
               <History className='size-3' />
               No Versions
             </div>
@@ -66,24 +67,22 @@ export default async function Page({ params, searchParams }: Props) {
             workspaceId={task.workspace.id}
             clientId={task.project.client}
             projectId={task.project.id}
-            latestVersion={taskFileVersions[0]?.version ?? 0}
+            latestVersion={lastVersion}
           />
         </div>
       </div>
-      <div className='flex size-full space-x-4'>
-        <TaskFileCanvas taskFile={taskFile} />
-        <TaskComments />
-      </div>
+      <TaskFileCanvas taskFile={taskFile} />
     </div>
   )
 }
 
-async function handleTaskFileFetch(
+function getTaskFileDynamic(
   supabase: SupabaseClient<Database>,
   domain: string,
   taskId: string,
-  version: string | null,
+  taskFileId: string | null,
 ) {
-  if (!version) return getLatestTaskFile(supabase, domain, taskId)
-  return getTaskFile(supabase, domain, taskId, version)
+  if (!taskFileId) return getLastTaskFile(supabase, domain, taskId)
+
+  return getTaskFile(supabase, domain, taskId, taskFileId)
 }

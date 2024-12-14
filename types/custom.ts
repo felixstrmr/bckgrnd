@@ -1,4 +1,11 @@
-import { Project } from '@/types'
+import {
+  File,
+  Project,
+  Task,
+  TaskFile,
+  TaskPriority,
+  TaskStatus,
+} from '@/types'
 
 export type ProjectWithWorkspaceDomain = Project & {
   workspace: {
@@ -9,10 +16,16 @@ export type ProjectWithWorkspaceDomain = Project & {
   }
 }
 
-export type TaskFileWithFile = {
-  id: string
+export type TaskStatusWithRelations = TaskStatus & {
+  workspace: { id: string; domain: string }
+}
+
+export type TaskWithRelations = Task & {
   workspace: { domain: string }
-  task: string
-  version: number
-  file: { path: string; name: string } | null
+  priority: TaskPriority
+}
+
+export type TaskFileWithRelations = TaskFile & {
+  workspace: { domain: string }
+  file: File
 }

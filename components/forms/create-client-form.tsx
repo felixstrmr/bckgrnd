@@ -88,7 +88,7 @@ export default function CreateClientForm({
               Cancel
             </Button>
           </DialogClose>
-          <Button loading={loading}>Create client</Button>
+          <Button loading={loading}>Create</Button>
         </DialogFooter>
       </form>
     </Form>

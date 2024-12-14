@@ -30,7 +30,7 @@ export default function CreateClientDialog({ domain, workspaceId }: Props) {
       </DialogTrigger>
       <DialogContent className='p-0'>
         <DialogHeader className='px-6 pt-6'>
-          <DialogTitle>Create a new client</DialogTitle>
+          <DialogTitle>Create new client</DialogTitle>
         </DialogHeader>
         <CreateClientForm
           setOpen={setOpen}

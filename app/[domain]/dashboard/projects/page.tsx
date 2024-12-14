@@ -1,22 +1,29 @@
+import ProjectViewTabs from '@/components/tabs/project-view-tabs'
 import { Button } from '@/components/ui/button'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import ProjectGridView from '@/components/views/projects/project-grid-view'
+import ProjectKanbanView from '@/components/views/projects/project-kanban-view'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
 import { getProjects } from '@/queries'
-import { Grid2X2, List, Plus } from 'lucide-react'
+import { getProjectStatusesWithCache } from '@/queries/cached'
+import { Plus } from 'lucide-react'
 import Link from 'next/link'
 
 type Props = {
   params: Promise<{ domain: string }>
+  searchParams: Promise<{ view: string | undefined }>
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params, searchParams }: Props) {
   let { domain } = await params
   domain = getDomain(domain)
 
   const supabase = await createClient()
-  const projects = await getProjects(supabase, domain)
+  const [projects, projectStatuses] = await Promise.all([
+    getProjects(supabase, domain),
+    getProjectStatusesWithCache(supabase, domain),
+  ])
+
+  const { view } = await searchParams
 
   return (
     <div className='flex size-full flex-col space-y-6 p-6'>
@@ -33,16 +40,7 @@ export default async function Page({ params }: Props) {
           </p>
         </div>
         <div className='flex items-center gap-2'>
-          <Tabs defaultValue='grid'>
-            <TabsList>
-              <TabsTrigger value='grid'>
-                <Grid2X2 className='size-4' />
-              </TabsTrigger>
-              <TabsTrigger value='list'>
-                <List className='size-4' />
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <ProjectViewTabs />
           <Link href={'/dashboard/projects/create'}>
             <Button>
               <Plus className='size-4' />
@@ -51,7 +49,14 @@ export default async function Page({ params }: Props) {
           </Link>
         </div>
       </div>
-      <ProjectGridView projects={projects} />
+      {view === 'list' ? (
+        <></>
+      ) : (
+        <ProjectKanbanView
+          projects={projects}
+          projectStatuses={projectStatuses}
+        />
+      )}
     </div>
   )
 }

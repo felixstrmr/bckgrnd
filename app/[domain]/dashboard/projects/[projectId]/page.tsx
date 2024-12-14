@@ -16,5 +16,5 @@ export default async function Page({ params }: Props) {
 
   if (!project) return notFound()
 
-  return <div className='flex size-full'></div>
+  return <div className='flex size-full flex-col space-y-6 py-6'></div>
 }

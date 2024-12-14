@@ -84,18 +84,33 @@ export type Database = {
       }
       project_statuses: {
         Row: {
+          color: string
           created_at: string
+          icon: string
           id: string
+          is_default: boolean
+          name: string
+          position: number
           workspace: string
         }
         Insert: {
+          color: string
           created_at?: string
+          icon: string
           id?: string
+          is_default: boolean
+          name: string
+          position: number
           workspace: string
         }
         Update: {
+          color?: string
           created_at?: string
+          icon?: string
           id?: string
+          is_default?: boolean
+          name?: string
+          position?: number
           workspace?: string
         }
         Relationships: [
@@ -118,6 +133,7 @@ export type Database = {
           id: string
           name: string
           start_date: string | null
+          status: string
           workspace: string
         }
         Insert: {
@@ -129,6 +145,7 @@ export type Database = {
           id?: string
           name: string
           start_date?: string | null
+          status: string
           workspace: string
         }
         Update: {
@@ -140,6 +157,7 @@ export type Database = {
           id?: string
           name?: string
           start_date?: string | null
+          status?: string
           workspace?: string
         }
         Relationships: [
@@ -155,6 +173,13 @@ export type Database = {
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_status_fkey"
+            columns: ["status"]
+            isOneToOne: false
+            referencedRelation: "project_statuses"
             referencedColumns: ["id"]
           },
           {
@@ -180,7 +205,7 @@ export type Database = {
           file: string
           id?: string
           task: string
-          version?: number
+          version: number
           workspace: string
         }
         Update: {
@@ -303,6 +328,7 @@ export type Database = {
           description: string | null
           id: string
           name: string
+          priority: string
           project: string
           status: string
           workspace: string
@@ -312,6 +338,7 @@ export type Database = {
           description?: string | null
           id?: string
           name: string
+          priority: string
           project: string
           status: string
           workspace: string
@@ -321,11 +348,19 @@ export type Database = {
           description?: string | null
           id?: string
           name?: string
+          priority?: string
           project?: string
           status?: string
           workspace?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "tasks_priority_fkey"
+            columns: ["priority"]
+            isOneToOne: false
+            referencedRelation: "task_priorities"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "tasks_project_fkey"
             columns: ["project"]

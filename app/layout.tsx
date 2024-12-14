@@ -4,6 +4,7 @@ import { GeistSans } from 'geist/font/sans'
 import { Metadata } from 'next/types'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
+import { TooltipProvider } from '@/components/ui/tooltip'
 import '@/styles/globals.css'
 
 export const metadata: Metadata = {
@@ -22,10 +23,12 @@ export default function RootLayout({ children }: Props) {
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <body className='font-medium antialiased'>
-        <NuqsAdapter>
-          <main className='h-screen w-screen'>{children}</main>
-          <Toaster />
-        </NuqsAdapter>
+        <TooltipProvider>
+          <NuqsAdapter>
+            <main className='h-screen w-screen'>{children}</main>
+            <Toaster />
+          </NuqsAdapter>
+        </TooltipProvider>
       </body>
     </html>
   )

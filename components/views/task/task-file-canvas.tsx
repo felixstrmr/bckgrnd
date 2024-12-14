@@ -1,12 +1,12 @@
 'use client'
 
-import { TaskFileWithFile } from '@/types/custom'
+import { TaskFileWithRelations } from '@/types/custom'
 import { File } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 
 type Props = {
-  taskFile: TaskFileWithFile | null
+  taskFile: TaskFileWithRelations | null
 }
 
 export default function TaskFileCanvas({ taskFile }: Props) {
@@ -75,17 +75,16 @@ export default function TaskFileCanvas({ taskFile }: Props) {
             className='flex size-full cursor-grab items-center justify-center active:cursor-grabbing'
             style={{
               transform: `translate(${position.x}px, ${position.y}px)`,
-              transition: isDragging ? 'none' : 'transform 0.1s',
             }}
           >
             <Image
+              unoptimized
               src={`/api/image?path=/files/${taskFile.file?.path}`}
+              alt={taskFile.file?.name ?? 'Task File'}
               width={1920}
               height={1080}
-              unoptimized
-              alt='Task Image'
+              className='rounded-md border shadow-sm'
               draggable={false}
-              className='rounded-sm border'
             />
           </div>
         ) : (
@@ -93,7 +92,7 @@ export default function TaskFileCanvas({ taskFile }: Props) {
             <div className='flex size-16 items-center justify-center rounded-full bg-muted'>
               <File className='size-8 text-muted-foreground' />
             </div>
-            <p className='text-muted-foreground'>No images uploaded yet.</p>
+            <p className='text-muted-foreground'>No Versions uploaded yet.</p>
           </div>
         )}
       </div>

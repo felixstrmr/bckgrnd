@@ -34,7 +34,6 @@ export async function getClients(
     .from('clients')
     .select('*, workspace:workspaces!inner(domain)')
     .eq('workspace.domain', domain)
-    .order('created_at', { ascending: false })
 
   if (error) {
     throw error
@@ -78,6 +77,23 @@ export async function getProject(
   return data
 }
 
+export async function getProjectStatuses(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+) {
+  const { data, error } = await supabase
+    .from('project_statuses')
+    .select('*, workspace:workspaces!inner(domain)')
+    .eq('workspace.domain', domain)
+    .order('position', { ascending: true })
+
+  if (error) {
+    throw error
+  }
+
+  return data
+}
+
 export async function getTasks(
   supabase: SupabaseClient<Database>,
   domain: string,
@@ -85,7 +101,9 @@ export async function getTasks(
 ) {
   const { data, error } = await supabase
     .from('tasks')
-    .select('*, workspace:workspaces!inner(domain)')
+    .select(
+      '*, workspace:workspaces!inner(domain), priority:task_priorities(*)',
+    )
     .eq('workspace.domain', domain)
     .eq('project', projectId)
 
@@ -108,7 +126,7 @@ export async function getTask(
     )
     .eq('workspace.domain', domain)
     .eq('id', taskId)
-    .single()
+    .maybeSingle()
 
   if (error) {
     throw error
@@ -124,10 +142,9 @@ export async function getTaskFiles(
 ) {
   const { data, error } = await supabase
     .from('task_files')
-    .select('*, workspace:workspaces!inner(domain)')
+    .select('*, workspace:workspaces!inner(domain), file:files(*)')
     .eq('workspace.domain', domain)
     .eq('task', taskId)
-    .order('created_at', { ascending: false })
 
   if (error) {
     throw error
@@ -140,16 +157,14 @@ export async function getTaskFile(
   supabase: SupabaseClient<Database>,
   domain: string,
   taskId: string,
-  version: string,
+  taskFileId: string,
 ) {
   const { data, error } = await supabase
     .from('task_files')
-    .select(
-      'workspace:workspaces!inner(domain), id, task, version, file:files(path, name)',
-    )
+    .select('*, workspace:workspaces!inner(domain), file:files(*)')
     .eq('workspace.domain', domain)
     .eq('task', taskId)
-    .eq('id', version)
+    .eq('id', taskFileId)
     .single()
 
   if (error) {
@@ -159,16 +174,14 @@ export async function getTaskFile(
   return data
 }
 
-export async function getLatestTaskFile(
+export async function getLastTaskFile(
   supabase: SupabaseClient<Database>,
   domain: string,
   taskId: string,
 ) {
   const { data, error } = await supabase
     .from('task_files')
-    .select(
-      'workspace:workspaces!inner(domain), id, task, version, file:files(path, name)',
-    )
+    .select('*, workspace:workspaces!inner(domain), file:files(*)')
     .eq('workspace.domain', domain)
     .eq('task', taskId)
     .order('version', { ascending: false })
@@ -184,11 +197,13 @@ export async function getLatestTaskFile(
 
 export async function getTaskFileVersions(
   supabase: SupabaseClient<Database>,
+  domain: string,
   taskId: string,
 ) {
   const { data, error } = await supabase
     .from('task_files')
-    .select('id, version')
+    .select('id, version, workspace:workspaces!inner(domain)')
+    .eq('workspace.domain', domain)
     .eq('task', taskId)
     .order('version', { ascending: false })
 
@@ -205,6 +220,22 @@ export async function getTaskStatuses(
 ) {
   const { data, error } = await supabase
     .from('task_statuses')
+    .select('*, workspace:workspaces!inner(id, domain)')
+    .eq('workspace.domain', domain)
+
+  if (error) {
+    throw error
+  }
+
+  return data
+}
+
+export async function getTaskPriorities(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+) {
+  const { data, error } = await supabase
+    .from('task_priorities')
     .select('*, workspace:workspaces!inner(domain)')
     .eq('workspace.domain', domain)
 

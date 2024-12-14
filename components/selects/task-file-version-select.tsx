@@ -14,15 +14,15 @@ type Props = {
 }
 
 export default function TaskFileVersionSelect({ taskFileVersions }: Props) {
-  const [selectedTaskFileId, setSelectedTaskFileId] = useQueryState(
+  const [selectedVersion, setSelectedVersion] = useQueryState(
     'version',
-    parseAsString
-      .withDefault(taskFileVersions[0].id)
-      .withOptions({ shallow: false }),
+    parseAsString.withDefault(taskFileVersions[0].id).withOptions({
+      shallow: false,
+    }),
   )
 
   return (
-    <Select value={selectedTaskFileId} onValueChange={setSelectedTaskFileId}>
+    <Select value={selectedVersion} onValueChange={setSelectedVersion}>
       <SelectTrigger className='w-32'>
         <SelectValue placeholder='Version' />
       </SelectTrigger>

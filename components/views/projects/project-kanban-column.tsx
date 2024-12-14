@@ -2,24 +2,25 @@
 
 import DynamicIcon from '@/components/dynamic-icon'
 import { Button } from '@/components/ui/button'
-import TaskKanbanItem from '@/components/views/tasks/task-kanban-item'
+import ProjectKanbanItem from '@/components/views/projects/project-kanban-item'
 import { cn } from '@/lib/utils'
-import { useCreateTaskDialog } from '@/store/use-create-task-dialog'
-import { TaskStatusWithRelations, TaskWithRelations } from '@/types/custom'
+import { ProjectStatus } from '@/types'
+import { ProjectWithWorkspaceDomain } from '@/types/custom'
 import { useDroppable } from '@dnd-kit/core'
 import { MoreVertical, Plus } from 'lucide-react'
 
 type Props = {
-  taskStatus: TaskStatusWithRelations
-  tasks: TaskWithRelations[]
+  projectStatus: ProjectStatus
+  projects: ProjectWithWorkspaceDomain[]
 }
 
-export default function TaskKanbanColumn({ taskStatus, tasks }: Props) {
+export default function ProjectKanbanColumn({
+  projectStatus,
+  projects,
+}: Props) {
   const { setNodeRef, isOver } = useDroppable({
-    id: taskStatus.id,
+    id: projectStatus.id,
   })
-
-  const { setOpen, setStatusId } = useCreateTaskDialog()
 
   return (
     <div
@@ -29,24 +30,20 @@ export default function TaskKanbanColumn({ taskStatus, tasks }: Props) {
         isOver ? 'bg-foreground/10' : 'bg-muted',
       )}
     >
-      <div className='flex items-center justify-between py-2 pl-3 pr-2'>
+      <div className='flex min-w-64 items-center justify-between py-2 pl-3 pr-2'>
         <div className='flex items-center gap-2'>
           <DynamicIcon
-            icon={taskStatus.icon}
-            style={{ color: taskStatus.color }}
+            icon={projectStatus.icon}
+            style={{ color: projectStatus.color }}
           />
-          <p className='text-sm'>{taskStatus.name}</p>
-          <p className='text-sm text-muted-foreground'>{tasks.length}</p>
+          <p className='text-sm'>{projectStatus.name}</p>
+          <p className='text-sm text-muted-foreground'>{projects.length}</p>
         </div>
         <div className='flex items-center'>
           <Button
             size={'icon-sm'}
             variant={'ghost'}
             className='hover:bg-foreground/10'
-            onClick={() => {
-              setOpen(true)
-              setStatusId(taskStatus.id)
-            }}
           >
             <Plus className='size-4 text-muted-foreground' />
           </Button>
@@ -59,10 +56,10 @@ export default function TaskKanbanColumn({ taskStatus, tasks }: Props) {
           </Button>
         </div>
       </div>
-      {tasks.length > 0 && (
+      {projects.length > 0 && (
         <div className='flex flex-col space-y-2 px-2 pb-2'>
-          {tasks.map((task) => (
-            <TaskKanbanItem key={task.id} task={task} />
+          {projects.map((project) => (
+            <ProjectKanbanItem key={project.id} project={project} />
           ))}
         </div>
       )}

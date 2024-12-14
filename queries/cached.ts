@@ -1,4 +1,10 @@
-import { getSession, getTaskStatuses, getWorkspace } from '@/queries'
+import {
+  getProjectStatuses,
+  getSession,
+  getTaskPriorities,
+  getTaskStatuses,
+  getWorkspace,
+} from '@/queries'
 import { Database } from '@/types/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
 import { unstable_cache } from 'next/cache'
@@ -30,6 +36,20 @@ export async function getWorkspaceWithCache(
   )()
 }
 
+export async function getProjectStatusesWithCache(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+) {
+  return unstable_cache(
+    async () => getProjectStatuses(supabase, domain),
+    [`project-statuses-${domain}`],
+    {
+      revalidate: 3600,
+      tags: [`project-statuses-${domain}`],
+    },
+  )()
+}
+
 export async function getTaskStatusesWithCache(
   supabase: SupabaseClient<Database>,
   domain: string,
@@ -40,6 +60,20 @@ export async function getTaskStatusesWithCache(
     {
       revalidate: 3600,
       tags: [`task-statuses-${domain}`],
+    },
+  )()
+}
+
+export async function getTaskPrioritiesWithCache(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+) {
+  return unstable_cache(
+    async () => getTaskPriorities(supabase, domain),
+    [`task-priorities-${domain}`],
+    {
+      revalidate: 3600,
+      tags: [`task-priorities-${domain}`],
     },
   )()
 }
