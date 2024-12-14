@@ -9,16 +9,28 @@ export const createTaskAction = actionClient
   .schema(createTaskSchema)
   .action(
     async ({
-      parsedInput: { name, description, projectId, statusId, workspaceId },
+      parsedInput: {
+        name,
+        description,
+        projectId,
+        statusId,
+        workspaceId,
+        dueDate,
+        clientId,
+      },
     }) => {
       const supabase = await createClient()
+
+      const due_date = dueDate?.toISOString()
 
       const { error } = await supabase.from('tasks').insert({
         name,
         description,
+        due_date,
         project: projectId,
         status: statusId,
         workspace: workspaceId,
+        client: clientId,
         priority: '4e460ffd-a2f3-427f-84da-b0e011eca56e',
       })
 

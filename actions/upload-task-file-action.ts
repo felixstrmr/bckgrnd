@@ -14,7 +14,6 @@ export const uploadTaskFileAction = actionClient
       parsedInput: {
         taskId,
         file,
-        domain,
         clientId,
         projectId,
         workspaceId,
@@ -27,7 +26,9 @@ export const uploadTaskFileAction = actionClient
 
       const uuid = randomUUID()
       const fileName = `v${version}-${uuid}.${file.name.split('.').pop()}`
-      const path = `/${workspaceId}/${clientId}/${projectId}/${taskId}/${fileName}`
+      const path = projectId
+        ? `/${workspaceId}/${clientId}/projects/${projectId}/${taskId}/${fileName}`
+        : `/${workspaceId}/${clientId}/tasks/${taskId}/${fileName}`
 
       const { error } = await supabase.storage
         .from('files')

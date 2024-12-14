@@ -191,6 +191,65 @@ export type Database = {
           },
         ]
       }
+      task_comments: {
+        Row: {
+          created_at: string
+          file: string | null
+          id: string
+          message: string
+          task: string
+          user: string
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          file?: string | null
+          id?: string
+          message: string
+          task: string
+          user?: string
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          file?: string | null
+          id?: string
+          message?: string
+          task?: string
+          user?: string
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_comments_file_fkey"
+            columns: ["file"]
+            isOneToOne: false
+            referencedRelation: "task_files"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_comments_task_fkey"
+            columns: ["task"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_comments_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_comments_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       task_files: {
         Row: {
           created_at: string
@@ -324,36 +383,49 @@ export type Database = {
       }
       tasks: {
         Row: {
+          client: string | null
           created_at: string
           description: string | null
+          due_date: string | null
           id: string
           name: string
           priority: string
-          project: string
+          project: string | null
           status: string
           workspace: string
         }
         Insert: {
+          client?: string | null
           created_at?: string
           description?: string | null
+          due_date?: string | null
           id?: string
           name: string
           priority: string
-          project: string
+          project?: string | null
           status: string
           workspace: string
         }
         Update: {
+          client?: string | null
           created_at?: string
           description?: string | null
+          due_date?: string | null
           id?: string
           name?: string
           priority?: string
-          project?: string
+          project?: string | null
           status?: string
           workspace?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "tasks_client_fkey"
+            columns: ["client"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "tasks_priority_fkey"
             columns: ["priority"]

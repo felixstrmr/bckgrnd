@@ -14,9 +14,10 @@ import {
   Box,
   Files,
   Home,
+  ListChecks,
   SidebarClose,
   SidebarOpen,
-  Users,
+  User,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
@@ -46,13 +47,19 @@ export default function WorkspaceSidebar({ defaultOpen = true }: Props) {
       name: 'Clients',
       href: '/dashboard/clients',
       active: segment === 'clients',
-      icon: Users,
+      icon: User,
     },
     {
       name: 'Projects',
       href: '/dashboard/projects',
-      active: segment === 'projects' || segment === 'tasks',
+      active: segment === 'projects',
       icon: Box,
+    },
+    {
+      name: 'Tasks',
+      href: '/dashboard/tasks',
+      active: segment === 'tasks',
+      icon: ListChecks,
     },
     {
       name: 'Files',
@@ -66,7 +73,7 @@ export default function WorkspaceSidebar({ defaultOpen = true }: Props) {
     <nav
       className={cn(
         'flex flex-col p-4 transition-all ease-in-out',
-        collapsed ? 'w-16' : 'w-64 min-w-64',
+        collapsed ? 'w-16 min-w-16' : 'w-64 min-w-64',
       )}
     >
       <div className='flex h-8 items-center'>

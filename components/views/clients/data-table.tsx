@@ -14,6 +14,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { UserPlus } from 'lucide-react'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -31,7 +32,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className='border-y'>
+    <div className='h-full'>
       <Table>
         <TableHeader className='bg-muted'>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -66,9 +67,19 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))
           ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className='h-24 text-center'>
-                No results.
+            <TableRow className='hover:bg-transparent'>
+              <TableCell colSpan={columns.length} className='h-64 text-center'>
+                <div className='flex size-full flex-col items-center justify-center'>
+                  <div className='flex size-16 items-center justify-center rounded-full bg-muted'>
+                    <UserPlus className='size-8 text-muted-foreground' />
+                  </div>
+                  <div className='mt-2 text-center'>
+                    <h5>No clients found.</h5>
+                    <p className='text-muted-foreground'>
+                      Create your first client to get started.
+                    </p>
+                  </div>
+                </div>
               </TableCell>
             </TableRow>
           )}

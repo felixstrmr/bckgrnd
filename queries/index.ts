@@ -97,12 +97,30 @@ export async function getProjectStatuses(
 export async function getTasks(
   supabase: SupabaseClient<Database>,
   domain: string,
+) {
+  const { data, error } = await supabase
+    .from('tasks')
+    .select(
+      '*, workspace:workspaces!inner(domain), priority:task_priorities(*), project:projects(id, name), client:clients(id, name)',
+    )
+    .eq('workspace.domain', domain)
+
+  if (error) {
+    throw error
+  }
+
+  return data
+}
+
+export async function getTasksByProject(
+  supabase: SupabaseClient<Database>,
+  domain: string,
   projectId: string,
 ) {
   const { data, error } = await supabase
     .from('tasks')
     .select(
-      '*, workspace:workspaces!inner(domain), priority:task_priorities(*)',
+      '*, workspace:workspaces!inner(domain), priority:task_priorities(*), project:projects(id, name), client:clients(id, name)',
     )
     .eq('workspace.domain', domain)
     .eq('project', projectId)

@@ -3,7 +3,7 @@
 import { updateTaskAction } from '@/actions/update-task-action'
 import CreateTaskDialog from '@/components/dialogs/create-task-dialog'
 import TaskKanbanColumn from '@/components/views/tasks/task-kanban-column'
-import { TaskPriority } from '@/types'
+import { Client, TaskPriority } from '@/types'
 import { TaskStatusWithRelations, TaskWithRelations } from '@/types/custom'
 import {
   DndContext,
@@ -16,10 +16,11 @@ import {
 import { useOptimisticAction } from 'next-safe-action/hooks'
 
 type Props = {
-  projectId: string
+  projectId?: string
   taskStatuses: TaskStatusWithRelations[]
   tasks: TaskWithRelations[]
   taskPriorities: TaskPriority[]
+  clients: Client[] | null
 }
 
 export default function TaskKanbanView({
@@ -27,6 +28,7 @@ export default function TaskKanbanView({
   taskStatuses,
   tasks,
   taskPriorities,
+  clients,
 }: Props) {
   const filterTasks = (taskStatusId: string) => {
     return optimisticState.tasks.filter((task) => task.status === taskStatusId)
@@ -92,6 +94,7 @@ export default function TaskKanbanView({
         projectId={projectId}
         workspaceId={taskStatuses[0].workspace.id}
         taskPriorities={taskPriorities}
+        clients={clients}
       />
     </DndContext>
   )

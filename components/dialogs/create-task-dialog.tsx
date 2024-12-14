@@ -6,24 +6,26 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useCreateTaskDialog } from '@/store/use-create-task-dialog'
-import { TaskPriority } from '@/types'
+import { Client, TaskPriority } from '@/types'
 
 type Props = {
-  projectId: string
+  projectId?: string
   workspaceId: string
   taskPriorities: TaskPriority[]
+  clients: Client[] | null
 }
 
 export default function CreateTaskDialog({
   projectId,
   workspaceId,
   taskPriorities,
+  clients,
 }: Props) {
   const { open, setOpen, statusId } = useCreateTaskDialog()
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className='max-w-xl p-0'>
+      <DialogContent className='max-w-2xl p-0'>
         <DialogHeader>
           <DialogTitle />
         </DialogHeader>
@@ -33,6 +35,7 @@ export default function CreateTaskDialog({
           workspaceId={workspaceId}
           setOpen={setOpen}
           taskPriorities={taskPriorities}
+          clients={clients}
         />
       </DialogContent>
     </Dialog>

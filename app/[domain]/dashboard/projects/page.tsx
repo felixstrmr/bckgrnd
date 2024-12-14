@@ -1,11 +1,11 @@
 import ProjectViewTabs from '@/components/tabs/project-view-tabs'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import ProjectKanbanView from '@/components/views/projects/project-kanban-view'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
 import { getProjects } from '@/queries'
 import { getProjectStatusesWithCache } from '@/queries/cached'
-import { Plus } from 'lucide-react'
+import { Box, Plus } from 'lucide-react'
 import Link from 'next/link'
 
 type Props = {
@@ -51,11 +51,30 @@ export default async function Page({ params, searchParams }: Props) {
       </div>
       {view === 'list' ? (
         <></>
-      ) : (
+      ) : projects.length > 0 ? (
         <ProjectKanbanView
           projects={projects}
           projectStatuses={projectStatuses}
         />
+      ) : (
+        <div className='flex size-full h-64 flex-col items-center justify-center'>
+          <div className='flex size-16 items-center justify-center rounded-full bg-muted'>
+            <Box className='size-8 text-muted-foreground' />
+          </div>
+          <div className='mb-4 mt-2 text-center'>
+            <h5>No projects found.</h5>
+            <p className='text-muted-foreground'>
+              Create your first project to get started.
+            </p>
+          </div>
+          <Link
+            href={'/dashboard/projects/create'}
+            className={buttonVariants({ variant: 'outline' })}
+          >
+            <Plus className='size-4' />
+            Create
+          </Link>
+        </div>
       )}
     </div>
   )

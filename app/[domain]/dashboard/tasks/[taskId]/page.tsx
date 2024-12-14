@@ -2,6 +2,7 @@ import UploadTaskFileButton from '@/components/buttons/upload-task-file-button'
 import TaskFileVersionSelect from '@/components/selects/task-file-version-select'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import TaskComments from '@/components/views/task/task-comments'
 import TaskFileCanvas from '@/components/views/task/task-file-canvas'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
@@ -40,11 +41,15 @@ export default async function Page({ params, searchParams }: Props) {
   const lastVersion = taskFileVersions[0]?.version ?? 0
 
   return (
-    <div className='flex size-full flex-col space-y-6 p-6'>
+    <div className='flex size-full flex-col space-y-6 overflow-hidden p-6'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-4'>
           <Link
-            href={`/dashboard/projects/${task.project.id}/tasks`}
+            href={
+              task.project
+                ? `/dashboard/projects/${task.project.id}/tasks`
+                : `/dashboard/tasks`
+            }
             className={buttonVariants({ variant: 'ghost', size: 'icon' })}
           >
             <ArrowLeft className='size-4' />
@@ -60,18 +65,19 @@ export default async function Page({ params, searchParams }: Props) {
             </div>
           )}
         </div>
-        <div>
-          <UploadTaskFileButton
-            task={task}
-            domain={domain}
-            workspaceId={task.workspace.id}
-            clientId={task.project.client}
-            projectId={task.project.id}
-            latestVersion={lastVersion}
-          />
-        </div>
+        <UploadTaskFileButton
+          task={task}
+          domain={domain}
+          workspaceId={task.workspace.id}
+          clientId={task.project?.client}
+          projectId={task.project?.id}
+          latestVersion={lastVersion}
+        />
       </div>
-      <TaskFileCanvas taskFile={taskFile} />
+      <div className='flex size-full min-h-0 flex-1 gap-4'>
+        <TaskFileCanvas taskFile={taskFile} />
+        <TaskComments task={task} />
+      </div>
     </div>
   )
 }

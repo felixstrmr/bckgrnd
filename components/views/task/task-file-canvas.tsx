@@ -14,6 +14,15 @@ export default function TaskFileCanvas({ taskFile }: Props) {
   const [isDragging, setIsDragging] = React.useState(false)
   const [position, setPosition] = React.useState({ x: 0, y: 0 })
   const [dragStart, setDragStart] = React.useState({ x: 0, y: 0 })
+  const [, setImageError] = React.useState(false)
+  const [, setLoading] = React.useState(true)
+  const [scale, setScale] = React.useState(1)
+
+  React.useEffect(() => {
+    if (containerRef.current && taskFile) {
+      setScale(0.9)
+    }
+  }, [taskFile])
 
   const handleMouseDown = React.useCallback(
     (e: React.MouseEvent) => {
@@ -58,6 +67,14 @@ export default function TaskFileCanvas({ taskFile }: Props) {
     [position],
   )
 
+  const handleImageError = () => {
+    setImageError(true)
+    setTimeout(() => {
+      setImageError(false)
+      setLoading(true)
+    }, 1000)
+  }
+
   return (
     <div className='relative size-full rounded-lg border'>
       <div
@@ -67,6 +84,8 @@ export default function TaskFileCanvas({ taskFile }: Props) {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
         onTouchStart={handleTouchStart}
+        onError={handleImageError}
+        onLoad={() => setLoading(false)}
         tabIndex={0}
         className='size-full overflow-hidden p-4'
       >
@@ -74,7 +93,8 @@ export default function TaskFileCanvas({ taskFile }: Props) {
           <div
             className='flex size-full cursor-grab items-center justify-center active:cursor-grabbing'
             style={{
-              transform: `translate(${position.x}px, ${position.y}px)`,
+              transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+              transformOrigin: 'center',
             }}
           >
             <Image
@@ -88,11 +108,16 @@ export default function TaskFileCanvas({ taskFile }: Props) {
             />
           </div>
         ) : (
-          <div className='flex size-full flex-col items-center justify-center gap-2'>
+          <div className='flex size-full flex-col items-center justify-center'>
             <div className='flex size-16 items-center justify-center rounded-full bg-muted'>
               <File className='size-8 text-muted-foreground' />
             </div>
-            <p className='text-muted-foreground'>No Versions uploaded yet.</p>
+            <div className='mt-2 text-center'>
+              <h5>No files found.</h5>
+              <p className='text-muted-foreground'>
+                Upload a file to get started.
+              </p>
+            </div>
           </div>
         )}
       </div>

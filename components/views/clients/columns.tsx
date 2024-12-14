@@ -48,6 +48,7 @@ export const columns: ColumnDef<Client>[] = [
         .split(' ')
         .map((n) => n[0])
         .join('')
+        .slice(0, 2)
 
       return (
         <div className='flex items-center gap-2'>

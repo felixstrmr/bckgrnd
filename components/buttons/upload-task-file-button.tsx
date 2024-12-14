@@ -13,8 +13,8 @@ type Props = {
   task: Task
   domain: string
   workspaceId: string
-  clientId: string
-  projectId: string
+  clientId?: string
+  projectId?: string
   latestVersion: number
 }
 

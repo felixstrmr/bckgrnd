@@ -32,26 +32,41 @@ export const createProjectSchema = z.object({
   clientId: z.string().uuid({ message: 'Client is required' }),
 })
 
-export const createTaskSchema = z.object({
-  name: z
-    .string()
-    .min(1, 'Name is required')
-    .max(255, { message: 'Must be less than 255 characters' }),
-  description: z
-    .string()
-    .max(255, { message: 'Must be less than 255 characters' })
-    .optional(),
-  priorityId: z.string().uuid({ message: 'Priority is required' }),
-  projectId: z.string().uuid(),
-  statusId: z.string().uuid(),
-  workspaceId: z.string().uuid(),
-})
+export const createTaskSchema = z
+  .object({
+    name: z
+      .string()
+      .min(1, 'Name is required')
+      .max(255, { message: 'Must be less than 255 characters' }),
+    description: z
+      .string()
+      .max(255, { message: 'Must be less than 255 characters' })
+      .optional(),
+    priorityId: z.string().uuid({ message: 'Priority is required' }),
+    dueDate: z.date().optional(),
+    projectId: z.string().uuid().optional(),
+    clientId: z.string().uuid().optional(),
+    statusId: z.string().uuid(),
+    workspaceId: z.string().uuid(),
+  })
+  .refine(
+    (data) => {
+      if (!data.projectId && !data.clientId) {
+        return false
+      }
+      return true
+    },
+    {
+      message: 'Client is required',
+      path: ['clientId'],
+    },
+  )
 
 export const uploadTaskFileSchema = z.object({
   domain: z.string(),
   taskId: z.string().uuid(),
-  clientId: z.string().uuid(),
-  projectId: z.string().uuid(),
+  clientId: z.string().uuid().optional(),
+  projectId: z.string().uuid().optional(),
   workspaceId: z.string().uuid(),
   file: z.instanceof(File),
   latestVersion: z.number(),

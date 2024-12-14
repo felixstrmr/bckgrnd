@@ -22,6 +22,8 @@ export type TaskStatusWithRelations = TaskStatus & {
 
 export type TaskWithRelations = Task & {
   workspace: { domain: string }
+  project: { id: string; name: string } | null
+  client: { id: string; name: string } | null
   priority: TaskPriority
 }
 
