@@ -1,5 +1,6 @@
+import UpdateProjectForm from '@/components/forms/update-project-form'
 import { createClient } from '@/lib/clients/supabase/server'
-import { getDomain } from '@/lib/utils'
+import { formatRelativeTime, getDomain } from '@/lib/utils'
 import { getProject } from '@/queries'
 import { notFound } from 'next/navigation'
 
@@ -16,5 +17,16 @@ export default async function Page({ params }: Props) {
 
   if (!project) return notFound()
 
-  return <div className='flex size-full flex-col space-y-6 py-6'></div>
+  return (
+    <div className='flex size-full flex-col space-y-6 py-6'>
+      <div className='mx-auto mt-12 w-full max-w-2xl'>
+        <div className='mb-9 flex items-center gap-2 text-muted-foreground'>
+          <div className='rounded-full border border-dashed bg-background p-1 px-2 text-xs shadow'>
+            Created {formatRelativeTime(new Date(project.created_at))}
+          </div>
+        </div>
+        <UpdateProjectForm project={project} />
+      </div>
+    </div>
+  )
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { updateProjectAction } from '@/actions/update-project-action'
-import ProjectKanbanColumn from '@/components/views/projects/project-kanban-column'
+import ProjectKanbanColumn from '@/components/views/projects/kanban/project-kanban-column'
 import { ProjectStatus } from '@/types'
 import { ProjectWithWorkspaceDomain } from '@/types/custom'
 import {
@@ -27,7 +27,7 @@ export default function ProjectKanbanView({
 }: Props) {
   const filterProjects = (projectStatusId: string) => {
     return optimisticState.projects.filter(
-      (project) => project.status === projectStatusId,
+      (project) => project.status.id === projectStatusId,
     )
   }
 
@@ -49,6 +49,7 @@ export default function ProjectKanbanView({
     updateProjectAction,
     {
       currentState: { projects },
+      // @ts-expect-error - TODO: fix this
       updateFn: (state, { projectId, statusId }) => {
         const newStatus = projectStatuses.find(
           (status) => status.id === statusId,
@@ -57,7 +58,10 @@ export default function ProjectKanbanView({
         return {
           projects: state.projects.map((project) =>
             project.id === projectId
-              ? { ...project, status: newStatus.id }
+              ? {
+                  ...project,
+                  status: newStatus,
+                }
               : project,
           ),
         }

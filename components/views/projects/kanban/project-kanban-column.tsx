@@ -2,7 +2,7 @@
 
 import DynamicIcon from '@/components/dynamic-icon'
 import { Button, buttonVariants } from '@/components/ui/button'
-import ProjectKanbanItem from '@/components/views/projects/project-kanban-item'
+import ProjectKanbanItem from '@/components/views/projects/kanban/project-kanban-item'
 import { cn } from '@/lib/utils'
 import { ProjectStatus } from '@/types'
 import { ProjectWithWorkspaceDomain } from '@/types/custom'
@@ -31,7 +31,7 @@ export default function ProjectKanbanColumn({
         isOver ? 'bg-foreground/10' : 'bg-muted',
       )}
     >
-      <div className='flex min-w-64 items-center justify-between py-2 pl-3 pr-2'>
+      <div className='flex items-center justify-between py-2 pl-3 pr-2'>
         <div className='flex items-center gap-2'>
           <DynamicIcon
             icon={projectStatus.icon}

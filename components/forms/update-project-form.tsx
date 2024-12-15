@@ -47,7 +47,7 @@ export default function UpdateProjectForm({ project }: Props) {
               <FormControl>
                 <input
                   placeholder='Enter a name'
-                  className='w-full text-2xl font-semibold outline-none'
+                  className='w-full text-2xl font-semibold placeholder:text-muted-foreground/75 focus:outline-none disabled:cursor-not-allowed disabled:bg-transparent'
                   {...field}
                 />
               </FormControl>

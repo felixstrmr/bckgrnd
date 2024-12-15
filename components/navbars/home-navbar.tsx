@@ -32,7 +32,7 @@ export default function HomeNavbar() {
           'mx-auto flex w-full justify-between rounded-2xl border p-2 transition-all duration-300',
           scrolled
             ? 'max-w-xl border-border bg-background/75 shadow-md backdrop-blur-md'
-            : 'max-w-5xl border-transparent',
+            : 'max-w-6xl border-transparent',
         )}
       >
         <div className='flex items-center gap-4'>

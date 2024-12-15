@@ -15,6 +15,7 @@ export const createTaskAction = actionClient
         projectId,
         statusId,
         workspaceId,
+        priorityId,
         dueDate,
         clientId,
       },
@@ -31,7 +32,7 @@ export const createTaskAction = actionClient
         status: statusId,
         workspace: workspaceId,
         client: clientId,
-        priority: '4e460ffd-a2f3-427f-84da-b0e011eca56e',
+        priority: priorityId,
       })
 
       if (error) {

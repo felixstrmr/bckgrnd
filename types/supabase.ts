@@ -458,17 +458,23 @@ export type Database = {
       }
       users: {
         Row: {
+          avatar: string | null
           created_at: string
+          display_name: string | null
           email: string
           id: string
         }
         Insert: {
+          avatar?: string | null
           created_at?: string
+          display_name?: string | null
           email: string
           id?: string
         }
         Update: {
+          avatar?: string | null
           created_at?: string
+          display_name?: string | null
           email?: string
           id?: string
         }

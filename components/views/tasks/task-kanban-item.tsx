@@ -2,9 +2,10 @@
 
 import DynamicIcon from '@/components/dynamic-icon'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { formatRelativeTime } from '@/lib/utils'
 import { TaskWithRelations } from '@/types/custom'
 import { useDraggable } from '@dnd-kit/core'
-import { Box, History, MessageCircle, User } from 'lucide-react'
+import { History, MessageCircle } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
 type Props = {
@@ -35,10 +36,6 @@ export default function TaskKanbanItem({ task }: Props) {
       }
     : undefined
 
-  const isProjectTask = Boolean(task.project)
-  const isProjectPage = pathname.includes('projects')
-  const isClientTask = Boolean(task.client)
-
   const PriorityDisplay = () => (
     <div className='flex items-center gap-1'>
       <DynamicIcon
@@ -50,34 +47,7 @@ export default function TaskKanbanItem({ task }: Props) {
     </div>
   )
 
-  const renderTaskSource = () => {
-    if (task.project && !isProjectPage) {
-      return (
-        <div className='flex items-center gap-1 text-muted-foreground'>
-          <Box className='size-3' />
-          <span className='truncate text-sm'>{task.project.name}</span>
-        </div>
-      )
-    }
-
-    if (isClientTask && !isProjectPage) {
-      return (
-        <div className='flex items-center gap-1 text-muted-foreground'>
-          <User className='size-3' />
-          <span className='truncate text-sm'>{task.client?.name}</span>
-        </div>
-      )
-    }
-
-    if ((!isProjectTask || isProjectPage) && !isClientTask) {
-      return <PriorityDisplay />
-    }
-
-    return null
-  }
-
-  const shouldShowPriorityInFooter =
-    isClientTask || (isProjectTask && !isProjectPage)
+  const isProjectPage = pathname.includes('projects')
 
   return (
     <div
@@ -85,12 +55,12 @@ export default function TaskKanbanItem({ task }: Props) {
       {...listeners}
       {...attributes}
       style={style}
-      className='flex flex-col rounded-lg border bg-background shadow-sm transition-shadow hover:shadow-md'
+      className='flex w-64 min-w-64 flex-col rounded-lg border bg-background shadow-sm transition-shadow hover:shadow-md'
       data-dragging={isDragging}
     >
       <div onClick={handleClick}>
         <div className='flex items-center justify-between px-4 pb-2 pt-4'>
-          {renderTaskSource()}
+          <PriorityDisplay />
           <div className='flex items-center gap-2'>
             <Avatar className='size-6'>
               <AvatarFallback className='size-6 text-[10px]'>FS</AvatarFallback>
@@ -98,22 +68,30 @@ export default function TaskKanbanItem({ task }: Props) {
           </div>
         </div>
 
-        <div className='p-4 pt-0'>
+        <div className='flex items-center gap-2 p-4 pt-0'>
           <h5 className='truncate'>{task.name}</h5>
         </div>
 
         <div className='flex items-center gap-3 rounded-b-lg border-t bg-muted px-4 py-2 text-sm text-muted-foreground'>
+          {!isProjectPage &&
+            (task.client ? (
+              <div className='rounded-full bg-foreground/10 px-2 py-0.5 text-xs'>
+                Client
+              </div>
+            ) : (
+              <div className='rounded-full bg-foreground/10 px-2 py-0.5 text-xs'>
+                Project
+              </div>
+            ))}
           <div className='flex items-center gap-1'>
             <History className='size-3' />0
           </div>
           <div className='flex items-center gap-1'>
             <MessageCircle className='size-3' />0
           </div>
-          {shouldShowPriorityInFooter && (
-            <div className='ml-auto'>
-              <PriorityDisplay />
-            </div>
-          )}
+          <p className='ml-auto text-sm'>
+            {formatRelativeTime(new Date(task.created_at))}
+          </p>
         </div>
       </div>
     </div>

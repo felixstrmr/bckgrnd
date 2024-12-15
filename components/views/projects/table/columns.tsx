@@ -1,6 +1,5 @@
 'use client'
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -11,12 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Client } from '@/types'
+import { ProjectWithWorkspaceDomain } from '@/types/custom'
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
-import { MoreHorizontal } from 'lucide-react'
+import { Box, MoreHorizontal } from 'lucide-react'
 
-export const columns: ColumnDef<Client>[] = [
+export const columns: ColumnDef<ProjectWithWorkspaceDomain>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -40,25 +39,23 @@ export const columns: ColumnDef<Client>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({ row }) => {
+      const project = row.original
+      return <span className='capitalize'>{project.status.name}</span>
+    },
+  },
+  {
     accessorKey: 'name',
     header: 'Name',
     cell: ({ row }) => {
-      const client = row.original
-
-      const initials = client.name
-        .split(' ')
-        .map((n) => n[0])
-        .join('')
-        .slice(0, 2)
+      const project = row.original
 
       return (
         <div className='flex items-center gap-2'>
-          <Avatar className='size-7'>
-            <AvatarFallback className='size-7 text-xs'>
-              {initials}
-            </AvatarFallback>
-          </Avatar>
-          <span>{client.name}</span>
+          <Box className='size-4 text-muted-foreground' />
+          <span>{project.name}</span>
         </div>
       )
     },
@@ -67,8 +64,8 @@ export const columns: ColumnDef<Client>[] = [
     accessorKey: 'created_at',
     header: 'Created At',
     cell: ({ row }) => {
-      const client = row.original
-      return <span>{format(client.created_at, 'PP, p')}</span>
+      const project = row.original
+      return <span>{format(project.created_at, 'PP, p')}</span>
     },
   },
   {

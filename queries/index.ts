@@ -48,7 +48,9 @@ export async function getProjects(
 ) {
   const { data, error } = await supabase
     .from('projects')
-    .select('*, workspace:workspaces!inner(domain), client:clients(name)')
+    .select(
+      '*, workspace:workspaces!inner(domain), client:clients(name), status:project_statuses(id, name)',
+    )
     .eq('workspace.domain', domain)
 
   if (error) {
@@ -256,6 +258,24 @@ export async function getTaskPriorities(
     .from('task_priorities')
     .select('*, workspace:workspaces!inner(domain)')
     .eq('workspace.domain', domain)
+
+  if (error) {
+    throw error
+  }
+
+  return data
+}
+
+export async function getTaskComments(
+  supabase: SupabaseClient<Database>,
+  domain: string,
+  taskId: string,
+) {
+  const { data, error } = await supabase
+    .from('task_comments')
+    .select('*, workspace:workspaces!inner(domain), user:users(*)')
+    .eq('workspace.domain', domain)
+    .eq('task', taskId)
 
   if (error) {
     throw error

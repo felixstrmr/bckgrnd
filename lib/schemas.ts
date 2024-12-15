@@ -63,6 +63,13 @@ export const createTaskSchema = z
     },
   )
 
+export const createTaskCommentSchema = z.object({
+  message: z.string().min(1, 'Message is required'),
+  taskId: z.string().uuid(),
+  workspaceId: z.string().uuid(),
+  fileId: z.string().uuid().optional(),
+})
+
 export const uploadTaskFileSchema = z.object({
   domain: z.string(),
   taskId: z.string().uuid(),

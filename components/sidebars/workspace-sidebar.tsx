@@ -12,6 +12,7 @@ import {
 import { cn } from '@/lib/utils'
 import {
   Box,
+  Cog,
   Files,
   Home,
   ListChecks,
@@ -36,7 +37,7 @@ export default function WorkspaceSidebar({ defaultOpen = true }: Props) {
     await updateSidebarCookies(collapsed)
   }
 
-  const pages = [
+  const pagesTop = [
     {
       name: 'Dashboard',
       href: '/dashboard',
@@ -69,6 +70,42 @@ export default function WorkspaceSidebar({ defaultOpen = true }: Props) {
     },
   ]
 
+  const pagesBottom = [
+    {
+      name: 'Settings',
+      href: '/dashboard/settings',
+      active: segment === 'settings',
+      icon: Cog,
+    },
+  ]
+
+  const NavLink = ({ page }: { page: (typeof pagesTop)[0] }) => {
+    const link = (
+      <Link
+        href={page.href}
+        className={cn(
+          'flex h-8 items-center rounded-md text-base transition-all',
+          page.active
+            ? 'border-border bg-foreground/10 text-foreground'
+            : 'border-transparent text-muted-foreground hover:bg-foreground/10',
+          'px-2',
+        )}
+      >
+        <page.icon className='size-4 shrink-0' />
+        {!collapsed && <span className='ml-2 transition-all'>{page.name}</span>}
+      </Link>
+    )
+
+    if (!collapsed) return link
+
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{link}</TooltipTrigger>
+        <TooltipContent side='right'>{page.name}</TooltipContent>
+      </Tooltip>
+    )
+  }
+
   return (
     <nav
       className={cn(
@@ -77,59 +114,37 @@ export default function WorkspaceSidebar({ defaultOpen = true }: Props) {
       )}
     >
       <div className='flex h-8 items-center'>
-        <Link href={'/dashboard'} className='flex items-center gap-2'>
+        <Link href='/dashboard' className='flex items-center gap-2'>
           <Bckgrnd className='rounded-md shadow' />
-          {!collapsed && (
-            <span>
-              <h4>Bckgrnd</h4>
-            </span>
-          )}
+          {!collapsed && <h4>Bckgrnd</h4>}
         </Link>
       </div>
       <Separator className='my-4' />
-      <Button
-        size={'icon'}
-        variant={'ghost'}
-        onClick={() => handleCollapse(!collapsed)}
-        className='mb-4 size-8 hover:bg-foreground/10'
-      >
-        {collapsed ? (
-          <SidebarOpen className='size-4' />
-        ) : (
-          <SidebarClose className='size-4' />
-        )}
-      </Button>
-      <div className='space-y-1'>
-        {pages.map((page) => (
-          <Tooltip key={page.name}>
-            <TooltipTrigger asChild>
-              <Link
-                href={page.href}
-                className={cn(
-                  'flex h-8 items-center rounded-md text-base transition-all',
-                  page.active
-                    ? 'border-border bg-foreground/10 text-foreground'
-                    : 'border-transparent text-muted-foreground hover:bg-foreground/10',
-                  collapsed ? 'px-2' : 'px-2',
-                )}
-                title={collapsed ? page.name : undefined}
-              >
-                <page.icon className='h-4 w-4 shrink-0' />
-                {!collapsed && (
-                  <span
-                    className={cn(
-                      'ml-2 transition-all',
-                      collapsed ? 'w-0 opacity-0' : 'w-auto opacity-100',
-                    )}
-                  >
-                    {page.name}
-                  </span>
-                )}
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side='right'>{page.name}</TooltipContent>
-          </Tooltip>
-        ))}
+
+      <div className='flex h-full flex-col justify-between'>
+        <div className='space-y-1'>
+          {pagesTop.map((page) => (
+            <NavLink key={page.name} page={page} />
+          ))}
+        </div>
+
+        <div className='space-y-1'>
+          <Button
+            size='icon'
+            variant='ghost'
+            onClick={() => handleCollapse(!collapsed)}
+            className='size-8 hover:bg-foreground/10'
+          >
+            {collapsed ? (
+              <SidebarOpen className='size-4' />
+            ) : (
+              <SidebarClose className='size-4' />
+            )}
+          </Button>
+          {pagesBottom.map((page) => (
+            <NavLink key={page.name} page={page} />
+          ))}
+        </div>
       </div>
     </nav>
   )

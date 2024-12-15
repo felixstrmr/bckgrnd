@@ -1,14 +1,16 @@
 import { Button, buttonVariants } from '@/components/ui/button'
+import { columns } from '@/components/views/projects/table/columns'
+import { DataTable } from '@/components/views/projects/table/data-table'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
 import { getProjects } from '@/queries'
 import { getProjectStatusesWithCache } from '@/queries/cached'
 import { Box, Plus } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 
-import dynamic from 'next/dynamic'
 const ProjectKanbanView = dynamic(
-  () => import('@/components/views/projects/project-kanban-view'),
+  () => import('@/components/views/projects/kanban/project-kanban-view'),
   {
     loading: () => <div>Loading...</div>,
   },
@@ -36,8 +38,8 @@ export default async function Page({ params, searchParams }: Props) {
   const { view } = await searchParams
 
   return (
-    <div className='flex size-full flex-col space-y-6 p-6'>
-      <div className='flex items-start justify-between'>
+    <div className='flex size-full flex-col'>
+      <div className='flex items-start justify-between p-6'>
         <div className='space-y-1'>
           <div className='flex items-center gap-2'>
             <h3>Projects</h3>
@@ -59,13 +61,17 @@ export default async function Page({ params, searchParams }: Props) {
           </Link>
         </div>
       </div>
-      {view === 'list' ? (
-        <></>
-      ) : projects.length > 0 ? (
-        <ProjectKanbanView
-          projects={projects}
-          projectStatuses={projectStatuses}
-        />
+      {projects.length > 0 ? (
+        view === 'kanban' ? (
+          <div className='size-full px-6 pb-6'>
+            <ProjectKanbanView
+              projects={projects}
+              projectStatuses={projectStatuses}
+            />
+          </div>
+        ) : (
+          <DataTable columns={columns} data={projects} />
+        )
       ) : (
         <div className='flex size-full h-64 flex-col items-center justify-center'>
           <div className='flex size-16 items-center justify-center rounded-full bg-muted'>

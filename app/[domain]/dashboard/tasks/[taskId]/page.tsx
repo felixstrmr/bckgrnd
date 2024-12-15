@@ -3,7 +3,7 @@ import TaskFileMoreDropdown from '@/components/dropdowns/task-file-more-dropdown
 import TaskFileVersionSelect from '@/components/selects/task-file-version-select'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import TaskComments from '@/components/views/task/task-comments'
+import { TaskComments } from '@/components/views/task/task-comments'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
 import {
@@ -67,7 +67,7 @@ export default async function Page({ params, searchParams }: Props) {
             <ArrowLeft className='size-4' />
           </Link>
           <Separator orientation='vertical' className='h-6' />
-          <h4>{task.name}</h4>
+          <h4 className='truncate whitespace-nowrap'>{task.name}</h4>
           {taskFile ? (
             <TaskFileVersionSelect taskFileVersions={taskFileVersions} />
           ) : (
@@ -91,7 +91,13 @@ export default async function Page({ params, searchParams }: Props) {
       </div>
       <div className='flex size-full min-h-0 flex-1 gap-4'>
         <TaskFileCanvas taskFile={taskFile} />
-        <TaskComments task={task} />
+        <TaskComments
+          taskId={taskId}
+          domain={domain}
+          workspaceId={task.workspace.id}
+          fileId={taskFile?.id}
+          taskFileVersions={taskFileVersions}
+        />
       </div>
     </div>
   )

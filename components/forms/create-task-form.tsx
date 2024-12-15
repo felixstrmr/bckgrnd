@@ -243,16 +243,18 @@ export default function CreateTaskForm({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {taskPriorities.map((priority) => (
-                          <SelectItem key={priority.id} value={priority.id}>
-                            <DynamicIcon
-                              icon={priority.icon}
-                              style={{ color: priority.color }}
-                              className='mr-2 inline-block size-4'
-                            />
-                            {priority.name}
-                          </SelectItem>
-                        ))}
+                        {taskPriorities
+                          .sort((a, b) => b.position - a.position)
+                          .map((priority) => (
+                            <SelectItem key={priority.id} value={priority.id}>
+                              <DynamicIcon
+                                icon={priority.icon}
+                                style={{ color: priority.color }}
+                                className='mr-2 inline-block size-4'
+                              />
+                              {priority.name}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -267,6 +269,7 @@ export default function CreateTaskForm({
                     <Popover
                       open={dueDatePopoverOpen}
                       onOpenChange={setDueDatePopoverOpen}
+                      modal={true}
                     >
                       <PopoverTrigger asChild>
                         <FormControl>

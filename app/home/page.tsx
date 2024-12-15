@@ -1,7 +1,7 @@
 export default function Page() {
   return (
     <div className='flex flex-col'>
-      <section className='mx-auto mt-32 min-h-screen w-full max-w-5xl p-2'>
+      <section className='mx-auto mt-32 min-h-screen w-full max-w-6xl p-2'>
         <h1 className='max-w-3xl'>
           The All-In-One Platform for Managing Your Design Projects.
         </h1>

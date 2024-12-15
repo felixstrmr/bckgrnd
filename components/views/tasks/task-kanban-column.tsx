@@ -25,11 +25,11 @@ export default function TaskKanbanColumn({ taskStatus, tasks }: Props) {
     <div
       ref={setNodeRef}
       className={cn(
-        'flex h-fit min-w-64 flex-col rounded-2xl',
+        'flex h-fit flex-col rounded-2xl',
         isOver ? 'bg-foreground/10' : 'bg-muted',
       )}
     >
-      <div className='flex items-center justify-between py-2 pl-3 pr-2'>
+      <div className='flex min-w-64 items-center justify-between py-2 pl-3 pr-2'>
         <div className='flex items-center gap-2'>
           <DynamicIcon
             icon={taskStatus.icon}

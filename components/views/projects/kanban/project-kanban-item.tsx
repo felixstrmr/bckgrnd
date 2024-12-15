@@ -1,5 +1,6 @@
 'use client'
 
+import { formatRelativeTime } from '@/lib/utils'
 import { ProjectWithWorkspaceDomain } from '@/types/custom'
 import { useDraggable } from '@dnd-kit/core'
 import { CheckCircle, Circle, User } from 'lucide-react'
@@ -44,7 +45,7 @@ export default function ProjectKanbanItem({ project }: Props) {
       {...attributes}
       style={style}
       onClick={handleClick}
-      className='rounded-xl border bg-background shadow-sm transition-shadow hover:shadow-md'
+      className='w-64 min-w-64 rounded-xl border bg-background shadow-sm transition-shadow hover:shadow-md'
     >
       <div className='flex items-center gap-1 px-4 pb-2 pt-4 text-muted-foreground'>
         <User className='size-3' />
@@ -61,6 +62,9 @@ export default function ProjectKanbanItem({ project }: Props) {
           <Circle className='size-3' />
           0%
         </div>
+        <p className='ml-auto text-sm'>
+          {formatRelativeTime(new Date(project.created_at))}
+        </p>
       </div>
     </div>
   )

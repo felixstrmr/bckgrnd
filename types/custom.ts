@@ -2,9 +2,11 @@ import {
   File,
   Project,
   Task,
+  TaskComment,
   TaskFile,
   TaskPriority,
   TaskStatus,
+  User,
 } from '@/types'
 
 export type ProjectWithWorkspaceDomain = Project & {
@@ -12,6 +14,10 @@ export type ProjectWithWorkspaceDomain = Project & {
     domain: string
   }
   client: {
+    name: string
+  }
+  status: {
+    id: string
     name: string
   }
 }
@@ -30,4 +36,9 @@ export type TaskWithRelations = Task & {
 export type TaskFileWithRelations = TaskFile & {
   workspace: { domain: string }
   file: File
+}
+
+export type TaskCommentWithRelations = TaskComment & {
+  workspace: { domain: string }
+  user: User
 }

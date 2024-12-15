@@ -7,17 +7,17 @@ import { parseAsString, useQueryState } from 'nuqs'
 export default function ProjectViewTabs() {
   const [view, setView] = useQueryState(
     'view',
-    parseAsString.withDefault('kanban').withOptions({ shallow: false }),
+    parseAsString.withDefault('list').withOptions({ shallow: false }),
   )
 
   return (
     <Tabs value={view} onValueChange={setView}>
       <TabsList>
-        <TabsTrigger value='kanban'>
-          <Kanban className='size-4' />
-        </TabsTrigger>
         <TabsTrigger value='list'>
           <List className='size-4' />
+        </TabsTrigger>
+        <TabsTrigger value='kanban'>
+          <Kanban className='size-4' />
         </TabsTrigger>
       </TabsList>
     </Tabs>
