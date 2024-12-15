@@ -14,6 +14,7 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { useOptimisticAction } from 'next-safe-action/hooks'
+import { useId } from 'react'
 
 type Props = {
   projectId?: string
@@ -79,8 +80,10 @@ export default function TaskKanbanView({
     }
   }
 
+  const id = useId()
+
   return (
-    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+    <DndContext id={id} sensors={sensors} onDragEnd={handleDragEnd}>
       <div className='flex size-full gap-4 overflow-y-auto'>
         {taskStatuses.map((taskStatus) => (
           <TaskKanbanColumn

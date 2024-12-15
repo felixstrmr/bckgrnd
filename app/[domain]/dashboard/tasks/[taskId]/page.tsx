@@ -3,7 +3,6 @@ import TaskFileVersionSelect from '@/components/selects/task-file-version-select
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import TaskComments from '@/components/views/task/task-comments'
-import TaskFileCanvas from '@/components/views/task/task-file-canvas'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
 import {
@@ -14,9 +13,21 @@ import {
 } from '@/queries'
 import { Database } from '@/types/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
-import { ArrowLeft, History } from 'lucide-react'
+import { ArrowLeft, History, Loader2 } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+
+const TaskFileCanvas = dynamic(
+  () => import('@/components/views/task/task-file-canvas'),
+  {
+    loading: () => (
+      <div className='flex size-full items-center justify-center'>
+        <Loader2 className='size-8 animate-spin' />
+      </div>
+    ),
+  },
+)
 
 type Props = {
   params: Promise<{ domain: string; taskId: string }>

@@ -1,12 +1,22 @@
-import ProjectViewTabs from '@/components/tabs/project-view-tabs'
 import { Button, buttonVariants } from '@/components/ui/button'
-import ProjectKanbanView from '@/components/views/projects/project-kanban-view'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
 import { getProjects } from '@/queries'
 import { getProjectStatusesWithCache } from '@/queries/cached'
 import { Box, Plus } from 'lucide-react'
 import Link from 'next/link'
+
+import dynamic from 'next/dynamic'
+const ProjectKanbanView = dynamic(
+  () => import('@/components/views/projects/project-kanban-view'),
+  {
+    loading: () => <div>Loading...</div>,
+  },
+)
+
+const ProjectViewTabs = dynamic(
+  () => import('@/components/tabs/project-view-tabs'),
+)
 
 type Props = {
   params: Promise<{ domain: string }>
