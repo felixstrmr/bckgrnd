@@ -74,9 +74,12 @@ export default function HomeNavbar() {
           </Link>
           <Link
             href={'#'}
-            className={buttonVariants({
-              variant: scrolled ? 'default' : 'outline',
-            })}
+            className={cn(
+              'transition-all duration-300',
+              buttonVariants({
+                variant: scrolled ? 'default' : 'outline',
+              }),
+            )}
           >
             Join Waitlist
           </Link>

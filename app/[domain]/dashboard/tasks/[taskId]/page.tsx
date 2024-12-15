@@ -1,4 +1,5 @@
 import UploadTaskFileButton from '@/components/buttons/upload-task-file-button'
+import TaskFileMoreDropdown from '@/components/dropdowns/task-file-more-dropdown'
 import TaskFileVersionSelect from '@/components/selects/task-file-version-select'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -76,14 +77,17 @@ export default async function Page({ params, searchParams }: Props) {
             </div>
           )}
         </div>
-        <UploadTaskFileButton
-          task={task}
-          domain={domain}
-          workspaceId={task.workspace.id}
-          clientId={task.project?.client}
-          projectId={task.project?.id}
-          latestVersion={lastVersion}
-        />
+        <div className='flex items-center gap-2'>
+          <UploadTaskFileButton
+            task={task}
+            domain={domain}
+            workspaceId={task.workspace.id}
+            clientId={task.project?.client}
+            projectId={task.project?.id}
+            latestVersion={lastVersion}
+          />
+          <TaskFileMoreDropdown projectId={task.project?.id} />
+        </div>
       </div>
       <div className='flex size-full min-h-0 flex-1 gap-4'>
         <TaskFileCanvas taskFile={taskFile} />

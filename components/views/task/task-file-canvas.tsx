@@ -1,7 +1,7 @@
 'use client'
 
 import { TaskFileWithRelations } from '@/types/custom'
-import { File } from 'lucide-react'
+import { File, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 
@@ -14,8 +14,10 @@ export default function TaskFileCanvas({ taskFile }: Props) {
   const [isDragging, setIsDragging] = React.useState(false)
   const [position, setPosition] = React.useState({ x: 0, y: 0 })
   const [dragStart, setDragStart] = React.useState({ x: 0, y: 0 })
-  const [, setImageError] = React.useState(false)
-  const [, setLoading] = React.useState(true)
+  // @ts-nocheck
+  const [imageError, setImageError] = React.useState(false)
+  // @ts-nocheck
+  const [loading, setLoading] = React.useState(true)
   const [scale, setScale] = React.useState(1)
 
   React.useEffect(() => {
@@ -97,15 +99,22 @@ export default function TaskFileCanvas({ taskFile }: Props) {
               transformOrigin: 'center',
             }}
           >
-            <Image
-              unoptimized
-              src={`/api/image?path=/files/${taskFile.file?.path}`}
-              alt={taskFile.file?.name ?? 'Task File'}
-              width={1920}
-              height={1080}
-              className='rounded-md border shadow-sm'
-              draggable={false}
-            />
+            {loading && <Loader2 className='size-4 animate-spin' />}
+            {imageError ? (
+              <div>Error loading image</div>
+            ) : (
+              <Image
+                unoptimized
+                src={`/api/image?path=/files/${taskFile.file?.path}`}
+                alt={taskFile.file?.name ?? 'Task File'}
+                width={1920}
+                height={1080}
+                className='rounded-md border shadow-sm'
+                draggable={false}
+                onError={handleImageError}
+                onLoad={() => setLoading(false)}
+              />
+            )}
           </div>
         ) : (
           <div className='flex size-full flex-col items-center justify-center'>
