@@ -25,11 +25,16 @@ export default async function Page({ params }: Props) {
 
   return (
     <div className='flex size-full flex-col space-y-6 p-6'>
-      <div className='flex items-center gap-2'>
-        <h3>Tasks</h3>
-        <div className='rounded-sm bg-muted px-2 text-sm shadow-sm'>
-          {tasks.length}
+      <div className='space-y-1'>
+        <div className='flex items-center gap-2'>
+          <h3>Tasks</h3>
+          <div className='rounded-sm bg-muted px-2 text-sm shadow-sm'>
+            {tasks.length}
+          </div>
         </div>
+        <p className='text-muted-foreground'>
+          View all tasks and create single tasks here.
+        </p>
       </div>
       <TaskKanbanView
         tasks={tasks}

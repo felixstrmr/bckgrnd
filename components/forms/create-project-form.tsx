@@ -45,9 +45,14 @@ import { z } from 'zod'
 type Props = {
   workspaceId: string
   clients: Client[]
+  statusId?: string
 }
 
-export default function CreateProjectForm({ workspaceId, clients }: Props) {
+export default function CreateProjectForm({
+  workspaceId,
+  clients,
+  statusId,
+}: Props) {
   const router = useRouter()
 
   const [clientPopoverOpen, setClientPopoverOpen] = React.useState(false)
@@ -63,6 +68,7 @@ export default function CreateProjectForm({ workspaceId, clients }: Props) {
       startDate: undefined,
       endDate: undefined,
       workspaceId,
+      statusId,
     },
   })
 

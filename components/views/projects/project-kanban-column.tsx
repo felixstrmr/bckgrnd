@@ -1,13 +1,14 @@
 'use client'
 
 import DynamicIcon from '@/components/dynamic-icon'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import ProjectKanbanItem from '@/components/views/projects/project-kanban-item'
 import { cn } from '@/lib/utils'
 import { ProjectStatus } from '@/types'
 import { ProjectWithWorkspaceDomain } from '@/types/custom'
 import { useDroppable } from '@dnd-kit/core'
 import { MoreVertical, Plus } from 'lucide-react'
+import Link from 'next/link'
 
 type Props = {
   projectStatus: ProjectStatus
@@ -40,13 +41,15 @@ export default function ProjectKanbanColumn({
           <p className='text-sm text-muted-foreground'>{projects.length}</p>
         </div>
         <div className='flex items-center'>
-          <Button
-            size={'icon-sm'}
-            variant={'ghost'}
-            className='hover:bg-foreground/10'
+          <Link
+            href={`/dashboard/projects/create?status=${projectStatus.id}`}
+            className={cn(
+              buttonVariants({ variant: 'ghost', size: 'icon-sm' }),
+              'hover:bg-foreground/10',
+            )}
           >
             <Plus className='size-4 text-muted-foreground' />
-          </Button>
+          </Link>
           <Button
             size={'icon-sm'}
             variant={'ghost'}

@@ -30,6 +30,7 @@ export const createProjectSchema = z.object({
   endDate: z.date().optional(),
   workspaceId: z.string().uuid(),
   clientId: z.string().uuid({ message: 'Client is required' }),
+  statusId: z.string().uuid().optional(),
 })
 
 export const createTaskSchema = z

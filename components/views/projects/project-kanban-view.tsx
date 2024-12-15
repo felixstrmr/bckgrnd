@@ -5,6 +5,7 @@ import ProjectKanbanColumn from '@/components/views/projects/project-kanban-colu
 import { ProjectStatus } from '@/types'
 import { ProjectWithWorkspaceDomain } from '@/types/custom'
 import {
+  closestCorners,
   DndContext,
   DragEndEvent,
   MouseSensor,
@@ -13,6 +14,7 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { useOptimisticAction } from 'next-safe-action/hooks'
+import { useId } from 'react'
 
 type Props = {
   projectStatuses: ProjectStatus[]
@@ -81,8 +83,15 @@ export default function ProjectKanbanView({
     }
   }
 
+  const id = useId()
+
   return (
-    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+    <DndContext
+      id={id}
+      sensors={sensors}
+      onDragEnd={handleDragEnd}
+      collisionDetection={closestCorners}
+    >
       <div className='flex size-full gap-4 overflow-y-auto'>
         {projectStatuses.map((projectStatus) => (
           <ProjectKanbanColumn

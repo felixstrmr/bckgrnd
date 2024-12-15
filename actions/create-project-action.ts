@@ -16,6 +16,7 @@ export const createProjectAction = actionClient
         startDate,
         endDate,
         description,
+        statusId,
       },
     }) => {
       const supabase = await createClient()
@@ -23,17 +24,27 @@ export const createProjectAction = actionClient
       const start_date = startDate?.toISOString()
       const end_date = endDate?.toISOString()
 
-      const { data: defaultProjectStatus, error: defaultProjectStatusError } =
-        await supabase
-          .from('project_statuses')
-          .select('id')
-          .eq('workspace', workspaceId)
-          .eq('is_default', true)
-          .single()
+      let status = statusId
 
-      if (defaultProjectStatusError) {
-        console.error('create-project-action', defaultProjectStatusError)
-        throw defaultProjectStatusError
+      if (!statusId) {
+        const { data: defaultProjectStatus, error: defaultProjectStatusError } =
+          await supabase
+            .from('project_statuses')
+            .select('id')
+            .eq('workspace', workspaceId)
+            .eq('is_default', true)
+            .single()
+
+        if (defaultProjectStatusError) {
+          console.error('create-project-action', defaultProjectStatusError)
+          throw defaultProjectStatusError
+        }
+
+        status = defaultProjectStatus?.id
+      }
+
+      if (!status) {
+        throw new Error('Status is required')
       }
 
       const { data, error } = await supabase
@@ -43,9 +54,9 @@ export const createProjectAction = actionClient
           description,
           start_date,
           end_date,
+          status,
           client: clientId,
           workspace: workspaceId,
-          status: defaultProjectStatus?.id,
         })
         .select()
         .single()

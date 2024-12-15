@@ -31,7 +31,7 @@ export default async function Page({ params }: Props) {
             </div>
           </div>
           <p className='text-muted-foreground'>
-            Create and add users to clients here.
+            Create and invite users to clients here.
           </p>
         </div>
         <CreateClientDialog domain={domain} workspaceId={workspace.id} />

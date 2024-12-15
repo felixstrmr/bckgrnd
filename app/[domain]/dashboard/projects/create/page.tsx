@@ -9,11 +9,14 @@ import Link from 'next/link'
 
 type Props = {
   params: Promise<{ domain: string }>
+  searchParams: Promise<{ status: string | undefined }>
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params, searchParams }: Props) {
   let { domain } = await params
   domain = getDomain(domain)
+
+  const { status } = await searchParams
 
   const supabase = await createClient()
   const [workspace, clients] = await Promise.all([
@@ -31,7 +34,11 @@ export default async function Page({ params }: Props) {
         Projects
       </Link>
       <div className='mx-auto w-full max-w-2xl'>
-        <CreateProjectForm workspaceId={workspace.id} clients={clients} />
+        <CreateProjectForm
+          workspaceId={workspace.id}
+          clients={clients}
+          statusId={status}
+        />
       </div>
     </div>
   )
