@@ -9,6 +9,18 @@ export async function getSession(supabase: SupabaseClient<Database>) {
   return session
 }
 
+export async function getUser(supabase: SupabaseClient<Database>) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    throw new Error('User not found')
+  }
+
+  return user
+}
+
 export async function getWorkspace(
   supabase: SupabaseClient<Database>,
   domain: string,
@@ -142,11 +154,11 @@ export async function getTask(
   const { data, error } = await supabase
     .from('tasks')
     .select(
-      '*, workspace:workspaces!inner(id, domain), project:projects(id, client)',
+      '*, workspace:workspaces!inner(id, domain), client:clients(id, name), project:projects(id, name), priority:task_priorities(color, name, icon), status:task_statuses(color, icon, name)',
     )
     .eq('workspace.domain', domain)
     .eq('id', taskId)
-    .maybeSingle()
+    .single()
 
   if (error) {
     throw error

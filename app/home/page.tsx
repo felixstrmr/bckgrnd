@@ -1,4 +1,4 @@
-export default function Page() {
+export default async function Page() {
   return (
     <div className='flex flex-col'>
       <section className='mx-auto mt-32 min-h-screen w-full max-w-6xl p-2'>

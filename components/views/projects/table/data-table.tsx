@@ -71,8 +71,7 @@ export function DataTable<TData, TValue>({
                       key={cell.id}
                       className={cn(
                         'border-b px-6',
-                        isClickable &&
-                          'cursor-pointer transition-colors hover:bg-muted/50',
+                        isClickable && 'cursor-pointer transition-colors',
                       )}
                       onClick={() => {
                         if (isClickable) {

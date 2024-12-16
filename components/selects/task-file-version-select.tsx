@@ -16,36 +16,32 @@ type Props = {
 export default function TaskFileVersionSelect({ taskFileVersions }: Props) {
   const [selectedVersion, setSelectedVersion] = useQueryState(
     'version',
-    parseAsString.withDefault(taskFileVersions[0].id).withOptions({
+    parseAsString.withDefault(taskFileVersions[0]?.id).withOptions({
       shallow: false,
     }),
   )
+
+  if (taskFileVersions.length === 0) {
+    return null
+  }
 
   if (taskFileVersions.length === 1) {
     return (
       <div className='flex h-8 items-center gap-2 p-3 text-sm'>
         <p className='text-xs text-muted-foreground'>V1</p>
-        <p>Latest</p>
       </div>
     )
   }
 
-  const isLatest = (id: string) => id === taskFileVersions[0].id
-
   return (
     <Select value={selectedVersion} onValueChange={setSelectedVersion}>
-      <SelectTrigger className='w-32 border-none shadow-none'>
+      <SelectTrigger className='w-16'>
         <SelectValue placeholder='Version' />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className='w-16 min-w-16'>
         {taskFileVersions.map(({ id, version }) => (
           <SelectItem key={id} value={id} className='flex'>
-            <span className='mr-2 text-xs text-muted-foreground'>
-              V{version}
-            </span>
-            <span className='text-sm'>
-              {isLatest(id) ? 'Latest' : `Version ${version}`}
-            </span>
+            <span className='text-xs'>V{version}</span>
           </SelectItem>
         ))}
       </SelectContent>

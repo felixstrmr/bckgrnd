@@ -2,142 +2,52 @@
 
 import CreateTaskCommentForm from '@/components/forms/create-task-comment-form'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 import { createClient } from '@/lib/clients/supabase/client'
 import { formatRelativeTime } from '@/lib/utils'
 import { getTaskComments } from '@/queries'
+import { Task } from '@/types'
 import { TaskCommentWithRelations } from '@/types/custom'
 import { RealtimeChannel } from '@supabase/supabase-js'
 import { Loader2 } from 'lucide-react'
-import React, { Suspense } from 'react'
+import React from 'react'
 
-interface CommentItemProps {
-  comment: TaskCommentWithRelations
-  taskFileVersions: Array<{ id: string; version: number }>
+type Props = {
+  userId: string
+  task: Task & {
+    workspace: { id: string; domain: string }
+    client: { id: string; name: string } | null
+    project: { id: string; name: string } | null
+    priority: { name: string; icon: string; color: string }
+    status: { name: string; icon: string; color: string }
+  }
 }
 
-interface TaskCommentsProps {
-  taskId: string
-  domain: string
-  workspaceId: string
-  fileId?: string
-  taskFileVersions: Array<{ id: string; version: number }>
-}
-
-type GroupedComments = Record<string, TaskCommentWithRelations[]>
-
-const COMMENT_DATE_GROUPS = {
-  TODAY: 'Today',
-  YESTERDAY: 'Yesterday',
-} as const
-
-function CommentItem({ comment, taskFileVersions }: CommentItemProps) {
-  const version = taskFileVersions.find((v) => v.id === comment.file)?.version
-
-  return (
-    <div className='group flex items-start gap-3 rounded-md p-2 transition-all animate-in fade-in-0 slide-in-from-bottom-3 hover:bg-muted/50'>
-      <Avatar className='size-8 shrink-0'>
-        <AvatarImage
-          src={comment.user.avatar ?? undefined}
-          alt={comment.user.display_name ?? undefined}
-        />
-        <AvatarFallback>{comment.user.email[0].toUpperCase()}</AvatarFallback>
-      </Avatar>
-      <div className='flex-1 space-y-1'>
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center gap-2'>
-            <span className='text-sm font-medium'>
-              {comment.user.display_name}
-            </span>
-            <time className='text-xs text-muted-foreground'>
-              {formatRelativeTime(new Date(comment.created_at))}
-            </time>
-          </div>
-          {version && <p className='text-xs'>V{version}</p>}
-        </div>
-        <p className='text-sm leading-relaxed text-foreground/90'>
-          {comment.message}
-        </p>
-      </div>
-    </div>
-  )
-}
-
-function CommentSkeleton() {
-  return (
-    <div className='flex items-center justify-center p-8'>
-      <Loader2 className='size-5 animate-spin text-muted-foreground' />
-    </div>
-  )
-}
-
-function EmptyComments() {
-  return (
-    <div className='flex h-full items-center justify-center'>
-      <p className='text-sm text-muted-foreground'>No comments yet</p>
-    </div>
-  )
-}
-
-function groupCommentsByDate(
-  comments: TaskCommentWithRelations[],
-): GroupedComments {
-  const today = new Date()
-  const yesterday = new Date(today)
-  yesterday.setDate(yesterday.getDate() - 1)
-
-  return comments.reduce((groups: GroupedComments, comment) => {
-    const date = new Date(comment.created_at)
-    let groupKey: string
-
-    if (date.toDateString() === today.toDateString()) {
-      groupKey = COMMENT_DATE_GROUPS.TODAY
-    } else if (date.toDateString() === yesterday.toDateString()) {
-      groupKey = COMMENT_DATE_GROUPS.YESTERDAY
-    } else {
-      groupKey = date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      })
-    }
-
-    return {
-      ...groups,
-      [groupKey]: [...(groups[groupKey] || []), comment],
-    }
-  }, {})
-}
-
-export function TaskComments({
-  taskId,
-  domain,
-  workspaceId,
-  fileId,
-  taskFileVersions,
-}: TaskCommentsProps) {
+export default function TaskComments({ userId, task }: Props) {
   const [comments, setComments] = React.useState<TaskCommentWithRelations[]>([])
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [loading, setLoading] = React.useState(true)
   const supabase = createClient()
 
   const fetchComments = React.useCallback(async () => {
     try {
-      const taskComments = await getTaskComments(supabase, domain, taskId)
+      const taskComments = await getTaskComments(
+        supabase,
+        task.workspace.domain,
+        task.id,
+      )
       setComments(taskComments ?? [])
     } catch (error) {
       console.error('Failed to fetch comments:', error)
       setComments([])
     }
-  }, [supabase, domain, taskId])
+  }, [supabase, task.workspace.domain, task.id])
 
   React.useEffect(() => {
     let channel: RealtimeChannel
 
     async function setupRealtimeSubscription() {
-      setIsLoading(true)
+      setLoading(true)
       await fetchComments()
-      setIsLoading(false)
+      setLoading(false)
 
       channel = supabase
         .channel('task-comments')
@@ -147,7 +57,7 @@ export function TaskComments({
             event: '*',
             schema: 'public',
             table: 'task_comments',
-            filter: `task=eq.${taskId}`,
+            filter: `task=eq.${task.id}`,
           },
           fetchComments,
         )
@@ -158,63 +68,66 @@ export function TaskComments({
     return () => {
       channel?.unsubscribe()
     }
-  }, [supabase, fetchComments, taskId])
+  }, [supabase, fetchComments, task.id])
 
-  const groupedComments = React.useMemo(() => {
-    const sortedComments = [...comments].sort(
-      (a, b) =>
-        new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
-    )
-    return groupCommentsByDate(sortedComments)
-  }, [comments])
+  const userInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((word) => word[0])
+      .join('')
+  }
 
   return (
-    <aside className='flex h-full w-1/4 min-w-96 flex-col rounded-lg border bg-background p-4 shadow-sm'>
-      <header className='flex items-center justify-between pb-4'>
-        <div className='flex items-center gap-2'>
-          <h4 className='font-medium'>Comments</h4>
-          <Badge variant='secondary'>{comments.length}</Badge>
-        </div>
-      </header>
-
-      <Suspense fallback={<CommentSkeleton />}>
-        <div className='scrollbar-hide flex-1 space-y-6 overflow-y-auto'>
-          {isLoading ? (
-            <CommentSkeleton />
-          ) : comments.length > 0 ? (
-            Object.entries(groupedComments).map(([date, dateComments]) => (
-              <section key={date} className='space-y-3'>
-                <div className='sticky top-0 flex items-center gap-2 bg-background/95 py-2 backdrop-blur'>
-                  <Separator className='flex-1' />
-                  <span className='text-xs font-medium text-muted-foreground'>
-                    {date}
-                  </span>
-                  <Separator className='flex-1' />
+    <div className='flex size-full flex-col justify-between p-4'>
+      <div className='flex-1 overflow-y-auto scroll-smooth'>
+        <p className='mb-4 text-xs'>Comments</p>
+        {loading ? (
+          <div className='flex size-full items-center justify-center'>
+            <Loader2 className='size-4 animate-spin' />
+          </div>
+        ) : comments.length > 0 ? (
+          <div className='flex flex-col space-y-4'>
+            {comments.map((comment) => (
+              <div
+                key={comment.id}
+                className='flex items-start gap-2 animate-in fade-in-0 slide-in-from-bottom-1'
+              >
+                <Avatar className='size-6 shrink-0'>
+                  <AvatarImage
+                    src={comment.user.avatar ?? undefined}
+                    alt={comment.user.display_name ?? undefined}
+                  />
+                  <AvatarFallback className='text-[0.6rem]'>
+                    {userInitials(comment.user.display_name ?? '')}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <div className='-mt-1 flex items-center gap-2'>
+                    <p className='text-sm'>
+                      {comment.user.id === userId
+                        ? 'You'
+                        : comment.user.display_name}
+                    </p>
+                    <p className='text-xs text-muted-foreground'>
+                      {formatRelativeTime(new Date(comment.created_at))}
+                    </p>
+                  </div>
+                  <p>{comment.message}</p>
                 </div>
-                <div className='space-y-2'>
-                  {dateComments.map((comment) => (
-                    <CommentItem
-                      key={comment.id}
-                      comment={comment}
-                      taskFileVersions={taskFileVersions}
-                    />
-                  ))}
-                </div>
-              </section>
-            ))
-          ) : (
-            <EmptyComments />
-          )}
-        </div>
-      </Suspense>
-
-      <footer className='mt-4 pt-4'>
-        <CreateTaskCommentForm
-          taskId={taskId}
-          workspaceId={workspaceId}
-          fileId={fileId}
-        />
-      </footer>
-    </aside>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className='flex size-full items-center justify-center'>
+            <p className='text-sm text-muted-foreground'>No comments yet.</p>
+          </div>
+        )}
+      </div>
+      <CreateTaskCommentForm
+        taskId={task.id}
+        workspaceId={task.workspace.id}
+        fileId={undefined}
+      />
+    </div>
   )
 }

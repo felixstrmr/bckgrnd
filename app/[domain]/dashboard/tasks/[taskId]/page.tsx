@@ -1,115 +1,67 @@
 import UploadTaskFileButton from '@/components/buttons/upload-task-file-button'
-import TaskFileMoreDropdown from '@/components/dropdowns/task-file-more-dropdown'
 import TaskFileVersionSelect from '@/components/selects/task-file-version-select'
+import TaskSidebar from '@/components/sidebars/task-sidebar'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { TaskComments } from '@/components/views/task/task-comments'
+import TaskCanvas from '@/components/views/task/task-canvas'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
-import {
-  getLastTaskFile,
-  getTask,
-  getTaskFile,
-  getTaskFileVersions,
-} from '@/queries'
-import { Database } from '@/types/supabase'
-import { SupabaseClient } from '@supabase/supabase-js'
-import { ArrowLeft, History, Loader2 } from 'lucide-react'
-import dynamic from 'next/dynamic'
+import { getTask, getTaskFileVersions } from '@/queries'
+import { getUserWithCache } from '@/queries/cached'
+import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
-
-const TaskFileCanvas = dynamic(
-  () => import('@/components/views/task/task-file-canvas'),
-  {
-    loading: () => (
-      <div className='flex size-full items-center justify-center'>
-        <Loader2 className='size-8 animate-spin' />
-      </div>
-    ),
-  },
-)
 
 type Props = {
   params: Promise<{ domain: string; taskId: string }>
-  searchParams: Promise<{ version: string }>
+  searchParams: Promise<{
+    tab: string | undefined
+    version: string | undefined
+  }>
 }
 
 export default async function Page({ params, searchParams }: Props) {
   const { domain: domainParam, taskId } = await params
   const domain = getDomain(domainParam)
-
-  const { version } = await searchParams
+  const { tab, version } = await searchParams
 
   const supabase = await createClient()
-  const [task, taskFile, taskFileVersions] = await Promise.all([
+  const [task, user, fileVersions] = await Promise.all([
     getTask(supabase, domain, taskId),
-    getTaskFileDynamic(supabase, domain, taskId, version),
+    getUserWithCache(supabase),
     getTaskFileVersions(supabase, domain, taskId),
   ])
 
-  if (!task) return notFound()
-
-  const lastVersion = taskFileVersions[0]?.version ?? 0
-
   return (
-    <div className='flex size-full flex-col space-y-6 overflow-hidden p-6'>
-      <div className='flex items-center justify-between'>
+    <div className='flex size-full flex-col'>
+      <header className='flex w-full justify-between border-b p-4'>
         <div className='flex items-center gap-4'>
           <Link
-            href={
-              task.project
-                ? `/dashboard/projects/${task.project.id}/tasks`
-                : `/dashboard/tasks`
-            }
+            href={`/dashboard/tasks`}
             className={buttonVariants({ variant: 'ghost', size: 'icon' })}
           >
             <ArrowLeft className='size-4' />
           </Link>
-          <Separator orientation='vertical' className='h-6' />
-          <h4 className='truncate whitespace-nowrap'>{task.name}</h4>
-          {taskFile ? (
-            <TaskFileVersionSelect taskFileVersions={taskFileVersions} />
-          ) : (
-            <div className='flex items-center gap-1 rounded-md bg-muted px-2 py-1 text-sm text-muted-foreground'>
-              <History className='size-3' />
-              No Versions
-            </div>
-          )}
+          <Separator orientation='vertical' className='h-4' />
+          <h4>{task.name}</h4>
+          <TaskFileVersionSelect taskFileVersions={fileVersions} />
         </div>
         <div className='flex items-center gap-2'>
           <UploadTaskFileButton
             task={task}
             domain={domain}
-            workspaceId={task.workspace.id}
-            clientId={task.project?.client}
-            projectId={task.project?.id}
-            latestVersion={lastVersion}
+            latestVersion={fileVersions[0]?.version}
           />
-          <TaskFileMoreDropdown projectId={task.project?.id} />
         </div>
-      </div>
-      <div className='flex size-full min-h-0 flex-1 gap-4'>
-        <TaskFileCanvas taskFile={taskFile} />
-        <TaskComments
-          taskId={taskId}
+      </header>
+      <div className='flex size-full'>
+        <TaskSidebar task={task} userId={user.id} tab={tab} />
+        <TaskCanvas
+          taskId={task.id}
           domain={domain}
-          workspaceId={task.workspace.id}
-          fileId={taskFile?.id}
-          taskFileVersions={taskFileVersions}
+          taskFileVersions={fileVersions}
+          version={version}
         />
       </div>
     </div>
   )
-}
-
-function getTaskFileDynamic(
-  supabase: SupabaseClient<Database>,
-  domain: string,
-  taskId: string,
-  taskFileId: string | null,
-) {
-  if (!taskFileId) return getLastTaskFile(supabase, domain, taskId)
-
-  return getTaskFile(supabase, domain, taskId, taskFileId)
 }

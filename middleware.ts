@@ -1,7 +1,6 @@
 import { env } from '@/lib/env'
 import DomainMiddleware from '@/lib/middlewares/domain-middleware'
 import HomeMiddleware from '@/lib/middlewares/home-middleware'
-import { Database } from '@/types/supabase'
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
@@ -20,9 +19,9 @@ export async function middleware(request: NextRequest) {
     request,
   })
 
-  const supabase = createServerClient<Database>(
-    env.NEXT_PUBLIC_SUPABASE_URL,
-    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() {

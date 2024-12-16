@@ -2,10 +2,16 @@
 
 import DynamicIcon from '@/components/dynamic-icon'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Separator } from '@/components/ui/separator'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { formatRelativeTime } from '@/lib/utils'
 import { TaskWithRelations } from '@/types/custom'
 import { useDraggable } from '@dnd-kit/core'
-import { History, MessageCircle } from 'lucide-react'
+import { Box, History, MessageCircle, User } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
 type Props = {
@@ -75,13 +81,27 @@ export default function TaskKanbanItem({ task }: Props) {
         <div className='flex items-center gap-3 rounded-b-lg border-t bg-muted px-4 py-2 text-sm text-muted-foreground'>
           {!isProjectPage &&
             (task.client ? (
-              <div className='rounded-full bg-foreground/10 px-2 py-0.5 text-xs'>
-                Client
-              </div>
+              <Tooltip>
+                <TooltipTrigger className='flex items-center gap-2'>
+                  <User className='size-3' />
+                  <Separator
+                    orientation='vertical'
+                    className='inline-flex h-4'
+                  />
+                </TooltipTrigger>
+                <TooltipContent>Part of a client</TooltipContent>
+              </Tooltip>
             ) : (
-              <div className='rounded-full bg-foreground/10 px-2 py-0.5 text-xs'>
-                Project
-              </div>
+              <Tooltip>
+                <TooltipTrigger className='flex items-center gap-2'>
+                  <Box className='size-3' />
+                  <Separator
+                    orientation='vertical'
+                    className='inline-flex h-4'
+                  />
+                </TooltipTrigger>
+                <TooltipContent>Part of a project</TooltipContent>
+              </Tooltip>
             ))}
           <div className='flex items-center gap-1'>
             <History className='size-3' />0

@@ -3,6 +3,7 @@ import {
   getSession,
   getTaskPriorities,
   getTaskStatuses,
+  getUser,
   getWorkspace,
 } from '@/queries'
 import { Database } from '@/types/supabase'
@@ -20,6 +21,13 @@ export async function getSessionWithCache(supabase: SupabaseClient) {
   )()
 
   return result
+}
+
+export async function getUserWithCache(supabase: SupabaseClient<Database>) {
+  return unstable_cache(async () => getUser(supabase), [`user`], {
+    revalidate: 3600,
+    tags: [`user`],
+  })()
 }
 
 export async function getWorkspaceWithCache(

@@ -38,16 +38,7 @@ export default function HomeNavbar() {
         <div className='flex items-center gap-4'>
           <Link href={'/'} className='flex items-center'>
             <Bckgrnd className='rounded-md shadow' />
-            <span
-              className={cn(
-                'transition-all duration-300',
-                scrolled
-                  ? 'w-0 -translate-x-full opacity-0'
-                  : 'ml-2 -translate-x-0',
-              )}
-            >
-              <h4>Bckgrnd</h4>
-            </span>
+            <h4 className='ml-2'>Bckgrnd</h4>
           </Link>
           <Separator orientation='vertical' className='h-6' />
           <Link

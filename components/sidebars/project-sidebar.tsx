@@ -45,7 +45,7 @@ export default function ProjectSidebar({ projectId }: Props) {
           <ArrowLeft className='size-4' />
         </Link>
 
-        <h4>Project</h4>
+        <h5>Project</h5>
       </div>
       <Separator className='my-4' />
       <div className='space-y-1'>
