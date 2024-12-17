@@ -3,7 +3,7 @@
 import { uploadTaskFileAction } from '@/actions/upload-task-file-action'
 import { Button } from '@/components/ui/button'
 import { MAX_TASK_FILE_SIZE } from '@/lib/constants'
-import { Task } from '@/types'
+import { TaskWithRelations } from '@/queries/task'
 import { Upload } from 'lucide-react'
 import { useAction } from 'next-safe-action/hooks'
 import React from 'react'
@@ -12,19 +12,15 @@ import { toast } from 'sonner'
 type Props = {
   domain: string
   latestVersion: number
-  task: Task & {
-    workspace: { id: string; domain: string }
-    client: { id: string; name: string } | null
-    project: { id: string; name: string } | null
-    priority: { name: string; icon: string; color: string }
-    status: { name: string; icon: string; color: string }
-  }
+  task: TaskWithRelations
+  workspaceId: string
 }
 
 export default function UploadTaskFileButton({
   domain,
   latestVersion,
   task,
+  workspaceId,
 }: Props) {
   const toastId = 'upload-task-file'
   const fileInputRef = React.useRef<HTMLInputElement>(null)
@@ -63,7 +59,7 @@ export default function UploadTaskFileButton({
       taskId: task.id,
       file,
       domain,
-      workspaceId: task.workspace.id,
+      workspaceId,
       clientId: task.client?.id,
       projectId: task.project?.id,
       latestVersion: latestVersion ?? 0,

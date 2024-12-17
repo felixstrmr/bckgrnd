@@ -9,13 +9,13 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { formatRelativeTime } from '@/lib/utils'
-import { TaskWithRelations } from '@/types/custom'
+import { TasksWithRelations } from '@/queries/task'
 import { useDraggable } from '@dnd-kit/core'
 import { Box, History, MessageCircle, User } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
 type Props = {
-  task: TaskWithRelations
+  task: TasksWithRelations[number]
 }
 
 export default function TaskKanbanItem({ task }: Props) {

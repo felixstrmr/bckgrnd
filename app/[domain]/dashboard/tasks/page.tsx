@@ -1,11 +1,11 @@
 import TaskKanbanView from '@/components/views/tasks/task-kanban-view'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
-import { getClients, getTasks } from '@/queries'
-import {
-  getTaskPrioritiesWithCache,
-  getTaskStatusesWithCache,
-} from '@/queries/cached'
+import { getTaskPrioritiesWithCache } from '@/queries/cached/task-priority'
+import { getTaskStatusesWithCache } from '@/queries/cached/task-status'
+import { getWorkspaceWithCache } from '@/queries/cached/workspace'
+import { getClients } from '@/queries/client'
+import { getTasksWithRelations } from '@/queries/task'
 
 type Props = {
   params: Promise<{ domain: string }>
@@ -16,12 +16,14 @@ export default async function Page({ params }: Props) {
   domain = getDomain(domain)
 
   const supabase = await createClient()
-  const [tasks, taskStatuses, taskPriorities, clients] = await Promise.all([
-    getTasks(supabase, domain),
-    getTaskStatusesWithCache(supabase, domain),
-    getTaskPrioritiesWithCache(supabase, domain),
-    getClients(supabase, domain),
-  ])
+  const [tasks, taskStatuses, taskPriorities, clients, workspace] =
+    await Promise.all([
+      getTasksWithRelations(supabase, domain),
+      getTaskStatusesWithCache(supabase, domain),
+      getTaskPrioritiesWithCache(supabase, domain),
+      getClients(supabase, domain),
+      getWorkspaceWithCache(supabase, domain),
+    ])
 
   return (
     <div className='flex size-full flex-col space-y-6 p-6'>
@@ -41,6 +43,7 @@ export default async function Page({ params }: Props) {
         taskStatuses={taskStatuses}
         taskPriorities={taskPriorities}
         clients={clients}
+        workspaceId={workspace.id}
       />
     </div>
   )

@@ -12,7 +12,7 @@ type Props = {
   projectId?: string
   workspaceId: string
   taskPriorities: TaskPriority[]
-  clients: Client[] | null
+  clients?: Client[]
 }
 
 export default function CreateTaskDialog({

@@ -1,70 +1,55 @@
 'use client'
 
 import { buttonVariants } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
+import ProjectDetails from '@/components/views/project/project-details'
 import { cn } from '@/lib/utils'
-import { ArrowLeft, Files, ListChecks, View } from 'lucide-react'
+import { ProjectWithRelations } from '@/queries/project'
+import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 
 type Props = {
-  projectId: string
+  project: ProjectWithRelations
 }
 
-export default function ProjectSidebar({ projectId }: Props) {
+export default function ProjectSidebar({ project }: Props) {
   const segment = useSelectedLayoutSegment()
 
-  const pages = [
-    {
-      name: 'Overview',
-      href: `/dashboard/projects/${projectId}`,
-      active: !segment,
-      icon: View,
-    },
-    {
-      name: 'Tasks',
-      href: `/dashboard/projects/${projectId}/tasks`,
-      active: segment === 'tasks',
-      icon: ListChecks,
-    },
-    {
-      name: 'Files',
-      href: `/dashboard/projects/${projectId}/files`,
-      active: segment === 'files',
-      icon: Files,
-    },
-  ]
-
   return (
-    <div className='flex w-64 min-w-64 flex-col border-r p-4'>
-      <div className='flex items-center gap-2'>
+    <div className='flex w-[22rem] min-w-[22rem] flex-col border-r'>
+      <div className='flex items-center justify-between border-b p-4'>
         <Link
-          href={'/dashboard/projects'}
+          href={`/dashboard/projects`}
           className={buttonVariants({ variant: 'ghost', size: 'icon' })}
         >
           <ArrowLeft className='size-4' />
         </Link>
-
-        <h5>Project</h5>
-      </div>
-      <Separator className='my-4' />
-      <div className='space-y-1'>
-        {pages.map((page) => (
+        <div className='flex items-center gap-1'>
           <Link
-            key={page.href}
-            href={page.href}
+            href={`/dashboard/projects/${project.id}`}
             className={cn(
-              'flex h-8 items-center gap-2 rounded-md p-2 text-base transition-all',
-              page.active
+              'rounded-md px-3 py-0.5 text-sm transition-all',
+              !segment
                 ? 'bg-muted text-foreground'
-                : 'bg-transparent text-muted-foreground hover:bg-muted',
+                : 'text-muted-foreground hover:bg-muted',
             )}
           >
-            <page.icon className='size-4' />
-            <span>{page.name}</span>
+            Tasks
           </Link>
-        ))}
+          <Link
+            href={`/dashboard/projects/${project.id}/files`}
+            className={cn(
+              'rounded-md px-3 py-0.5 text-sm transition-all',
+              segment === 'files'
+                ? 'bg-muted text-foreground'
+                : 'text-muted-foreground hover:bg-muted',
+            )}
+          >
+            Files
+          </Link>
+        </div>
       </div>
+      <ProjectDetails project={project} />
     </div>
   )
 }

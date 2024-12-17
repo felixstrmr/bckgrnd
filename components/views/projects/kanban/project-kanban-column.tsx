@@ -4,15 +4,15 @@ import DynamicIcon from '@/components/dynamic-icon'
 import { Button, buttonVariants } from '@/components/ui/button'
 import ProjectKanbanItem from '@/components/views/projects/kanban/project-kanban-item'
 import { cn } from '@/lib/utils'
+import { ProjectWithRelations } from '@/queries/project'
 import { ProjectStatus } from '@/types'
-import { ProjectWithWorkspaceDomain } from '@/types/custom'
 import { useDroppable } from '@dnd-kit/core'
 import { MoreVertical, Plus } from 'lucide-react'
 import Link from 'next/link'
 
 type Props = {
   projectStatus: ProjectStatus
-  projects: ProjectWithWorkspaceDomain[]
+  projects: ProjectWithRelations[]
 }
 
 export default function ProjectKanbanColumn({

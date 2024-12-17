@@ -1,10 +1,9 @@
 import TaskFileCanvas from '@/components/views/task/task-file-canvas'
 import { createClient } from '@/lib/clients/supabase/server'
-import { getTaskFile } from '@/queries'
+import { getTaskFileWithRelations } from '@/queries/task-file'
 import { File } from 'lucide-react'
 
 type Props = {
-  taskId: string
   domain: string
   version: string | undefined
   taskFileVersions: {
@@ -15,8 +14,8 @@ type Props = {
 }
 
 export default async function TaskCanvas({
-  taskId,
   domain,
+
   taskFileVersions,
   version,
 }: Props) {
@@ -36,8 +35,17 @@ export default async function TaskCanvas({
     )
   }
 
-  const taskFileVersion = version || taskFileVersions[0]?.id
-  const taskFile = await getTaskFile(supabase, domain, taskId, taskFileVersion)
+  const sortedTaskFileVersions = taskFileVersions.sort(
+    (a, b) => b.version - a.version,
+  )
+
+  const taskFileVersion = version || sortedTaskFileVersions[0]?.id
+
+  const taskFile = await getTaskFileWithRelations(
+    supabase,
+    domain,
+    taskFileVersion,
+  )
 
   return <TaskFileCanvas taskFile={taskFile} />
 }

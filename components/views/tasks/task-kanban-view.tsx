@@ -3,8 +3,8 @@
 import { updateTaskAction } from '@/actions/update-task-action'
 import CreateTaskDialog from '@/components/dialogs/create-task-dialog'
 import TaskKanbanColumn from '@/components/views/tasks/task-kanban-column'
-import { Client, TaskPriority } from '@/types'
-import { TaskStatusWithRelations, TaskWithRelations } from '@/types/custom'
+import { TasksWithRelations } from '@/queries/task'
+import { Client, TaskPriority, TaskStatus } from '@/types'
 import {
   DndContext,
   DragEndEvent,
@@ -17,14 +17,16 @@ import { useOptimisticAction } from 'next-safe-action/hooks'
 import { useId } from 'react'
 
 type Props = {
+  tasks: TasksWithRelations
+  workspaceId: string
   projectId?: string
-  taskStatuses: TaskStatusWithRelations[]
-  tasks: TaskWithRelations[]
+  taskStatuses: TaskStatus[]
   taskPriorities: TaskPriority[]
-  clients: Client[] | null
+  clients?: Client[]
 }
 
 export default function TaskKanbanView({
+  workspaceId,
   projectId,
   taskStatuses,
   tasks,
@@ -32,7 +34,9 @@ export default function TaskKanbanView({
   clients,
 }: Props) {
   const filterTasks = (taskStatusId: string) => {
-    return optimisticState.tasks.filter((task) => task.status === taskStatusId)
+    return optimisticState.tasks.filter(
+      (task) => task.status.id === taskStatusId,
+    )
   }
 
   const sensors = useSensors(
@@ -51,12 +55,13 @@ export default function TaskKanbanView({
 
   const { execute, optimisticState } = useOptimisticAction(updateTaskAction, {
     currentState: { tasks },
+    // @ts-expect-error - TODO: fix this
     updateFn: (state, { taskId, statusId }) => {
-      const newStatus = taskStatuses.find((status) => status.id === statusId)
+      const newStatus = taskStatuses.find((s) => s.id === statusId)
       if (!newStatus) return state
       return {
         tasks: state.tasks.map((task) =>
-          task.id === taskId ? { ...task, status: newStatus.id } : task,
+          task.id === taskId ? { ...task, status: newStatus } : task,
         ),
       }
     },
@@ -72,7 +77,7 @@ export default function TaskKanbanView({
     )
     const overStatus = over.id as string
 
-    if (activeTask && activeTask.status !== overStatus) {
+    if (activeTask && activeTask.status.id !== overStatus) {
       execute({
         taskId: activeTask.id,
         statusId: overStatus,
@@ -95,7 +100,7 @@ export default function TaskKanbanView({
       </div>
       <CreateTaskDialog
         projectId={projectId}
-        workspaceId={taskStatuses[0].workspace.id}
+        workspaceId={workspaceId}
         taskPriorities={taskPriorities}
         clients={clients}
       />

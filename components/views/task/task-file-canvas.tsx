@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { TaskFileWithRelations } from '@/types/custom'
+import { TaskFileWithRelations } from '@/queries/task-file'
 import { Minus, Plus, RefreshCcw } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
@@ -16,31 +16,12 @@ export default function TaskFileCanvas({ taskFile }: Props) {
   const [position, setPosition] = React.useState({ x: 0, y: 0 })
   const [dragStart, setDragStart] = React.useState({ x: 0, y: 0 })
   const [scale, setScale] = React.useState(1)
-  const [imageError, setImageError] = React.useState(false)
-  const [retryCount, setRetryCount] = React.useState(0)
-  const maxRetries = 3
 
-  const imageUrl = `/api/image?path=/files/${taskFile.file.path}&t=${retryCount}`
+  const imageUrl = `/api/image?path=/files/${taskFile.file.path}`
 
   React.useEffect(() => {
     handleReset()
   }, [taskFile.file.path])
-
-  const handleImageError = () => {
-    setImageError(true)
-    if (retryCount < maxRetries) {
-      const timeout = Math.pow(2, retryCount) * 1000
-      setTimeout(() => {
-        setRetryCount((prev) => prev + 1)
-        setImageError(false)
-      }, timeout)
-    }
-  }
-
-  const handleRetryManually = () => {
-    setRetryCount((prev) => prev + 1)
-    setImageError(false)
-  }
 
   const handleZoom = (delta: number) => {
     setScale((prev) => Math.min(Math.max(0.1, prev + delta), 3))
@@ -89,6 +70,14 @@ export default function TaskFileCanvas({ taskFile }: Props) {
     [position],
   )
 
+  const handleWheel = React.useCallback((e: React.WheelEvent) => {
+    if (e.ctrlKey) {
+      e.preventDefault()
+      const delta = e.deltaY * -0.01
+      handleZoom(delta)
+    }
+  }, [])
+
   const isResetable = position.x !== 0 || position.y !== 0 || scale !== 1
 
   const handleReset = () => {
@@ -105,6 +94,7 @@ export default function TaskFileCanvas({ taskFile }: Props) {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
         onTouchStart={handleTouchStart}
+        onWheel={handleWheel}
         tabIndex={0}
         className='size-full overflow-hidden p-4'
       >
@@ -140,32 +130,16 @@ export default function TaskFileCanvas({ taskFile }: Props) {
               transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
             }}
           >
-            {imageError && retryCount >= maxRetries ? (
-              <div className='flex flex-col items-center gap-2 text-center'>
-                <p className='text-sm text-muted-foreground'>
-                  Failed to load image
-                </p>
-                <Button
-                  variant='outline'
-                  size='sm'
-                  onClick={handleRetryManually}
-                >
-                  Retry
-                </Button>
-              </div>
-            ) : (
-              <Image
-                unoptimized
-                src={imageUrl}
-                alt={taskFile.file.name}
-                width={1080}
-                height={1080}
-                draggable={false}
-                priority
-                className='rounded-sm border'
-                onError={handleImageError}
-              />
-            )}
+            <Image
+              unoptimized
+              src={imageUrl}
+              alt={taskFile.file.name}
+              width={1080}
+              height={1080}
+              draggable={false}
+              priority
+              className='rounded-sm border'
+            />
           </div>
         )}
       </div>

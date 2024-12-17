@@ -3,8 +3,8 @@ import { columns } from '@/components/views/clients/columns'
 import { DataTable } from '@/components/views/clients/data-table'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
-import { getClients } from '@/queries'
-import { getWorkspaceWithCache } from '@/queries/cached'
+import { getWorkspaceWithCache } from '@/queries/cached/workspace'
+import { getClients } from '@/queries/client'
 
 type Props = {
   params: Promise<{ domain: string }>

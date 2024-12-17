@@ -1,5 +1,6 @@
 'use client'
 
+import { buttonVariants } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -14,7 +15,8 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { UserPlus } from 'lucide-react'
+import { Plus, UserPlus } from 'lucide-react'
+import Link from 'next/link'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -73,12 +75,19 @@ export function DataTable<TData, TValue>({
                   <div className='flex size-16 items-center justify-center rounded-full bg-muted'>
                     <UserPlus className='size-8 text-muted-foreground' />
                   </div>
-                  <div className='mt-2 text-center'>
+                  <div className='mb-4 mt-2 text-center'>
                     <h5>No clients found.</h5>
                     <p className='text-muted-foreground'>
                       Create your first client to get started.
                     </p>
                   </div>
+                  <Link
+                    href={`/dashboard/clients?create=true`}
+                    className={buttonVariants({ variant: 'outline' })}
+                  >
+                    <Plus className='size-4' />
+                    Create
+                  </Link>
                 </div>
               </TableCell>
             </TableRow>

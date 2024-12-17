@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/clients/supabase/server'
 import { env } from '@/lib/env'
-import { getSessionWithCache } from '@/queries/cached'
+import { getSessionWithCache } from '@/queries/cached/auth'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {

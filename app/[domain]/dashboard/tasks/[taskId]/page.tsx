@@ -6,8 +6,10 @@ import { Separator } from '@/components/ui/separator'
 import TaskCanvas from '@/components/views/task/task-canvas'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
-import { getTask, getTaskFileVersions } from '@/queries'
-import { getUserWithCache } from '@/queries/cached'
+import { getUserWithCache } from '@/queries/cached/auth'
+import { getWorkspaceWithCache } from '@/queries/cached/workspace'
+import { getTaskWithRelations } from '@/queries/task'
+import { getTaskFileVersions } from '@/queries/task-file'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
@@ -25,10 +27,11 @@ export default async function Page({ params, searchParams }: Props) {
   const { tab, version } = await searchParams
 
   const supabase = await createClient()
-  const [task, user, fileVersions] = await Promise.all([
-    getTask(supabase, domain, taskId),
+  const [task, user, fileVersions, workspace] = await Promise.all([
+    getTaskWithRelations(supabase, domain, taskId),
     getUserWithCache(supabase),
     getTaskFileVersions(supabase, domain, taskId),
+    getWorkspaceWithCache(supabase, domain),
   ])
 
   return (
@@ -50,13 +53,19 @@ export default async function Page({ params, searchParams }: Props) {
             task={task}
             domain={domain}
             latestVersion={fileVersions[0]?.version}
+            workspaceId={workspace.id}
           />
         </div>
       </header>
       <div className='flex size-full'>
-        <TaskSidebar task={task} userId={user.id} tab={tab} />
+        <TaskSidebar
+          task={task}
+          userId={user.id}
+          tab={tab}
+          taskFileId={version}
+          workspaceId={workspace.id}
+        />
         <TaskCanvas
-          taskId={task.id}
           domain={domain}
           taskFileVersions={fileVersions}
           version={version}

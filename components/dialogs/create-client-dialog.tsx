@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Plus } from 'lucide-react'
-import React from 'react'
+import { parseAsBoolean, useQueryState } from 'nuqs'
 
 type Props = {
   domain: string
@@ -18,7 +18,10 @@ type Props = {
 }
 
 export default function CreateClientDialog({ domain, workspaceId }: Props) {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useQueryState(
+    'create',
+    parseAsBoolean.withDefault(false),
+  )
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

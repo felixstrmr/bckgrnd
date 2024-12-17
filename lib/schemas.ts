@@ -1,5 +1,9 @@
 import { z } from 'zod'
 
+export const joinWaitlistSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address' }),
+})
+
 export const workspaceLoginSchema = z.object({
   email: z
     .string()

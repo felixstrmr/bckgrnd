@@ -1,17 +1,12 @@
 import DynamicIcon from '@/components/dynamic-icon'
 import { Separator } from '@/components/ui/separator'
-import { Task } from '@/types'
+import { TasksWithRelations } from '@/queries/task'
 import { format } from 'date-fns'
 import { Box, User } from 'lucide-react'
+import Link from 'next/link'
 
 type Props = {
-  task: Task & {
-    workspace: { id: string; domain: string }
-    client: { id: string; name: string } | null
-    project: { id: string; name: string } | null
-    priority: { name: string; icon: string; color: string }
-    status: { name: string; icon: string; color: string }
-  }
+  task: TasksWithRelations[number]
 }
 
 export default function TaskDetails({ task }: Props) {
@@ -52,19 +47,25 @@ export default function TaskDetails({ task }: Props) {
         {task.project && (
           <div className='flex items-center'>
             <p className='w-28 text-sm text-muted-foreground'>Project</p>
-            <div className='flex items-center gap-2 rounded-md p-1 px-2 transition-colors hover:bg-muted'>
+            <Link
+              href={`/dashboard/projects/${task.project.id}`}
+              className='flex items-center gap-2 rounded-md p-1 px-2 transition-colors hover:bg-muted'
+            >
               <Box className='size-4 text-muted-foreground' />
               <p className='text-sm'>{task.project.name}</p>
-            </div>
+            </Link>
           </div>
         )}
         {task.client && (
           <div className='flex items-center'>
             <p className='w-28 text-sm text-muted-foreground'>Client</p>
-            <div className='flex items-center gap-2 rounded-md p-1 px-2 transition-colors hover:bg-muted'>
+            <Link
+              href={`/dashboard/clients/${task.client.id}`}
+              className='flex items-center gap-2 rounded-md p-1 px-2 transition-colors hover:bg-muted'
+            >
               <User className='size-4' />
               <p className='text-sm'>{task.client.name}</p>
-            </div>
+            </Link>
           </div>
         )}
         <div className='flex items-center'>

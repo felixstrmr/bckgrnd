@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/clients/supabase/server'
-import { getTaskFiles } from '@/queries'
+import { getTaskFiles } from '@/queries/task-file'
 import { format } from 'date-fns'
 import { Trash } from 'lucide-react'
 

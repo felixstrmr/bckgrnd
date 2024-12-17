@@ -10,12 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { ProjectWithWorkspaceDomain } from '@/types/custom'
+import { ProjectWithRelations } from '@/queries/project'
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { Box, MoreHorizontal } from 'lucide-react'
 
-export const columns: ColumnDef<ProjectWithWorkspaceDomain>[] = [
+export const columns: ColumnDef<ProjectWithRelations>[] = [
   {
     id: 'select',
     header: ({ table }) => (

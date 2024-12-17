@@ -4,14 +4,16 @@ import DynamicIcon from '@/components/dynamic-icon'
 import { Button } from '@/components/ui/button'
 import TaskKanbanItem from '@/components/views/tasks/task-kanban-item'
 import { cn } from '@/lib/utils'
+import { TasksWithRelations } from '@/queries/task'
 import { useCreateTaskDialog } from '@/store/use-create-task-dialog'
-import { TaskStatusWithRelations, TaskWithRelations } from '@/types/custom'
+import { TaskStatus } from '@/types'
+
 import { useDroppable } from '@dnd-kit/core'
 import { MoreVertical, Plus } from 'lucide-react'
 
 type Props = {
-  taskStatus: TaskStatusWithRelations
-  tasks: TaskWithRelations[]
+  taskStatus: TaskStatus
+  tasks: TasksWithRelations
 }
 
 export default function TaskKanbanColumn({ taskStatus, tasks }: Props) {
@@ -26,7 +28,7 @@ export default function TaskKanbanColumn({ taskStatus, tasks }: Props) {
       ref={setNodeRef}
       className={cn(
         'flex h-fit flex-col rounded-2xl',
-        isOver ? 'bg-foreground/10' : 'bg-muted',
+        isOver ? 'bg-muted' : 'bg-muted/50',
       )}
     >
       <div className='flex min-w-64 items-center justify-between py-2 pl-3 pr-2'>

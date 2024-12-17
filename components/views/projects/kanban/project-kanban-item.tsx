@@ -1,13 +1,13 @@
 'use client'
 
 import { formatRelativeTime } from '@/lib/utils'
-import { ProjectWithWorkspaceDomain } from '@/types/custom'
+import { ProjectWithRelations } from '@/queries/project'
 import { useDraggable } from '@dnd-kit/core'
 import { CheckCircle, Circle, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 type Props = {
-  project: ProjectWithWorkspaceDomain
+  project: ProjectWithRelations
 }
 
 export default function ProjectKanbanItem({ project }: Props) {

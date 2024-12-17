@@ -46,7 +46,7 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  return DomainMiddleware(request, response, user, hostname)
+  return DomainMiddleware(request, response, user, hostname, supabase)
 }
 
 export const config = {

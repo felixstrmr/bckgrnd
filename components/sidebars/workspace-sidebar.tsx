@@ -25,10 +25,10 @@ import { useSelectedLayoutSegment } from 'next/navigation'
 import React from 'react'
 
 type Props = {
-  defaultOpen?: boolean
+  defaultOpen: boolean
 }
 
-export default function WorkspaceSidebar({ defaultOpen = true }: Props) {
+export default function WorkspaceSidebar({ defaultOpen }: Props) {
   const segment = useSelectedLayoutSegment()
   const [collapsed, setCollapsed] = React.useState(defaultOpen)
 

@@ -3,8 +3,8 @@ import { columns } from '@/components/views/projects/table/columns'
 import { DataTable } from '@/components/views/projects/table/data-table'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
-import { getProjects } from '@/queries'
-import { getProjectStatusesWithCache } from '@/queries/cached'
+import { getProjectStatusesWithCache } from '@/queries/cached/project-status'
+import { getProjectsWithRelations } from '@/queries/project'
 import { Box, Plus } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
@@ -30,9 +30,9 @@ export default async function Page({ params, searchParams }: Props) {
   domain = getDomain(domain)
 
   const supabase = await createClient()
-  const [projects, projectStatuses] = await Promise.all([
-    getProjects(supabase, domain),
+  const [projectStatuses, projects] = await Promise.all([
     getProjectStatusesWithCache(supabase, domain),
+    getProjectsWithRelations(supabase, domain),
   ])
 
   const { view } = await searchParams

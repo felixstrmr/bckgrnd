@@ -3,35 +3,51 @@
 import CreateTaskCommentForm from '@/components/forms/create-task-comment-form'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createClient } from '@/lib/clients/supabase/client'
-import { formatRelativeTime } from '@/lib/utils'
-import { getTaskComments } from '@/queries'
-import { Task } from '@/types'
-import { TaskCommentWithRelations } from '@/types/custom'
+import { cn, formatRelativeTime } from '@/lib/utils'
+import { TasksWithRelations } from '@/queries/task'
+import {
+  getTaskCommentsWithRelations,
+  TaskCommentWithRelations,
+} from '@/queries/task-comment'
 import { RealtimeChannel } from '@supabase/supabase-js'
 import { Loader2 } from 'lucide-react'
+import { parseAsString, useQueryState } from 'nuqs'
 import React from 'react'
 
 type Props = {
   userId: string
-  task: Task & {
-    workspace: { id: string; domain: string }
-    client: { id: string; name: string } | null
-    project: { id: string; name: string } | null
-    priority: { name: string; icon: string; color: string }
-    status: { name: string; icon: string; color: string }
-  }
+  taskFileId: string | undefined
+  domain: string
+  task: TasksWithRelations[number]
+  workspaceId: string
 }
 
-export default function TaskComments({ userId, task }: Props) {
-  const [comments, setComments] = React.useState<TaskCommentWithRelations[]>([])
+export default function TaskComments({
+  userId,
+  task,
+  taskFileId,
+  domain,
+  workspaceId,
+}: Props) {
+  const [comments, setComments] = React.useState<TaskCommentWithRelations>([])
   const [loading, setLoading] = React.useState(true)
   const supabase = createClient()
 
+  const [view, setView] = useQueryState(
+    'view',
+    parseAsString.withDefault('all'),
+  )
+
+  const filteredComments =
+    view === 'all'
+      ? comments
+      : comments.filter((comment) => comment.file === taskFileId)
+
   const fetchComments = React.useCallback(async () => {
     try {
-      const taskComments = await getTaskComments(
+      const taskComments = await getTaskCommentsWithRelations(
         supabase,
-        task.workspace.domain,
+        domain,
         task.id,
       )
       setComments(taskComments ?? [])
@@ -39,7 +55,7 @@ export default function TaskComments({ userId, task }: Props) {
       console.error('Failed to fetch comments:', error)
       setComments([])
     }
-  }, [supabase, task.workspace.domain, task.id])
+  }, [supabase, domain, task.id])
 
   React.useEffect(() => {
     let channel: RealtimeChannel
@@ -80,14 +96,36 @@ export default function TaskComments({ userId, task }: Props) {
   return (
     <div className='flex size-full flex-col justify-between p-4'>
       <div className='flex-1 overflow-y-auto scroll-smooth'>
-        <p className='mb-4 text-xs'>Comments</p>
+        <div className='mb-4 flex items-center justify-between'>
+          <p className='text-xs'>Comments</p>
+          <div className='flex items-center gap-2 text-xs'>
+            <button
+              className={cn(
+                'hover:text-foreground',
+                view === 'all' ? 'text-foreground' : 'text-muted-foreground',
+              )}
+              onClick={() => setView('all')}
+            >
+              All
+            </button>
+            <button
+              className={cn(
+                'hover:text-foreground',
+                view === 'files' ? 'text-foreground' : 'text-muted-foreground',
+              )}
+              onClick={() => setView('files')}
+            >
+              Files
+            </button>
+          </div>
+        </div>
         {loading ? (
           <div className='flex size-full items-center justify-center'>
             <Loader2 className='size-4 animate-spin' />
           </div>
-        ) : comments.length > 0 ? (
+        ) : filteredComments.length > 0 ? (
           <div className='flex flex-col space-y-4'>
-            {comments.map((comment) => (
+            {filteredComments.map((comment) => (
               <div
                 key={comment.id}
                 className='flex items-start gap-2 animate-in fade-in-0 slide-in-from-bottom-1'
@@ -125,8 +163,8 @@ export default function TaskComments({ userId, task }: Props) {
       </div>
       <CreateTaskCommentForm
         taskId={task.id}
-        workspaceId={task.workspace.id}
-        fileId={undefined}
+        workspaceId={workspaceId}
+        fileId={taskFileId}
       />
     </div>
   )

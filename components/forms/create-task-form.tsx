@@ -49,7 +49,7 @@ type Props = {
   statusId: string
   workspaceId: string
   taskPriorities: TaskPriority[]
-  clients: Client[] | null
+  clients?: Client[]
   setOpen: (open: boolean) => void
 }
 
@@ -111,6 +111,7 @@ export default function CreateTaskForm({
           {form.watch('name') || 'Untitled'}
         </div>
       </div>
+
       <form onSubmit={form.handleSubmit(execute)} className='px-6 pb-6'>
         <div className='space-y-4'>
           <FormField

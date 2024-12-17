@@ -2,8 +2,8 @@
 
 import { updateProjectAction } from '@/actions/update-project-action'
 import ProjectKanbanColumn from '@/components/views/projects/kanban/project-kanban-column'
+import { ProjectWithRelations } from '@/queries/project'
 import { ProjectStatus } from '@/types'
-import { ProjectWithWorkspaceDomain } from '@/types/custom'
 import {
   closestCorners,
   DndContext,
@@ -18,7 +18,7 @@ import { useId } from 'react'
 
 type Props = {
   projectStatuses: ProjectStatus[]
-  projects: ProjectWithWorkspaceDomain[]
+  projects: ProjectWithRelations[]
 }
 
 export default function ProjectKanbanView({

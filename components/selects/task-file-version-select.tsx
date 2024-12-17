@@ -14,9 +14,13 @@ type Props = {
 }
 
 export default function TaskFileVersionSelect({ taskFileVersions }: Props) {
+  const sortedTaskFileVersions = taskFileVersions.sort(
+    (a, b) => b.version - a.version,
+  )
+
   const [selectedVersion, setSelectedVersion] = useQueryState(
     'version',
-    parseAsString.withDefault(taskFileVersions[0]?.id).withOptions({
+    parseAsString.withDefault(sortedTaskFileVersions[0]?.id).withOptions({
       shallow: false,
     }),
   )
@@ -25,7 +29,7 @@ export default function TaskFileVersionSelect({ taskFileVersions }: Props) {
     return null
   }
 
-  if (taskFileVersions.length === 1) {
+  if (sortedTaskFileVersions.length === 1) {
     return (
       <div className='flex h-8 items-center gap-2 p-3 text-sm'>
         <p className='text-xs text-muted-foreground'>V1</p>
@@ -39,7 +43,7 @@ export default function TaskFileVersionSelect({ taskFileVersions }: Props) {
         <SelectValue placeholder='Version' />
       </SelectTrigger>
       <SelectContent className='w-16 min-w-16'>
-        {taskFileVersions.map(({ id, version }) => (
+        {sortedTaskFileVersions.map(({ id, version }) => (
           <SelectItem key={id} value={id} className='flex'>
             <span className='text-xs'>V{version}</span>
           </SelectItem>

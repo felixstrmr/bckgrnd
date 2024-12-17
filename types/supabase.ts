@@ -123,6 +123,55 @@ export type Database = {
           },
         ]
       }
+      project_users: {
+        Row: {
+          created_at: string
+          id: string
+          project: string
+          user: string
+          user_role: string
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          project: string
+          user: string
+          user_role: string
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          project?: string
+          user?: string
+          user_role?: string
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_users_project_fkey"
+            columns: ["project"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_users_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_users_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           client: string
@@ -542,7 +591,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_workspace_access:
+        | {
+            Args: {
+              _domain: string
+              _user: string
+            }
+            Returns: boolean
+          }
+        | {
+            Args: {
+              _workspace: string
+              _user: string
+            }
+            Returns: boolean
+          }
     }
     Enums: {
       task_status_types: "uncompleted" | "completed"

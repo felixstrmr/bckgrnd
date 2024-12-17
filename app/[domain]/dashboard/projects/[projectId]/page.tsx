@@ -1,8 +1,10 @@
-import UpdateProjectForm from '@/components/forms/update-project-form'
+import TaskKanbanView from '@/components/views/tasks/task-kanban-view'
 import { createClient } from '@/lib/clients/supabase/server'
-import { formatRelativeTime, getDomain } from '@/lib/utils'
-import { getProject } from '@/queries'
-import { notFound } from 'next/navigation'
+import { getDomain } from '@/lib/utils'
+import { getTaskPrioritiesWithCache } from '@/queries/cached/task-priority'
+import { getTaskStatusesWithCache } from '@/queries/cached/task-status'
+import { getWorkspaceWithCache } from '@/queries/cached/workspace'
+import { getTasksWithRelations } from '@/queries/task'
 
 type Props = {
   params: Promise<{ domain: string; projectId: string }>
@@ -13,20 +15,28 @@ export default async function Page({ params }: Props) {
   const domain = getDomain(domainParam)
 
   const supabase = await createClient()
-  const project = await getProject(supabase, domain, projectId)
-
-  if (!project) return notFound()
+  const [taskStatuses, tasks, taskPriorities, workspace] = await Promise.all([
+    getTaskStatusesWithCache(supabase, domain),
+    getTasksWithRelations(supabase, domain, projectId),
+    getTaskPrioritiesWithCache(supabase, domain),
+    getWorkspaceWithCache(supabase, domain),
+  ])
 
   return (
-    <div className='flex size-full flex-col space-y-6 py-6'>
-      <div className='mx-auto mt-12 w-full max-w-2xl'>
-        <div className='mb-9 flex items-center gap-2 text-muted-foreground'>
-          <div className='rounded-full border border-dashed bg-background p-1 px-2 text-xs shadow'>
-            Created {formatRelativeTime(new Date(project.created_at))}
-          </div>
+    <div className='flex size-full flex-col space-y-6 overflow-x-auto p-6'>
+      <div className='flex items-center gap-2'>
+        <h3>Tasks</h3>
+        <div className='rounded-sm bg-muted px-2 text-sm shadow-sm'>
+          {tasks.length}
         </div>
-        <UpdateProjectForm project={project} />
       </div>
+      <TaskKanbanView
+        tasks={tasks}
+        taskStatuses={taskStatuses}
+        taskPriorities={taskPriorities}
+        workspaceId={workspace.id}
+        projectId={projectId}
+      />
     </div>
   )
 }
