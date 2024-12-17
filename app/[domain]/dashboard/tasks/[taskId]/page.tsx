@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator'
 import TaskCanvas from '@/components/views/task/task-canvas'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDomain } from '@/lib/utils'
-import { getUserWithCache } from '@/queries/cached/auth'
+import { getUserDetailsWithCache } from '@/queries/cached/auth'
 import { getWorkspaceWithCache } from '@/queries/cached/workspace'
 import { getTaskWithRelations } from '@/queries/task'
 import { getTaskFileVersions } from '@/queries/task-file'
@@ -29,7 +29,7 @@ export default async function Page({ params, searchParams }: Props) {
   const supabase = await createClient()
   const [task, user, fileVersions, workspace] = await Promise.all([
     getTaskWithRelations(supabase, domain, taskId),
-    getUserWithCache(supabase),
+    getUserDetailsWithCache(supabase),
     getTaskFileVersions(supabase, domain, taskId),
     getWorkspaceWithCache(supabase, domain),
   ])

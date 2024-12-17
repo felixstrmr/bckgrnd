@@ -31,7 +31,7 @@ export default function TaskKanbanColumn({ taskStatus, tasks }: Props) {
         isOver ? 'bg-muted' : 'bg-muted/50',
       )}
     >
-      <div className='flex min-w-64 items-center justify-between py-2 pl-3 pr-2'>
+      <div className='flex w-[272px] min-w-64 items-center justify-between py-2 pl-3 pr-2'>
         <div className='flex items-center gap-2'>
           <DynamicIcon
             icon={taskStatus.icon}

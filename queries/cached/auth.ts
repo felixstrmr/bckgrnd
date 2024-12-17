@@ -1,4 +1,4 @@
-import { getSession, getUser } from '@/queries/auth'
+import { getSession, getUser, getUserDetails } from '@/queries/auth'
 import { Database } from '@/types/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
 import { unstable_cache } from 'next/cache'
@@ -21,4 +21,17 @@ export async function getUserWithCache(supabase: SupabaseClient<Database>) {
     revalidate: 3600,
     tags: [`user`],
   })()
+}
+
+export async function getUserDetailsWithCache(
+  supabase: SupabaseClient<Database>,
+) {
+  return unstable_cache(
+    async () => getUserDetails(supabase),
+    [`user-details`],
+    {
+      revalidate: 3600,
+      tags: [`user-details`],
+    },
+  )()
 }
