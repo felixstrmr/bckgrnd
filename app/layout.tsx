@@ -1,6 +1,7 @@
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { env } from '@/lib/env'
+import { Analytics } from '@vercel/analytics/next'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
 import { Metadata } from 'next/types'
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: Props) {
       suppressHydrationWarning
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
+      {process.env.NODE_ENV == 'production' && <Analytics />}
       <body>
         <NuqsAdapter>
           <TooltipProvider>
