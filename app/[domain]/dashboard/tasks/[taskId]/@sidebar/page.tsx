@@ -19,7 +19,7 @@ export default async function Page({ params }: Props) {
   ])
 
   return (
-    <div className='min-w-80 border-r'>
+    <div className='min-w-80 max-w-80 border-r'>
       <TaskSidebar domain={domain} task={task} taskStatuses={taskStatuses} />
     </div>
   )

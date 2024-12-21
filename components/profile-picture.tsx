@@ -5,9 +5,15 @@ type Props = {
   name: string
   avatar?: string
   size?: 'sm' | 'md' | 'lg'
+  className?: string
 }
 
-export default function ProfilePicture({ name, avatar, size = 'md' }: Props) {
+export default function ProfilePicture({
+  name,
+  avatar,
+  size = 'md',
+  className,
+}: Props) {
   const initials = name.includes(' ')
     ? name
         .split(' ')
@@ -22,7 +28,7 @@ export default function ProfilePicture({ name, avatar, size = 'md' }: Props) {
   }[size]
 
   return (
-    <Avatar className={sizeClass}>
+    <Avatar className={cn(sizeClass, className)}>
       <AvatarImage src={avatar} className={cn('object-cover', sizeClass)} />
       <AvatarFallback className={cn('border uppercase', sizeClass)}>
         {initials}

@@ -84,10 +84,11 @@ export default function TaskComments({ domain, taskId, workspaceId }: Props) {
         ) : comments.length > 0 ? (
           <div className='flex flex-col space-y-4'>
             {comments.map((comment) => (
-              <div key={comment.id} className='flex items-center gap-2'>
+              <div key={comment.id} className='flex items-start gap-2'>
                 <ProfilePicture
                   name={comment.user.name ?? comment.user.email ?? ''}
                   avatar={comment.user.avatar ?? undefined}
+                  className='mt-1'
                 />
                 <div className='flex flex-col'>
                   <div className='flex items-center gap-2'>
