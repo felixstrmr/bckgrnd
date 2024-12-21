@@ -1,15 +1,68 @@
 import JoinWaitlistForm from '@/components/forms/join-waitlist-form'
-import HeroImages from '@/components/hero-images'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
+import Bckgrnd from '@/components/icons/bckgrnd'
+import HeroImages from '@/components/landing/hero-images'
+import HowItWorks from '@/components/landing/how-it-works'
+import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Archive, Briefcase, Handshake, History } from 'lucide-react'
-import Image from 'next/image'
+import {
+  Brush,
+  Clock,
+  FileStack,
+  MessageSquare,
+  Users2,
+  Zap,
+} from 'lucide-react'
 import Link from 'next/link'
+
+const features = [
+  {
+    title: 'Design System Management',
+    description:
+      'Maintain consistency across projects with integrated design system tools.',
+    icon: (
+      <Brush className='size-4 text-muted-foreground transition-all group-hover:text-primary-foreground' />
+    ),
+  },
+  {
+    title: 'Asset Organization',
+    description:
+      'Smart file management with tagging and instant search capabilities.',
+    icon: (
+      <FileStack className='size-4 text-muted-foreground transition-all group-hover:text-primary-foreground' />
+    ),
+  },
+  {
+    title: 'Client Collaboration',
+    description:
+      'Real-time feedback, approvals, and communication all in one place.',
+    icon: (
+      <Users2 className='size-4 text-muted-foreground transition-all group-hover:text-primary-foreground' />
+    ),
+  },
+  {
+    title: 'Lightning Fast Workflow',
+    description:
+      'Automated tasks and shortcuts that speed up your design process.',
+    icon: (
+      <Zap className='size-4 text-muted-foreground transition-all group-hover:text-primary-foreground' />
+    ),
+  },
+  {
+    title: 'Integrated Chat',
+    description: 'Built-in messaging system for seamless team communication.',
+    icon: (
+      <MessageSquare className='size-4 text-muted-foreground transition-all group-hover:text-primary-foreground' />
+    ),
+  },
+  {
+    title: 'Time Tracking',
+    description:
+      'Monitor project hours and deadlines with smart time management tools.',
+    icon: (
+      <Clock className='size-4 text-muted-foreground transition-all group-hover:text-primary-foreground' />
+    ),
+  },
+]
 
 export default function Page() {
   return (
@@ -87,8 +140,8 @@ export default function Page() {
       </div>
 
       {/* Trusted by */}
-      <div className='mx-auto flex w-full max-w-5xl flex-col'>
-        <div className='flex flex-col items-center pt-32'>
+      <div className='mx-auto flex w-full max-w-5xl flex-col pt-32'>
+        <div className='flex flex-col items-center'>
           <p className='text-lg text-muted-foreground'>
             Trusted by designers working with
           </p>
@@ -101,247 +154,93 @@ export default function Page() {
       </div>
 
       {/* Features */}
-      <div className='mx-auto flex w-full max-w-5xl flex-col'>
-        <div className='flex flex-col items-center pt-48'>
-          <h2 className='gradient-text pb-2 text-3xl tracking-tight md:text-5xl'>
-            Focus on what matters.{' '}
-            <span className='font-semibold'>Creating.</span>
+      <div className='mx-auto flex w-full max-w-5xl flex-col px-4 pt-32 md:pt-64'>
+        <div className='flex flex-col items-center'>
+          <Badge variant={'outline'} className='mb-4'>
+            Features
+          </Badge>
+          <h2 className='gradient-text max-w-2xl pb-2 text-center text-3xl font-semibold tracking-tight md:text-5xl'>
+            Focus on what matters. Creating.
           </h2>
-          <p className='mt-2 text-muted-foreground'>
-            Stop juggling tools. Start delivering exceptional design work.
+          <p className='mt-2 max-w-2xl text-center text-lg text-muted-foreground'>
+            Stop juggling tools. Start delivering exceptional design work
           </p>
-          <div className='mt-12 grid grid-cols-1 gap-4 px-4 md:mt-16 md:grid-cols-6 md:px-0'>
-            <div className='flex flex-col justify-between overflow-hidden rounded-2xl bg-muted md:col-span-4 md:h-80'>
-              <div className='p-6'>
-                <div className='flex items-center space-x-2'>
-                  <Briefcase className='size-4 text-muted-foreground' />
-                  <h5>Productivity</h5>
-                </div>
-                <p className='text-sm text-muted-foreground'>
-                  Create projects, manage clients and track your progress with
-                  tasks.
-                </p>
-              </div>
-              <Image
-                className='ml-6 invert'
-                src={
-                  'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-productivity.svg'
-                }
-                alt='productivity'
-                width={738.66}
-                height={224}
-              />
-            </div>
+        </div>
 
-            <div className='flex flex-col justify-between overflow-hidden rounded-2xl bg-muted md:col-span-2'>
-              <div className='p-6'>
-                <div className='flex items-center space-x-2'>
-                  <Handshake className='size-4 text-muted-foreground' />
-                  <h5>Collaboration</h5>
+        {/* Feature Cards Grid */}
+        <div className='mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
+          {features.map((feature, i) => (
+            <div
+              key={i}
+              className='group rounded-md border border-transparent bg-muted/50 p-8 transition-all hover:border-border'
+            >
+              <div className='relative'>
+                <div className='mb-4 flex size-8 items-center justify-center rounded-md border bg-background bg-gradient-to-t group-hover:border-primary group-hover:from-primary group-hover:to-[#49494E]'>
+                  {feature.icon}
                 </div>
+                <h3 className='mb-2 text-xl font-semibold'>{feature.title}</h3>
                 <p className='text-sm text-muted-foreground'>
-                  Receive feedback and manage approvals.
+                  {feature.description}
                 </p>
               </div>
-              <Image
-                className='invert'
-                src={
-                  'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-collaboration.svg'
-                }
-                alt='collaboration'
-                width={373}
-                height={224}
-              />
             </div>
-
-            <div className='flex flex-col justify-between overflow-hidden rounded-2xl bg-muted md:col-span-2'>
-              <div className='p-6'>
-                <div className='flex items-center space-x-2'>
-                  <Archive className='size-4 text-muted-foreground' />
-                  <h5>File Storage</h5>
-                </div>
-                <p className='text-sm text-muted-foreground'>
-                  Store, organize and share your files.
-                </p>
-              </div>
-              <Image
-                className='invert'
-                src={
-                  'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-file-storage.svg'
-                }
-                alt='collaboration'
-                width={373}
-                height={224}
-              />
-            </div>
-
-            <div className='flex flex-col justify-between overflow-hidden rounded-2xl bg-muted md:col-span-4'>
-              <div className='p-6'>
-                <div className='flex items-center space-x-2'>
-                  <History className='size-4 text-muted-foreground' />
-                  <h5>Version Control</h5>
-                </div>
-                <p className='text-sm text-muted-foreground'>
-                  Share designs and revert to previous versions.
-                </p>
-              </div>
-              <Image
-                className='ml-6 invert'
-                src={
-                  'https://bipjaqofywtmfirkmtdw.supabase.co/storage/v1/object/public/web/hero-card-version-control.svg'
-                }
-                alt='version control'
-                width={738.66}
-                height={224}
-              />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
       {/* How it works */}
-      <div className='mx-auto flex w-full max-w-5xl flex-col'>
-        <div className='flex flex-col pt-48'>
-          <h2 className='gradient-text pb-2 text-3xl tracking-tight md:text-5xl'>
-            How Bckgrnd works
-          </h2>
-          <p className='text-muted-foreground'>
-            Simple, streamlined, and designed for creative professionals
-          </p>
-        </div>
-        <div className='mt-12 grid grid-cols-3'>
-          <div>
-            <h3 className='mb-4 text-4xl font-semibold text-muted-foreground'>
-              01
-            </h3>
-            <p className='text-xl font-semibold tracking-tight'>
-              Create your workspace
-            </p>
-            <p className='text-muted-foreground'>
-              Setup your account and organize your design projects in one place.
-            </p>
-          </div>
-          <div>
-            <h3 className='mb-4 text-4xl font-semibold text-muted-foreground'>
-              02
-            </h3>
-            <p className='text-xl font-semibold tracking-tight'>
-              Invite your team & clients
-            </p>
-            <p className='text-muted-foreground'>
-              Collaborate seamlessly with stakeholders in a unified environment.
-            </p>
-          </div>
-          <div>
-            <h3 className='mb-4 text-4xl font-semibold text-muted-foreground'>
-              03
-            </h3>
-            <p className='text-xl font-semibold tracking-tight'>
-              Deliver great work
-            </p>
-            <p className='text-muted-foreground'>
-              Manage tasks, share files, and track progress all in one platform.
-            </p>
-          </div>
-        </div>
-      </div>
+      <HowItWorks />
 
-      {/* Frequently Asked Questions */}
-      <div className='mx-auto flex w-full max-w-5xl flex-col'>
-        <div className='flex flex-col items-center pt-48'>
-          <h2 className='gradient-text pb-2 text-3xl tracking-tight md:text-5xl'>
-            Frequently Asked Questions
-          </h2>
-          <Accordion
-            type='single'
-            collapsible
-            className='mt-12 w-full max-w-3xl space-y-2'
-          >
-            <AccordionItem value='item-1'>
-              <AccordionTrigger className='rounded-md px-4 font-semibold hover:bg-muted hover:no-underline'>
-                What is Bckgrnd?
-              </AccordionTrigger>
-              <AccordionContent className='p-4'>
-                Bckgrnd is an all-in-one platform designed specifically for
-                designers to manage projects, collaborate with clients and
-                deliver work efficiently.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value='item-2'>
-              <AccordionTrigger className='rounded-md px-4 font-semibold hover:bg-muted hover:no-underline'>
-                How is Bckgrnd different from other tools?
-              </AccordionTrigger>
-              <AccordionContent className='p-4'>
-                Unlike other platforms, Bckgrnd combines project management,
-                file sharing, and client collaboration in one seamless
-                interface, eliminating the need for multiple tools.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value='item-3'>
-              <AccordionTrigger className='rounded-md px-4 font-semibold hover:bg-muted hover:no-underline'>
-                When will Bckgrnd be available?
-              </AccordionTrigger>
-              <AccordionContent className='p-4'>
-                We&apos;re currently in private beta. Join our waitlist to be
-                notified when we launch and get early access to the platform.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+      {/* Pricing section */}
+      <div className='mx-auto flex w-full max-w-5xl flex-col pb-6 pt-32'>
+        <div className='flex flex-col items-center rounded-2xl bg-muted py-32 text-primary/50'>
+          <h3 className='text-center text-5xl tracking-tight md:text-9xl'>
+            <span className='gradient-text font-semibold'>Free</span> while in
+            beta
+          </h3>
+          <p className='mt-4 text-center text-2xl text-muted-foreground'>
+            Early adopters get exclusive benefits and pricing when we launch
+          </p>
         </div>
       </div>
 
       {/* CTA */}
-      <div className='mx-auto flex w-full max-w-5xl flex-col pt-48'>
-        <div className='flex flex-col items-center rounded-2xl bg-muted p-12 py-24'>
-          <h2 className='gradient-text pb-2 text-3xl tracking-tight md:text-5xl'>
-            Ready to get started?
+      <div className='mx-auto flex w-full max-w-5xl flex-col'>
+        <div className='flex flex-col items-center rounded-2xl bg-muted py-32 text-primary/50'>
+          <h2 className='gradient-text mb-6 max-w-md pb-2 text-center text-3xl tracking-tight md:text-6xl'>
+            Ready to streamline your design workflow?
           </h2>
-          <p className='text-muted-foreground'>
-            Join our waitlist to be notified when we launch and get early access
-            to the platform.
-          </p>
-          <div className='mt-8'>
-            <JoinWaitlistForm />
-          </div>
+          <JoinWaitlistForm />
         </div>
       </div>
 
       {/* Footer */}
-      <div className='mx-auto flex w-full max-w-5xl flex-col'>
-        <div className='flex flex-col items-center pb-4 pt-16 md:flex-row md:justify-between'>
-          <div className='flex items-center space-x-2'>
-            <p className='text-sm text-muted-foreground'>
-              © {new Date().getFullYear()} Bckgrnd. All rights reserved.
-            </p>
-          </div>
-          <div className='mt-4 flex space-x-6 md:mt-0'>
+      <footer className='mt-16 border-t'>
+        <div className='mx-auto flex max-w-5xl items-center justify-between px-4 py-6'>
+          <div className='flex items-center gap-4'>
+            <div className='flex items-center gap-2'>
+              <Bckgrnd />
+              <span className='text-lg font-semibold'>Bckgrnd</span>
+            </div>
             <Link
-              href='https://link.bckgrnd.one/x'
-              className='text-sm text-muted-foreground hover:text-primary'
+              href={'https://link.bckgrnd.one/x'}
+              passHref
               target='_blank'
-              rel='noopener noreferrer'
+              className='text-sm text-muted-foreground transition-colors hover:text-foreground'
             >
               Twitter
             </Link>
             <Link
-              href='https://link.bckgrnd.one/github'
-              className='text-sm text-muted-foreground hover:text-primary'
+              href={'https://link.bckgrnd.one/github'}
+              passHref
               target='_blank'
-              rel='noopener noreferrer'
+              className='text-sm text-muted-foreground transition-colors hover:text-foreground'
             >
               Github
             </Link>
-            <Link
-              href='https://linkedin.com/company/bckgrnd'
-              className='text-sm text-muted-foreground hover:text-primary'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              LinkedIn
-            </Link>
           </div>
         </div>
-      </div>
+      </footer>
     </div>
   )
 }

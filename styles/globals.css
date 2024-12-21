@@ -71,7 +71,7 @@
     @apply bg-background text-base font-medium text-foreground antialiased;
   }
   .gradient-text {
-    @apply bg-gradient-to-t from-primary to-[#49494E] bg-clip-text text-transparent;
+    @apply bg-gradient-to-t from-primary to-[#49494E] bg-clip-text tracking-tight text-transparent;
   }
 }
 
