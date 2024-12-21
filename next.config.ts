@@ -18,8 +18,12 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
         hostname: 'gmltfsdubomonqecltxr.supabase.co',
+        protocol: 'https',
+      },
+      {
+        hostname: '**.bckgrnd.one',
+        protocol: 'https',
       },
     ],
   },
