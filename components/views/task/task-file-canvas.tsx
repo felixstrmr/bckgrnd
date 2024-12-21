@@ -126,6 +126,7 @@ export default function TaskFileCanvas({ taskFile }: Props) {
             }}
           >
             <Image
+              unoptimized
               src={imageUrl}
               alt={taskFile.id}
               width={taskFile.file.image_width ?? 1920}
