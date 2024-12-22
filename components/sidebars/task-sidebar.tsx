@@ -2,9 +2,9 @@
 
 import UpdateTaskForm from '@/components/forms/update-task-form'
 import TaskComments from '@/components/views/task/task-comments'
+import TaskVersions from '@/components/views/task/task-versions'
 import { cn } from '@/lib/utils'
-import { Task } from '@/queries/task'
-import { TaskStatus } from '@/queries/task-statuses'
+import { Task, TaskStatus } from '@/types'
 import { parseAsStringEnum, useQueryState } from 'nuqs'
 
 type Props = {
@@ -50,6 +50,7 @@ export default function TaskSidebar({ domain, task, taskStatuses }: Props) {
           workspaceId={task.workspace.id}
         />
       )}
+      {currentTab === 'versions' && <TaskVersions />}
     </div>
   )
 }

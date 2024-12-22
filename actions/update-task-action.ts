@@ -23,7 +23,7 @@ export const updateTaskAction = actionClient
           assignee: assignee || undefined,
         })
         .eq('id', taskId)
-        .select()
+        .select('*')
         .single()
 
       if (error) {

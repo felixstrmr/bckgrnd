@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { TaskFile } from '@/queries/task-file'
+import { TaskFile } from '@/types'
 import { Minus, Plus, RotateCcw } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'

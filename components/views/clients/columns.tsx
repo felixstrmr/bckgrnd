@@ -11,10 +11,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Client } from '@/queries/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { MoreHorizontal } from 'lucide-react'
+
+type Client = {
+  created_at: string
+  created_by: string | null
+  id: string
+  name: string
+  workspace: {
+    domain: string
+  }
+}
 
 export const columns: ColumnDef<Client>[] = [
   {

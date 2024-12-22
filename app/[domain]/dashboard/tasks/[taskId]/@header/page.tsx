@@ -4,10 +4,10 @@ import TaskFileVersionSelect from '@/components/selects/task-file-version-select
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { createClient } from '@/lib/clients/supabase/server'
+import { getTaskDataVersions } from '@/lib/queries'
 import { cn, extractDomain } from '@/lib/utils'
-import { getTask } from '@/queries/task'
-import { getTaskFileVersions } from '@/queries/task-file'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 type Props = {
   params: Promise<{ domain: string; taskId: string }>
@@ -18,10 +18,15 @@ export default async function Page({ params }: Props) {
   const domain = extractDomain(domainParam)
 
   const supabase = await createClient()
-  const [task, versions] = await Promise.all([
-    getTask(supabase, domain, taskId),
-    getTaskFileVersions(supabase, domain, taskId),
-  ])
+  const { data, error } = await getTaskDataVersions(supabase, domain, taskId)
+
+  if (error || !data || !data.taskFileVersions) {
+    return <div>Error loading task</div>
+  }
+
+  const { task, taskFileVersions } = data
+
+  if (!task) return notFound()
 
   return (
     <div className='flex w-full items-center justify-between border-b p-4'>
@@ -41,7 +46,7 @@ export default async function Page({ params }: Props) {
             {task.name}
           </h1>
         </div>
-        <TaskFileVersionSelect taskFileVersions={versions} />
+        <TaskFileVersionSelect taskFileVersions={taskFileVersions} />
       </div>
       <UploadTaskFileButton taskId={taskId} workspaceId={task.workspace.id} />
     </div>

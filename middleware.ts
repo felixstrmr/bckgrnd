@@ -1,7 +1,7 @@
-import { Database } from '@/database.types'
 import { env } from '@/lib/env'
 import DomainMiddleware from '@/lib/middlewares/domain-middleware'
 import HomeMiddleware from '@/lib/middlewares/home-middleware'
+import { Database } from '@/types/supabase'
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 

@@ -8,23 +8,27 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
-import { TaskFileVersion } from '@/queries/task-file'
+import { TaskFileVersion } from '@/types'
 import { parseAsString, useQueryState } from 'nuqs'
 import React from 'react'
 
 type Props = {
-  taskFileVersions: TaskFileVersion
+  taskFileVersions: TaskFileVersion[] | null
 }
 
 export default function TaskFileVersionSelect({ taskFileVersions }: Props) {
   const [isOpen, setIsOpen] = React.useState(false)
 
-  const lastVersion = taskFileVersions[0]
+  const lastVersion = taskFileVersions?.[0]
 
   const [currentVersion, setCurrentVersion] = useQueryState(
     'version',
-    parseAsString.withDefault(lastVersion.id).withOptions({ shallow: false }),
+    parseAsString
+      .withDefault(lastVersion?.id ?? '')
+      .withOptions({ shallow: false }),
   )
+
+  if (!taskFileVersions?.length) return null
 
   if (taskFileVersions.length === 1) {
     return (
