@@ -3,7 +3,7 @@ import { SupabaseClient } from '@supabase/supabase-js'
 
 // combined
 
-export async function getTasksData(
+export async function getTasksDataStatuses(
   supabase: SupabaseClient<Database>,
   domain: string,
 ) {
@@ -21,7 +21,7 @@ export async function getTasksData(
       error: null,
     }
   } catch (error) {
-    console.error('getTasksData', error)
+    console.error('getTasksDataStatuses', error)
     return {
       data: null,
       error: error,
@@ -176,7 +176,7 @@ export async function getTasks(
   const { data, error } = await supabase
     .from('tasks')
     .select(
-      '*, workspace:workspaces!inner(id, domain), status:task_statuses(id, name, color), project:projects(id, name)',
+      '*, workspace:workspaces!inner(id, domain), status:task_statuses(id, name, color), project:projects(id, name), client:clients(id, name), assignees:task_users(user:users(name, email, avatar)), priority:task_priorities(name)',
     )
     .eq('workspace.domain', domain)
 

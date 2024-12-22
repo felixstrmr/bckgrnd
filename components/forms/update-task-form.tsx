@@ -1,6 +1,8 @@
 'use client'
 
 import { updateTaskAction } from '@/actions/update-task-action'
+import { Task, TaskStatus } from '@/components/sidebars/task-sidebar'
+import TaskStatusIcon from '@/components/task-status-icon'
 import { Calendar } from '@/components/ui/calendar'
 import {
   Form,
@@ -22,10 +24,8 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { STATUS_ICONS } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { updateTaskSchema } from '@/schemas/task'
-import { Task, TaskStatus } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format, isPast } from 'date-fns'
 import { Box } from 'lucide-react'
@@ -153,7 +153,7 @@ export default function UpdateTaskForm({ task, taskStatuses }: Props) {
                   >
                     {taskStatuses.map((status) => (
                       <SelectItem key={status.id} value={status.id}>
-                        <StatusIcon
+                        <TaskStatusIcon
                           name={status.name}
                           color={status.color}
                           className='mr-2 inline-block size-3.5'
@@ -247,19 +247,4 @@ export default function UpdateTaskForm({ task, taskStatuses }: Props) {
       </form>
     </Form>
   )
-}
-
-function StatusIcon({
-  name = '',
-  color = 'currentColor',
-  className,
-}: {
-  name: string
-  color: string
-  className?: string
-}) {
-  const IconComponent = STATUS_ICONS[name as keyof typeof STATUS_ICONS]
-  return IconComponent ? (
-    <IconComponent className={cn('size-4', className)} color={color} />
-  ) : null
 }

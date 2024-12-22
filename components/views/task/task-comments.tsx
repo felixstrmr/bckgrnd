@@ -6,9 +6,19 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { createClient } from '@/lib/clients/supabase/client'
 import { getTaskComments } from '@/lib/queries'
 import { formatRelativeDate } from '@/lib/utils'
-import { TaskComment } from '@/types'
 import { RealtimeChannel } from '@supabase/supabase-js'
 import React from 'react'
+
+type TaskComment = {
+  id: string
+  message: string
+  created_at: string
+  user: {
+    name: string | null
+    email: string
+    avatar: string | null
+  }
+}
 
 type Props = {
   domain: string

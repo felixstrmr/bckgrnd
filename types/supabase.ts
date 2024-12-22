@@ -300,6 +300,38 @@ export type Database = {
           },
         ]
       }
+      task_priorities: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          order: number
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          order: number
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          order?: number
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_priorities_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       task_statuses: {
         Row: {
           color: string
@@ -390,6 +422,7 @@ export type Database = {
           due_date: string | null
           id: string
           name: string
+          priority: string | null
           project: string | null
           status: string
           workspace: string
@@ -402,6 +435,7 @@ export type Database = {
           due_date?: string | null
           id?: string
           name: string
+          priority?: string | null
           project?: string | null
           status: string
           workspace: string
@@ -414,6 +448,7 @@ export type Database = {
           due_date?: string | null
           id?: string
           name?: string
+          priority?: string | null
           project?: string | null
           status?: string
           workspace?: string
@@ -431,6 +466,13 @@ export type Database = {
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_priority_fkey"
+            columns: ["priority"]
+            isOneToOne: false
+            referencedRelation: "task_priorities"
             referencedColumns: ["id"]
           },
           {

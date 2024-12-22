@@ -8,9 +8,13 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
-import { TaskFileVersion } from '@/types'
 import { parseAsString, useQueryState } from 'nuqs'
 import React from 'react'
+
+type TaskFileVersion = {
+  id: string
+  version: number
+}
 
 type Props = {
   taskFileVersions: TaskFileVersion[] | null

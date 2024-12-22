@@ -1,10 +1,10 @@
 'use client'
 
 import { uploadTaskFileAction } from '@/actions/upload-task-file-action'
-import CloudUpload from '@/components/icons/outline/cloud-upload'
 import { Button } from '@/components/ui/button'
 import { MAX_TASK_FILE_SIZE } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import { CloudUpload } from 'lucide-react'
 import { useAction } from 'next-safe-action/hooks'
 import React from 'react'
 import { toast } from 'sonner'

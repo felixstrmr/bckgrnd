@@ -2,7 +2,7 @@ import TasksEmptyState from '@/components/empty-states/tasks-empty-state'
 import { Badge } from '@/components/ui/badge'
 import TaskKanbanView from '@/components/views/tasks/task-kanban-view'
 import { createClient } from '@/lib/clients/supabase/server'
-import { getTasksData } from '@/lib/queries'
+import { getTasksDataStatuses } from '@/lib/queries'
 import { extractDomain } from '@/lib/utils'
 
 type Props = {
@@ -14,7 +14,7 @@ export default async function Page({ params }: Props) {
   domain = extractDomain(domain)
 
   const supabase = await createClient()
-  const { data, error } = await getTasksData(supabase, domain)
+  const { data, error } = await getTasksDataStatuses(supabase, domain)
 
   if (error || !data || !data.taskStatuses) {
     return <div>Error loading tasks</div>

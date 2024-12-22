@@ -4,8 +4,40 @@ import UpdateTaskForm from '@/components/forms/update-task-form'
 import TaskComments from '@/components/views/task/task-comments'
 import TaskVersions from '@/components/views/task/task-versions'
 import { cn } from '@/lib/utils'
-import { Task, TaskStatus } from '@/types'
 import { parseAsStringEnum, useQueryState } from 'nuqs'
+
+export type Task = {
+  client: string | null
+  created_at: string
+  created_by: string | null
+  description: string | null
+  due_date: string | null
+  id: string
+  name: string
+  project: {
+    id: string
+    name: string
+  } | null
+  status: {
+    id: string
+    name: string
+    color: string
+  }
+  workspace: {
+    id: string
+    domain: string
+  }
+}
+
+export type TaskStatus = {
+  id: string
+  name: string
+  color: string
+  workspace: {
+    id: string
+    domain: string
+  }
+}
 
 type Props = {
   domain: string

@@ -1,11 +1,11 @@
 import UploadTaskFileButton from '@/components/buttons/upload-task-file-button'
-import ArrowLeft from '@/components/icons/outline/arrow-left'
 import TaskFileVersionSelect from '@/components/selects/task-file-version-select'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getTaskDataVersions } from '@/lib/queries'
 import { cn, extractDomain } from '@/lib/utils'
+import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 

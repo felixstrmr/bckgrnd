@@ -3,8 +3,8 @@ import { cn } from '@/lib/utils'
 
 type Props = {
   name: string
-  avatar?: string
-  size?: 'sm' | 'md' | 'lg'
+  avatar?: string | undefined
+  size?: 'xs' | 'sm' | 'md' | 'lg'
   className?: string
 }
 
@@ -22,9 +22,10 @@ export default function ProfilePicture({
     : name.slice(0, 2)
 
   const sizeClass = {
-    sm: 'size-7 text-xxs',
-    md: 'size-8 text-xs',
-    lg: 'size-10 text-sm',
+    xs: 'size-5 text-xxs',
+    sm: 'size-7 text-xs',
+    md: 'size-8 text-sm',
+    lg: 'size-10 text-base',
   }[size]
 
   return (

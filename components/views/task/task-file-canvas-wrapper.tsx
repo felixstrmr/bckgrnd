@@ -1,8 +1,22 @@
 import TaskFileCanvas from '@/components/views/task/task-file-canvas'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getLatestTaskFile, getTaskFile } from '@/lib/queries'
-import { TaskFile } from '@/types'
 import { File } from 'lucide-react'
+
+export type TaskFile = {
+  created_at: string
+  file: {
+    path: string
+    image_width: number | null
+    image_height: number | null
+  }
+  id: string
+  task: string
+  version: number
+  workspace: {
+    domain: string
+  }
+}
 
 type Props = {
   domain: string
