@@ -16,7 +16,7 @@ export default async function DashboardSidebar({ domain }: Props) {
   }
 
   return (
-    <aside className='bg-muted flex w-64 max-w-64 min-w-64 flex-col border-r p-4'>
+    <aside className='bg-muted flex flex-col border-r p-4'>
       <DashboardSidebarDropdown workspaceUser={workspaceUser} />
       <Separator className='my-4' />
       <DashboardSidebarNavigation />

@@ -1,4 +1,5 @@
 import { getDomain } from '@/lib/utils'
+import { getWorkspaceUser } from '@/queries/cached'
 import { createSafeActionClient } from 'next-safe-action'
 import { headers } from 'next/headers'
 import { z } from 'zod'
@@ -23,5 +24,19 @@ export const actionClient = createSafeActionClient({
     ctx: {
       domain,
     },
+  })
+})
+
+export const authActionClient = actionClient.use(async ({ next, ctx }) => {
+  const { domain } = ctx
+
+  const workspaceUser = await getWorkspaceUser(domain)
+
+  if (!workspaceUser) {
+    throw new Error('Unauthorized')
+  }
+
+  return next({
+    ctx: { workspaceUser },
   })
 })

@@ -21,3 +21,18 @@ export async function getWorkspaceUserQuery(
 
   return data
 }
+
+export async function getTaskQuery(supabase: Supabase, taskId: string) {
+  const { data } = await supabase
+    .from('tasks')
+    .select(
+      `
+        *
+      `,
+    )
+    .eq('id', taskId)
+    .maybeSingle()
+    .throwOnError()
+
+  return data
+}

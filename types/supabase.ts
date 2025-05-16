@@ -14,18 +14,21 @@ export type Database = {
           created_at: string
           id: string
           name: string
+          type: Database["public"]["Enums"]["client_types"]
           workspace: string
         }
         Insert: {
           created_at?: string
           id?: string
           name: string
+          type: Database["public"]["Enums"]["client_types"]
           workspace: string
         }
         Update: {
           created_at?: string
           id?: string
           name?: string
+          type?: Database["public"]["Enums"]["client_types"]
           workspace?: string
         }
         Relationships: [
@@ -202,7 +205,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      client_types: "individual" | "company"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -317,6 +320,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      client_types: ["individual", "company"],
+    },
   },
 } as const
