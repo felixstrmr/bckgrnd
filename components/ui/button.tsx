@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'relative before:absolute before:inset-0 before:rounded-[0.45rem] before:shadow-[inset_0_1px_0_0_theme(colors.primary-foreground/15%)] bg-gradient-to-t from-primary to-zinc-600 border border-primary text-primary-foreground shadow-xs hover:opacity-90',
+          'relative before:absolute before:inset-0 before:rounded-[0.45rem] before:shadow-[inset_0_1px_0_0_theme(colors.primary-foreground/15%)] dark:before:shadow-[inset_0_1px_0_0_theme(colors.primary/15%)] bg-gradient-to-t from-primary to-zinc-600 dark:to-zinc-50 dark:from-zinc-300 border border-primary text-primary-foreground shadow-xs hover:opacity-90',
         destructive:
           'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
         outline:

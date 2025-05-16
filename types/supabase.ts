@@ -9,6 +9,113 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      clients: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clients_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          client: string
+          created_at: string
+          id: string
+          name: string
+          workspace: string
+        }
+        Insert: {
+          client: string
+          created_at?: string
+          id?: string
+          name: string
+          workspace: string
+        }
+        Update: {
+          client?: string
+          created_at?: string
+          id?: string
+          name?: string
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_client_fkey"
+            columns: ["client"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tasks: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          project: string
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          project: string
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          project?: string
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_project_fkey"
+            columns: ["project"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           created_at: string
