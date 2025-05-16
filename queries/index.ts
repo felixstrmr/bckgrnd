@@ -22,6 +22,21 @@ export async function getWorkspaceUserQuery(
   return data
 }
 
+export async function getClientsQuery(supabase: Supabase, domain: string) {
+  const { data } = await supabase
+    .from('clients')
+    .select(
+      `
+          *,
+          workspace:workspace!inner(domain)
+        `,
+    )
+    .eq('workspace.domain', domain)
+    .throwOnError()
+
+  return data
+}
+
 export async function getTaskQuery(supabase: Supabase, taskId: string) {
   const { data } = await supabase
     .from('tasks')

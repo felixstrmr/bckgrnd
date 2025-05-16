@@ -1,5 +1,5 @@
 import { supabaseServerClient } from '@/lib/clients/supabase/server'
-import { getTaskQuery, getWorkspaceUserQuery } from '@/queries'
+import { getClientsQuery, getTaskQuery, getWorkspaceUserQuery } from '@/queries'
 import { unstable_cache } from 'next/cache'
 import { cache } from 'react'
 
@@ -19,6 +19,21 @@ export const getWorkspaceUser = cache(async (domain: string) => {
     ['workspace-user', domain, user.id],
     {
       tags: [`workspace-${domain}`, `workspace-user-${user.id}`],
+      revalidate: 60 * 60 * 24, // 24 hours
+    },
+  )()
+})
+
+export const getClients = cache(async (domain: string) => {
+  const supabase = await supabaseServerClient()
+
+  return unstable_cache(
+    async () => {
+      return getClientsQuery(supabase, domain)
+    },
+    ['clients', domain],
+    {
+      tags: [`workspace-${domain}`, `clients-${domain}`],
       revalidate: 60 * 60 * 24, // 24 hours
     },
   )()
