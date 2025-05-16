@@ -3,7 +3,7 @@
 import { actionClient } from '@/lib/clients/action-client'
 import { supabaseServerClient } from '@/lib/clients/supabase/server'
 import { workspaceSigninSchema } from '@/schemas'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 
 export const workspaceSigninAction = actionClient
   .metadata({
@@ -25,4 +25,7 @@ export const workspaceSigninAction = actionClient
 
     revalidateTag(`user-${data.user.id}`)
     revalidateTag(`workspace-user-${domain}-${data.user.id}`)
+
+    // temp
+    revalidatePath('/', 'layout')
   })

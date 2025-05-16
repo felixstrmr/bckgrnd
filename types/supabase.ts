@@ -41,12 +41,54 @@ export type Database = {
           },
         ]
       }
+      project_statuses: {
+        Row: {
+          color: string
+          created_at: string
+          icon: string
+          id: string
+          is_default: boolean
+          name: string
+          order: number
+          workspace: string
+        }
+        Insert: {
+          color: string
+          created_at?: string
+          icon: string
+          id?: string
+          is_default?: boolean
+          name: string
+          order: number
+          workspace: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          icon?: string
+          id?: string
+          is_default?: boolean
+          name?: string
+          order?: number
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_statuses_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           client: string
           created_at: string
           id: string
           name: string
+          status: string
           workspace: string
         }
         Insert: {
@@ -54,6 +96,7 @@ export type Database = {
           created_at?: string
           id?: string
           name: string
+          status: string
           workspace: string
         }
         Update: {
@@ -61,6 +104,7 @@ export type Database = {
           created_at?: string
           id?: string
           name?: string
+          status?: string
           workspace?: string
         }
         Relationships: [
@@ -69,6 +113,13 @@ export type Database = {
             columns: ["client"]
             isOneToOne: false
             referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_status_fkey"
+            columns: ["status"]
+            isOneToOne: false
+            referencedRelation: "project_statuses"
             referencedColumns: ["id"]
           },
           {

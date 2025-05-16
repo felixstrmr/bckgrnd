@@ -7,6 +7,7 @@ export type User = Tables<'users'>
 export type Workspace = Tables<'workspaces'>
 export type Client = Tables<'clients'>
 export type Project = Tables<'projects'>
+export type ProjectStatus = Tables<'project_statuses'>
 export type Task = Tables<'tasks'>
 
 type WU = Tables<'workspace_users'>

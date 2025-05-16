@@ -1,4 +1,5 @@
 import DashboardSidebar from '@/components/dashboard-sidebar'
+import DashboardSidebarSkeleton from '@/components/skeletons/dashboard-sidebar-skeleton'
 import { getDomain } from '@/lib/utils'
 import { Suspense } from 'react'
 
@@ -13,7 +14,7 @@ export default async function RootLayout({ children, params }: Props) {
 
   return (
     <div className='flex size-full'>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<DashboardSidebarSkeleton />}>
         <DashboardSidebar domain={domain} />
       </Suspense>
       {children}
