@@ -3,6 +3,7 @@
 import ProjectStatusIcon from '@/components/project-status-icon'
 import ProjectsKanbanItem from '@/components/projects-kanban-item'
 import { Project, ProjectStatus } from '@/types'
+import { useDroppable } from '@dnd-kit/core'
 
 type Props = {
   projects: Project[]
@@ -10,8 +11,12 @@ type Props = {
 }
 
 export default function ProjectsKanbanColumn({ projects, status }: Props) {
+  const { setNodeRef } = useDroppable({
+    id: status.id,
+  })
+
   return (
-    <div>
+    <div ref={setNodeRef}>
       <div className='bg-muted rounded-lg'>
         <div className='flex items-center gap-2 p-2'>
           <ProjectStatusIcon status={status} />
@@ -24,7 +29,7 @@ export default function ProjectsKanbanColumn({ projects, status }: Props) {
             ))}
           </div>
         ) : (
-          <div className='w-64' />
+          <div className='m-1 w-64' />
         )}
       </div>
     </div>

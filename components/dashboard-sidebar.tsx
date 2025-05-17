@@ -1,6 +1,5 @@
 import DashboardSidebarDropdown from '@/components/dashboard-sidebar-dropdown'
 import DashboardSidebarNavigation from '@/components/dashboard-sidebar-navigation'
-import { Separator } from '@/components/ui/separator'
 import { getWorkspaceUser } from '@/queries/cached'
 import { redirect } from 'next/navigation'
 
@@ -16,9 +15,8 @@ export default async function DashboardSidebar({ domain }: Props) {
   }
 
   return (
-    <aside className='bg-muted flex flex-col border-r p-4'>
+    <aside className='bg-muted flex flex-col gap-4 border-r p-4'>
       <DashboardSidebarDropdown workspaceUser={workspaceUser} />
-      <Separator className='my-4' />
       <DashboardSidebarNavigation />
     </aside>
   )

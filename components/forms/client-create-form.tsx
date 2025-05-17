@@ -99,6 +99,7 @@ export default function ClientCreateForm({ setOpen }: Props) {
                 <FormControl>
                   <Input
                     disabled={isExecuting}
+                    autoFocus
                     placeholder={
                       form.watch('type') === 'individual'
                         ? 'John Doe'

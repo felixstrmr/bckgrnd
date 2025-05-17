@@ -1,6 +1,7 @@
 import { supabaseServerClient } from '@/lib/clients/supabase/server'
 import {
   getClientsQuery,
+  getProjectQuery,
   getProjectsQuery,
   getProjectStatusesQuery,
   getTaskQuery,
@@ -40,6 +41,25 @@ export const getClients = cache(async (domain: string) => {
     ['clients', domain],
     {
       tags: [`workspace-${domain}`, `clients-${domain}`],
+      revalidate: 60 * 60 * 24, // 24 hours
+    },
+  )()
+})
+
+export const getProject = cache(async (domain: string, projectId: string) => {
+  const supabase = await supabaseServerClient()
+
+  return unstable_cache(
+    async () => {
+      return getProjectQuery(supabase, domain, projectId)
+    },
+    ['project', domain, projectId],
+    {
+      tags: [
+        `workspace-${domain}`,
+        `projects-${domain}`,
+        `project-${projectId}`,
+      ],
       revalidate: 60 * 60 * 24, // 24 hours
     },
   )()

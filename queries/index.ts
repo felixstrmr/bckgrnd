@@ -37,6 +37,27 @@ export async function getClientsQuery(supabase: Supabase, domain: string) {
   return data
 }
 
+export async function getProjectQuery(
+  supabase: Supabase,
+  domain: string,
+  projectId: string,
+) {
+  const { data } = await supabase
+    .from('projects')
+    .select(
+      `
+          *,
+          workspace:workspace!inner(domain)
+        `,
+    )
+    .eq('workspace.domain', domain)
+    .eq('id', projectId)
+    .maybeSingle()
+    .throwOnError()
+
+  return data
+}
+
 export async function getProjectsQuery(supabase: Supabase, domain: string) {
   const { data } = await supabase
     .from('projects')
