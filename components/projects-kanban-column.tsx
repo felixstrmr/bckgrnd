@@ -19,7 +19,7 @@ export default function ProjectsKanbanColumn({ projects, status }: Props) {
     <div ref={setNodeRef}>
       <div className='bg-muted rounded-lg'>
         <div className='flex items-center gap-2 p-2'>
-          <ProjectStatusIcon status={status} />
+          <ProjectStatusIcon color={status.color} icon={status.icon} />
           <span className='text-sm'>{status.name}</span>
         </div>
         {projects.length > 0 ? (

@@ -41,6 +41,44 @@ export type Database = {
           },
         ]
       }
+      files: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          path: string
+          size: number
+          type: string
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          path: string
+          size: number
+          type: string
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          path?: string
+          size?: number
+          type?: string
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "files_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_statuses: {
         Row: {
           color: string
@@ -86,24 +124,33 @@ export type Database = {
         Row: {
           client: string
           created_at: string
+          description: string | null
+          end_date: string | null
           id: string
           name: string
+          start_date: string | null
           status: string
           workspace: string
         }
         Insert: {
           client: string
           created_at?: string
+          description?: string | null
+          end_date?: string | null
           id?: string
           name: string
+          start_date?: string | null
           status: string
           workspace: string
         }
         Update: {
           client?: string
           created_at?: string
+          description?: string | null
+          end_date?: string | null
           id?: string
           name?: string
+          start_date?: string | null
           status?: string
           workspace?: string
         }
@@ -131,12 +178,62 @@ export type Database = {
           },
         ]
       }
+      task_images: {
+        Row: {
+          created_at: string
+          id: string
+          image: string
+          task: string
+          version: number
+          workspace: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image: string
+          task: string
+          version?: number
+          workspace: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image?: string
+          task?: string
+          version?: number
+          workspace?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_images_image_fkey"
+            columns: ["image"]
+            isOneToOne: false
+            referencedRelation: "files"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_images_task_fkey"
+            columns: ["task"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_images_workspace_fkey"
+            columns: ["workspace"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tasks: {
         Row: {
           created_at: string
           id: string
           name: string
           project: string
+          type: Database["public"]["Enums"]["task_types"]
           workspace: string
         }
         Insert: {
@@ -144,6 +241,7 @@ export type Database = {
           id?: string
           name: string
           project: string
+          type: Database["public"]["Enums"]["task_types"]
           workspace: string
         }
         Update: {
@@ -151,6 +249,7 @@ export type Database = {
           id?: string
           name?: string
           project?: string
+          type?: Database["public"]["Enums"]["task_types"]
           workspace?: string
         }
         Relationships: [
@@ -257,6 +356,7 @@ export type Database = {
     }
     Enums: {
       client_types: "individual" | "company"
+      task_types: "image" | "document" | "video" | "text" | "website"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -373,6 +473,7 @@ export const Constants = {
   public: {
     Enums: {
       client_types: ["individual", "company"],
+      task_types: ["image", "document", "video", "text", "website"],
     },
   },
 } as const

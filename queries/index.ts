@@ -47,7 +47,9 @@ export async function getProjectQuery(
     .select(
       `
           *,
-          workspace:workspace!inner(domain)
+          workspace:workspace!inner(domain),
+          status:project_statuses!inner(id, name, icon, color),
+          client:clients!inner(name)
         `,
     )
     .eq('workspace.domain', domain)
@@ -64,7 +66,9 @@ export async function getProjectsQuery(supabase: Supabase, domain: string) {
     .select(
       `
           *,
-          workspace:workspace!inner(domain)
+          workspace:workspace!inner(domain),
+          status:project_statuses!inner(id, name, icon, color),
+          client:clients!inner(name)
         `,
     )
     .eq('workspace.domain', domain)
@@ -100,6 +104,46 @@ export async function getTaskQuery(supabase: Supabase, taskId: string) {
       `,
     )
     .eq('id', taskId)
+    .maybeSingle()
+    .throwOnError()
+
+  return data
+}
+
+export async function getTaskImageQuery(
+  supabase: Supabase,
+  taskImageId: string,
+) {
+  const { data } = await supabase
+    .from('task_images')
+    .select(
+      `
+        *,
+        workspace:workspace!inner(domain)
+      `,
+    )
+    .eq('id', taskImageId)
+    .maybeSingle()
+    .throwOnError()
+
+  return data
+}
+
+export async function getLatestTaskImageQuery(
+  supabase: Supabase,
+  taskId: string,
+) {
+  const { data } = await supabase
+    .from('task_images')
+    .select(
+      `
+        *,
+        workspace:workspace!inner(domain)
+      `,
+    )
+    .eq('task', taskId)
+    .order('version', { ascending: false })
+    .limit(1)
     .maybeSingle()
     .throwOnError()
 

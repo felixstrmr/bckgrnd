@@ -1,9 +1,11 @@
 import { supabaseServerClient } from '@/lib/clients/supabase/server'
 import {
   getClientsQuery,
+  getLatestTaskImageQuery,
   getProjectQuery,
   getProjectsQuery,
   getProjectStatusesQuery,
+  getTaskImageQuery,
   getTaskQuery,
   getWorkspaceUserQuery,
 } from '@/queries'
@@ -109,3 +111,45 @@ export const getTask = cache(async (domain: string, taskId: string) => {
     },
   )()
 })
+
+export const getTaskImage = cache(
+  async (domain: string, taskImageId: string) => {
+    const supabase = await supabaseServerClient()
+
+    return unstable_cache(
+      async () => {
+        return getTaskImageQuery(supabase, taskImageId)
+      },
+      ['task-image', domain, taskImageId],
+      {
+        tags: [
+          `workspace-${domain}`,
+          `task-images-${domain}`,
+          `task-image-${taskImageId}`,
+        ],
+        revalidate: 60 * 60 * 24, // 24 hours
+      },
+    )()
+  },
+)
+
+export const getLatestTaskImage = cache(
+  async (domain: string, taskId: string) => {
+    const supabase = await supabaseServerClient()
+
+    return unstable_cache(
+      async () => {
+        return getLatestTaskImageQuery(supabase, taskId)
+      },
+      ['task-image', domain, taskId],
+      {
+        tags: [
+          `workspace-${domain}`,
+          `task-images-${domain}`,
+          `task-image-${taskId}`,
+        ],
+        revalidate: 60 * 60 * 24, // 24 hours
+      },
+    )()
+  },
+)
