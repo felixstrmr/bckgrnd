@@ -1,4 +1,5 @@
 import ProjectStatusIcon from '@/components/project-status-icon'
+import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { ProjectWithRelations } from '@/types'
 import { ChevronLeft, User } from 'lucide-react'
@@ -14,12 +15,12 @@ export default function ProjectsSidebar({ project }: Props) {
       <div className='p-4'>
         <Link
           href={'/dashboard/projects'}
-          className='text-muted-foreground hover:text-foreground flex items-center gap-1 text-sm'
+          className={buttonVariants({ variant: 'ghost', size: 'icon' })}
         >
-          <ChevronLeft className='size-3.5' />
-          Back
+          <ChevronLeft />
         </Link>
       </div>
+
       <Separator />
       <div className='flex flex-col gap-4 p-4'>
         <h1 className='text-xl font-semibold tracking-tight'>{project.name}</h1>

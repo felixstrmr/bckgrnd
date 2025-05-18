@@ -35,7 +35,7 @@ export default function DashboardSidebarNavigation() {
       href: '/projects',
       icon: Box,
       activeIcon: BoxIcon,
-      isActive: segment === 'projects',
+      isActive: segment === 'projects' || segment === 'tasks',
     },
     {
       name: 'Files',
