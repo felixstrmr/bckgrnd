@@ -25,14 +25,8 @@ export default function ProjectsKanbanView({ projects, statuses }: Props) {
       currentState: projects,
       updateFn: (state, input) => {
         return state.map((project) => {
-          if (project.id === input.id && input.status) {
-            const newStatus = statuses.find((s) => s.id === input.status)
-            if (newStatus) {
-              return {
-                ...project,
-                status: newStatus,
-              } as unknown as Project
-            }
+          if (project.id === input.id) {
+            return { ...project, status: input.status as string }
           }
           return project
         })

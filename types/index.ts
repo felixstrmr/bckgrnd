@@ -6,18 +6,18 @@ export type Supabase = SupabaseClient<Database>
 export type User = Tables<'users'>
 export type Workspace = Tables<'workspaces'>
 export type Client = Tables<'clients'>
+export type Project = Tables<'projects'>
 export type ProjectStatus = Tables<'project_statuses'>
 export type Task = Tables<'tasks'>
 
 type WU = Tables<'workspace_users'>
-type P = Tables<'projects'>
 
 export type WorkspaceUser = WU & {
   workspace: Workspace
   user: User
 }
 
-export type Project = P & {
+export type ProjectWithRelations = Project & {
   workspace: {
     domain: string
   }

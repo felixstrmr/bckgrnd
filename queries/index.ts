@@ -66,9 +66,7 @@ export async function getProjectsQuery(supabase: Supabase, domain: string) {
     .select(
       `
           *,
-          workspace:workspace!inner(domain),
-          status:project_statuses!inner(id, name, icon, color),
-          client:clients!inner(name)
+          workspace:workspace!inner(domain)
         `,
     )
     .eq('workspace.domain', domain)
