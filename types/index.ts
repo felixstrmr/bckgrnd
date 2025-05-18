@@ -9,6 +9,7 @@ export type Client = Tables<'clients'>
 export type Project = Tables<'projects'>
 export type ProjectStatus = Tables<'project_statuses'>
 export type Task = Tables<'tasks'>
+export type TaskImage = Tables<'task_images'>
 
 type WU = Tables<'workspace_users'>
 

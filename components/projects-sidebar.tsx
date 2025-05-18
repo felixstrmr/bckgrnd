@@ -1,11 +1,11 @@
 import ProjectStatusIcon from '@/components/project-status-icon'
 import { Separator } from '@/components/ui/separator'
-import { Project } from '@/types'
+import { ProjectWithRelations } from '@/types'
 import { ChevronLeft, User } from 'lucide-react'
 import Link from 'next/link'
 
 type Props = {
-  project: Project
+  project: ProjectWithRelations
 }
 
 export default function ProjectsSidebar({ project }: Props) {
